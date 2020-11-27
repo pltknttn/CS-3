@@ -9,7 +9,7 @@
   </MailClient>
   <MailClient>
     <Domain>gmail.com</Domain>
-    <OutputPort>465</OutputPort>
+    <OutputPort>587</OutputPort>
     <InputPort>993</InputPort>
     <Ssl>true</Ssl>
     <Timeout>5000</Timeout>

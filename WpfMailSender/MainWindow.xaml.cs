@@ -97,8 +97,6 @@ namespace WpfMailSender
 
         private void ButSend_Click(object sender, RoutedEventArgs e)
         {
-            //lSendEnd.Visibility = Visibility.Collapsed;
-
             var body = GetBody();
             if (string.IsNullOrWhiteSpace(body) || string.IsNullOrWhiteSpace(GetPlainBody()))
             {
@@ -130,11 +128,9 @@ namespace WpfMailSender
                 IsBodyHtml = true
             };
             if (service.SendMessage(mail))
-            {
-                //lSendEnd.Visibility = Visibility.Visible;
+            { 
                 new SendEndWindow().Show();
-                
-
+                ClearMail();
             }
         }
     }

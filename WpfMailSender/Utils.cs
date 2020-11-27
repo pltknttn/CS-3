@@ -32,7 +32,7 @@ namespace WpfMailSender
                 list = new List<MailClient>()
                 {
                     new MailClient { Domain = "yandex.ru", OutputPort = 587, InputPort = 993, Timeout = 5000, Ssl = true },
-                    new MailClient { Domain = "gmail.com", OutputPort = 465, InputPort = 993, Timeout = 5000, Ssl = true },
+                    new MailClient { Domain = "gmail.com", OutputPort = 587, InputPort = 993, Timeout = 5000, Ssl = true },
                 };
             }
             return list;

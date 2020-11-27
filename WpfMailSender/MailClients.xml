@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<ArrayOfMailClient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MailClient>
+    <Domain>yandex.ru</Domain>
+    <OutputPort>587</OutputPort>
+    <InputPort>993</InputPort>
+    <Ssl>true</Ssl>
+    <Timeout>5000</Timeout>
+  </MailClient>
+  <MailClient>
+    <Domain>gmail.com</Domain>
+    <OutputPort>465</OutputPort>
+    <InputPort>993</InputPort>
+    <Ssl>true</Ssl>
+    <Timeout>5000</Timeout>
+  </MailClient>
+</ArrayOfMailClient>

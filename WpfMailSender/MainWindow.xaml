@@ -4,9 +4,65 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfMailSender"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" 
+        Style="{StaticResource VS2012WindowStyle}" 
+        Title="Почтовый клиент:" 
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        Height="590" Width="760" 
+        FontSize="14" 
+        Icon="pack://application:,,,/WpfMailSender;component/applications-email-panel.ico" 
+        >
+    <Border BorderBrush="{StaticResource DisabledBorderBrush}" BorderThickness="1">
     <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" ></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" Margin="10" LastChildFill="True">
+                <DockPanel Margin="0,0,0,5" DockPanel.Dock="Top">
+                    <Label Content="Кому"  Margin="0,0,10,0" Width="60" Foreground="{StaticResource LightBrush}"></Label>
+                    <TextBox x:Name="ToAddr"  MinWidth="200" Margin="0,0,2,0" ></TextBox>                    
+                </DockPanel>
+                <DockPanel Margin="0,0,0,5" DockPanel.Dock="Top">
+                    <Label Content="Тема"  Margin="0,0,10,0" Width="60" Foreground="{StaticResource LightBrush}"></Label>
+                    <TextBox x:Name="Subj" MinWidth="200" Margin="0,0,2,0" ></TextBox>
+                </DockPanel>
+                <Button x:Name="ButSend" Width="200" Height="45" Click="ButSend_Click" 
+                        DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <Label VerticalContentAlignment="Center" Margin="5">Отправить</Label>
+                        <Image Source="pack://application:,,,/WpfMailSender;component/Images/send.png" Stretch="Uniform"/>
+                    </StackPanel>
+                </Button>
+                <DockPanel Margin="0,0,0,15"   >
+                    <Label Content="Тема" DockPanel.Dock="Top" Foreground="{StaticResource LightBrush}"/> 
+                    <RichTextBox x:Name="BodyEditor" MinHeight="300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <FlowDocument>
+                            <Paragraph> <Run /> </Paragraph>
+                        </FlowDocument>
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </RichTextBox.Resources>
+                    </RichTextBox>
+                </DockPanel>                
+            </DockPanel>
+            
+            <Label x:Name="lSendEnd" Grid.Row="1" Content="Сообщение отослано" MinHeight="50" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                FontFamily="Arial" Visibility="Collapsed" >
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FFBAE4FF" Offset="0.013"/>
+                    <GradientStop Color="#FF398FDF" Offset="0.41800001263618469"/>
+                    <GradientStop Color="#FF006DD4" Offset="0.418"/>
+                    <GradientStop Color="#FF0A3E69" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label> 
         
     </Grid>
+    </Border>
 </Window>

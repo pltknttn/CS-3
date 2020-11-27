@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfMailSender.Data;
 
 namespace WpfMailSender
 {
@@ -13,5 +14,6 @@ namespace WpfMailSender
     /// </summary>
     public partial class App : Application
     {
+        public static List<MailClient> MailClients { get; set; } = Utils.GetMailClients(); 
     }
 }

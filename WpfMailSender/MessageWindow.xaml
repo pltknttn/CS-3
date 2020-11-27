@@ -1,0 +1,49 @@
+﻿<Window x:Class="WpfMailSender.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailSender"
+        mc:Ignorable="d"
+        Title="Внимание" 
+        MaxHeight="153" Width="367"  
+        SizeToContent="Height"
+        Style="{StaticResource VS2012WindowStyle}" 
+        FontSize="14" 
+        WindowStyle="None" ResizeMode="NoResize"
+        Icon="pack://application:,,,/WpfMailSender;component/Images/warning_shield_48px.png" WindowStartupLocation="CenterScreen"
+        >
+    <Grid Height="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="Message" Margin="1" Grid.Row="0" TextWrapping="Wrap" Text="Внимание! произошла ошибка!" 
+                   TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <TextBlock.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FFE4B3A5" Offset="0.013"/>
+                    <GradientStop Color="#FFDF5F39" Offset="0.41800001263618469"/>
+                    <GradientStop Color="#FFBF1F3C" Offset="0.418"/>
+                    <GradientStop Color="#FF69240A" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBlock.Foreground>
+        </TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft" 
+                    Margin="0,10,10,10" MinHeight="30" Height="Auto">
+            <Button x:Name="ButCancel" Width="120" Height="30" Margin="0,0,5,0" IsCancel="True" Click="But_Click">
+                <StackPanel Orientation="Horizontal" >
+                    <Label VerticalContentAlignment="Center" Margin="5">Закрыть</Label>
+                    <Image Source="pack://application:,,,/WpfMailSender;component/Images/cancel.png" Stretch="Uniform"/>
+                </StackPanel>
+            </Button>
+            <Button x:Name="ButOk" Width="120" Height="30" Margin="5,0,0,0"  Click="But_Click" DockPanel.Dock="Bottom">
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Label VerticalContentAlignment="Center" Margin="5">ОК</Label>
+                    <Image Source="pack://application:,,,/WpfMailSender;component/Images/ok.png" Stretch="Uniform"/>
+                </StackPanel>
+            </Button>
+             
+        </StackPanel>
+    </Grid>
+</Window>

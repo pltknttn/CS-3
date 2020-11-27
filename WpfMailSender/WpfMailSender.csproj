@@ -58,6 +58,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ButtonCancel.xaml.cs">
+      <DependentUpon>ButtonCancel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ButtonClose.xaml.cs">
+      <DependentUpon>ButtonClose.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ButtonLogin.xaml.cs">
+      <DependentUpon>ButtonLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ButtonOk.xaml.cs">
+      <DependentUpon>ButtonOk.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ButtonReplay.xaml.cs">
+      <DependentUpon>ButtonReplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\HtmlFromXamlConverter.cs" />
     <Compile Include="Converters\RtfToHtmlConverter.cs" />
     <Compile Include="Data\MailClient.cs" />
@@ -65,9 +80,32 @@
     <Compile Include="MessageWindow.xaml.cs">
       <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SendEndWindow.xaml.cs">
+      <DependentUpon>SendEndWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Styles\VS2012WindowStyle.cs" />
     <Compile Include="Data\UserManager.cs" />
     <Compile Include="Utils.cs" />
+    <Page Include="Controls\ButtonCancel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ButtonClose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ButtonLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ButtonOk.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ButtonReplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -88,6 +126,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SendEndWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,10 +191,19 @@
     <Resource Include="Images\send.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\warning_shield_48px.png" />
+    <Resource Include="Images\warning_shield.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\lock_64px.png" />
+    <Resource Include="Images\lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\replay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\shutdown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

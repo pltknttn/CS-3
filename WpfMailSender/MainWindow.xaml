@@ -50,19 +50,19 @@
                     </RichTextBox>
                 </DockPanel>                
             </DockPanel>
-            
-            <Label x:Name="lSendEnd" Grid.Row="1" Content="Сообщение отослано" MinHeight="50" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+            <!--
+            <Label x:Name="lSendEnd" Grid.Row="1" Content="Сообщение отправлено" MinHeight="50" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                 FontFamily="Arial" Visibility="Collapsed" >
-            <Label.Foreground>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="#FFBAE4FF" Offset="0.013"/>
-                    <GradientStop Color="#FF398FDF" Offset="0.41800001263618469"/>
-                    <GradientStop Color="#FF006DD4" Offset="0.418"/>
-                    <GradientStop Color="#FF0A3E69" Offset="1"/>
-                </LinearGradientBrush>
-            </Label.Foreground>
-        </Label> 
-        
+                <Label.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="#FFBAE4FF" Offset="0.013"/>
+                        <GradientStop Color="#FF398FDF" Offset="0.41800001263618469"/>
+                        <GradientStop Color="#FF006DD4" Offset="0.418"/>
+                        <GradientStop Color="#FF0A3E69" Offset="1"/>
+                    </LinearGradientBrush>
+                </Label.Foreground>
+            </Label> 
+            -->
     </Grid>
     </Border>
 </Window>

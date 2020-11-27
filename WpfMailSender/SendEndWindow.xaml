@@ -1,0 +1,40 @@
+﻿<Window x:Class="WpfMailSender.SendEndWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailSender" xmlns:controls="clr-namespace:WpfMailSender.Controls"
+        mc:Ignorable="d"
+        Title="Результат отправки" 
+        Height="205"  Width="490" 
+        MinHeight="205"  MinWidth="490" 
+        Style="{StaticResource VS2012WindowStyle}" 
+        FontSize="14" 
+        WindowStyle="None" 
+        ResizeMode="NoResize"
+        Icon="pack://application:,,,/WpfMailSender;component/Images/email.png" 
+        WindowStartupLocation="CenterScreen" 
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+               x:Name="lSendEnd"   Content="Сообщение отправлено" MinHeight="50" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"  FontFamily="Arial">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FFBAE4FF" Offset="0.013"/>
+                    <GradientStop Color="#FF398FDF" Offset="0.41800001263618469"/>
+                    <GradientStop Color="#FF006DD4" Offset="0.418"/>
+                    <GradientStop Color="#FF0A3E69" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="15" HorizontalAlignment="Center" >
+            <controls:ButtonReplay Height="30" Width="120" Click="ButtonReplay_Click"></controls:ButtonReplay>
+            <Label Margin="10,0,10,0"></Label>
+            <controls:ButtonClose Height="30" Width="120"></controls:ButtonClose>
+        </StackPanel>        
+    </Grid>
+</Window>

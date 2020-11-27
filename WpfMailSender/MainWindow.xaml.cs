@@ -88,9 +88,16 @@ namespace WpfMailSender
             }
         }
 
+        private void ClearMail()
+        {
+            BodyEditor.Document = new FlowDocument();
+            Subj.Text = string.Empty;
+            ToAddr.Text = string.Empty;
+        }
+
         private void ButSend_Click(object sender, RoutedEventArgs e)
         {
-            lSendEnd.Visibility = Visibility.Collapsed;
+            //lSendEnd.Visibility = Visibility.Collapsed;
 
             var body = GetBody();
             if (string.IsNullOrWhiteSpace(body) || string.IsNullOrWhiteSpace(GetPlainBody()))
@@ -122,7 +129,13 @@ namespace WpfMailSender
                 Body = body,
                 IsBodyHtml = true
             };
-            if(service.SendMessage(mail)) lSendEnd.Visibility = Visibility.Visible;
+            if (service.SendMessage(mail))
+            {
+                //lSendEnd.Visibility = Visibility.Visible;
+                new SendEndWindow().Show();
+                
+
+            }
         }
     }
 }

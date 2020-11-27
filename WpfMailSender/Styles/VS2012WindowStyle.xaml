@@ -105,7 +105,8 @@
                                             VerticalAlignment="Center"
                                             Margin="4,0,0,0"
                                             FontFamily="Segoe UI"
-                                            FontSize="12"
+                                            FontSize="14"
+                                            FontWeight="Bold"
                                             Opacity="0.66"
                                             Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"                                            
                                             />

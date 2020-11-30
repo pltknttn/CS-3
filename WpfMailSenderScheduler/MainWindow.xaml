@@ -1,12 +1,71 @@
-﻿<Window x:Class="WpfMailSenderScheduler.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfMailSenderScheduler"
+        xmlns:WpfUserControlLibrary="clr-namespace:WpfUserControlLibrary;assembly=WpfUserControlLibrary" x:Class="WpfMailSenderScheduler.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Рассыльщик" 
+        Height="450" 
+        Width="1000" 
+        >
+    <Border BorderThickness="2" BorderBrush="{StaticResource NormalBorderBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Menu Grid.Row="0" MinHeight="22">
+                <MenuItem Header="Файл"/>
+                <MenuItem Header="Помощь"/>
+            </Menu>
+            <Border Grid.Row="1" BorderThickness="2" BorderBrush="{StaticResource NormalBorderBrush}">
+                <TabControl  FontSize="13" FontStyle="Normal" FontFamily="Arial"  >
+                    <TabItem Header="Формирование группы рассылки" >
+                        <!--<WpfUserControlLibrary:TabSwitcherControl Height="30" Width="230"/>-->
+                        <DockPanel>
+                            <ToolBarTray DockPanel.Dock="Top">
+                                <ToolBarTray.Resources> 
+                                    <Style TargetType="ToolBar"> 
+                                        <Setter Property="Background" Value="Transparent"></Setter>
+                                        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                                    </Style>
+                                    <!--<Style TargetType="{x:Type ToolBarPanel}">
+                                        <Setter Property="Orientation" Value="Vertical"/>
+                                    </Style>-->
+                                </ToolBarTray.Resources>
+                                <ToolBar Band="0" BandIndex="1" >
+                                    <WpfUserControlLibrary:ComboBoxActionControl Caption="Выбрать отправителя" CaptionMinWidth="110"  Height="28" Width="400"/>
+                                </ToolBar>
+                                <ToolBar Band="1" BandIndex="2" >
+                                    <WpfUserControlLibrary:ComboBoxActionControl Caption="Выбрать smtp-сервер" CaptionMinWidth="110"  Height="28" Width="400" />
+                                </ToolBar>
+                                <ToolBar  Band="0" BandIndex="3">
+                                    <WpfUserControlLibrary:ComboBoxActionControl Caption="Выбрать" Height="28" CaptionMinWidth="110"  Width="400"/>
+                                </ToolBar>
+                                <ToolBar Band="1" BandIndex="3">
+                                    <WpfUserControlLibrary:ComboBoxActionControl Caption="Список адресатов" CaptionMinWidth="110" Height="28" Width="400"/>
+                                </ToolBar>
+                            </ToolBarTray>
+                            <DataGrid Name="dgEmails" AutoGenerateColumns="False" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="№" Binding="{Binding Path=Id}" Width="40"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" Width="Auto" MinWidth="80"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Value}" Width="*"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem Header="Планировщик">
+                        <WpfUserControlLibrary:TabSwitcherControl Height="30" Width="100" ShowButtonCaption="False" />
+                    </TabItem>
+                    <TabItem Header="Редактор писем"/>
+                    <TabItem Header="Статистика"/> 
+                </TabControl>
+            </Border>
+            <StatusBar Grid.Row="2" MinHeight="20"/>
+        </Grid>
+    </Border>
 </Window>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MailsAndSenders" Class="EMailsDataContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-96D0KUM\SQL2019;Initial Catalog=MailsAndSenders;Integrated Security=True;Pooling=False" SettingsObjectName="WpfMailSenderScheduler.Properties.Settings" SettingsPropertyName="MailsAndSendersConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Email" Member="Recipients">
+    <Type Name="Recipients">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

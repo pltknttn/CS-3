@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfMailSender", "WpfMailSen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfMailSenderScheduler", "WpfMailSenderScheduler\WpfMailSenderScheduler.csproj", "{64454D77-1784-403A-8370-15F86D5E9736}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUserControlLibrary", "WpfUserControlLibrary\WpfUserControlLibrary.csproj", "{42B05413-9534-4D03-90CE-97DADA148014}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{64454D77-1784-403A-8370-15F86D5E9736}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64454D77-1784-403A-8370-15F86D5E9736}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64454D77-1784-403A-8370-15F86D5E9736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42B05413-9534-4D03-90CE-97DADA148014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42B05413-9534-4D03-90CE-97DADA148014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42B05413-9534-4D03-90CE-97DADA148014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42B05413-9534-4D03-90CE-97DADA148014}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

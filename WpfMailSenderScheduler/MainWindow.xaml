@@ -53,6 +53,7 @@
                                                                                  CaptionMinWidth="110"  Height="28" Width="400"
                                                                                  ItemsSource="{x:Static data:TestData.Senders}"  
                                                                                  DisplayMemberPath="FullName" 
+                                                                                 SelectedValuePath="Id"
                                                                                  SelectedIndex="0"
                                                                                  ButtonAddClick="SelectSender_ButtonAddClick"
                                                                                  ButtonEditClick="SelectSender_ButtonEditClick"

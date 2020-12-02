@@ -96,7 +96,7 @@
                         </Button.Content>
                     </Button>
          </Grid>
-        <ComboBox Margin="4,0,0,0"  
+        <ComboBox Margin="4,0,0,0"  VerticalContentAlignment="Center"
                   FontFamily="{Binding ElementName=PART_ComboBoxActionControl, Path=FontFamily}"
                   FontSize="{Binding ElementName=PART_ComboBoxActionControl, Path=FontSize}"
                   DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"

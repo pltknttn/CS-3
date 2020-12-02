@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfMailSenderScheduler.Data
 {
-    public static class PasswordClass
+    public static class PasswordUtils
     {
         public static string Encode(string password)
         {

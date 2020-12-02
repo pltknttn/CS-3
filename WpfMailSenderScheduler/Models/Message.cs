@@ -6,15 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WpfMailSenderScheduler.Models
-{
-    [Table(Name = "Recipients")]
+{ 
     public class Message
-    {
-        [Column]
-        public int Id { get; set; }
-        [Column]
-        public string Name { get; set; }
-        [Column]
-        public string Value { get; set; }
+    { 
+        public int Id { get; set; } 
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; } 
+        public string Body { get; set; }
+
+        public override string ToString()
+        {
+            return $"{To}: {Subject}";
+        }
     }
 }

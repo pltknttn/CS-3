@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,19 @@ namespace WpfUserControlLibrary
             set
             {
                 SetValue(ShowCaptionProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ShowComboBoxProperty =
+            DependencyProperty.Register("ShowComboBox", typeof(bool),
+            typeof(ComboBoxActionControl), new UIPropertyMetadata(true));
+
+        public bool ShowComboBox
+        {
+            get { return (bool)GetValue(ShowComboBoxProperty); }
+            set
+            {
+                SetValue(ShowComboBoxProperty, value);
             }
         }
 
@@ -90,42 +104,86 @@ namespace WpfUserControlLibrary
             }
         }
 
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register("ItemTemplate",
+            typeof(DataTemplate), typeof(ComboBoxActionControl),
+            new UIPropertyMetadata(null));
+
+        public DataTemplate ItemTemplate
+        {
+            get => GetValue(ItemTemplateProperty) as DataTemplate;
+            set => SetValue(ItemTemplateProperty, (DataTemplate)value);
+        }
+
         public static readonly DependencyProperty DisplayMemberPathProperty =
             DependencyProperty.Register("DisplayMemberPath", typeof(string),
-            typeof(ComboBoxActionControl), new UIPropertyMetadata());
+            typeof(ComboBoxActionControl), new UIPropertyMetadata(null));
 
         public string DisplayMemberPath
         {
             get { return (string)GetValue(DisplayMemberPathProperty); }
             set
             {
-                SetValue(DisplayMemberPathProperty, value);
+                if (ShowComboBox)
+                    SetValue(DisplayMemberPathProperty, value);
             }
         }
 
-        public static readonly DependencyProperty ItemSourceProperty =
-            DependencyProperty.Register("ItemSource", typeof(List<object>),
-            typeof(ComboBoxActionControl), new UIPropertyMetadata());
+        public static readonly DependencyProperty SelectedValuePathProperty =
+            DependencyProperty.Register("SelectedValuePath", typeof(string),
+            typeof(ComboBoxActionControl), new UIPropertyMetadata(null));
 
-        public List<object> ItemSource
+        public string SelectedValuePath
         {
-            get { return (List<object>)GetValue(ItemSourceProperty); }
+            get { return (string)GetValue(SelectedValuePathProperty); }
             set
             {
-                SetValue(ItemSourceProperty, value);
+                if (ShowComboBox)
+                    SetValue(SelectedValuePathProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource",
+            typeof(System.Collections.IEnumerable),
+            typeof(ComboBoxActionControl),
+            new PropertyMetadata(null));
+
+        public System.Collections.IEnumerable ItemsSource
+        {
+            get => GetValue(ItemsSourceProperty) as IEnumerable;
+            set
+            {
+                if (ShowComboBox) 
+                    SetValue(ItemsSourceProperty, (IEnumerable)value);
             }
         }
 
         public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(List<object>),
-            typeof(ComboBoxActionControl), new UIPropertyMetadata());
+            DependencyProperty.Register("SelectedItem", typeof(object),
+            typeof(ComboBoxActionControl), new UIPropertyMetadata(null));
 
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
+            get { return GetValue(SelectedItemProperty); }
             set
             {
-                SetValue(SelectedItemProperty, value);
+                if (ShowComboBox)
+                    SetValue(SelectedItemProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SelectedIndexProperty =
+            DependencyProperty.Register("SelectedIndex", typeof(int),
+            typeof(ComboBoxActionControl), new UIPropertyMetadata(-1));
+
+        public int SelectedIndex
+        {
+            get { return ((int?)GetValue(SelectedIndexProperty)??-1); }
+            set
+            {
+                if (ShowComboBox) 
+                    SetValue(SelectedIndexProperty, value);
             }
         }
 
@@ -161,6 +219,11 @@ namespace WpfUserControlLibrary
         {
             ButtonDelClick?.Invoke(sender, e);
         }
-          
+
+        public event SelectionChangedEventHandler ComboBoxSelectionChanged;
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxSelectionChanged?.Invoke(sender, e);
+        }
     }
 }

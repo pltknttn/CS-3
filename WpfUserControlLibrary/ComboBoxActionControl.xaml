@@ -15,6 +15,7 @@
         <!--<converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityHidden" IsReversed="False"  UseHidden="True"
         
         />-->
+        
     </UserControl.Resources>
     <DockPanel LastChildFill="True" Margin="2,0"  Background="Transparent"  >
          <DockPanel.Resources>
@@ -98,9 +99,15 @@
         <ComboBox Margin="4,0,0,0"  
                   FontFamily="{Binding ElementName=PART_ComboBoxActionControl, Path=FontFamily}"
                   FontSize="{Binding ElementName=PART_ComboBoxActionControl, Path=FontSize}"
-                  DisplayMemberPath="{Binding ElementName=PART_ComboBoxActionControl, Path=DisplayMemberPath}"
-                  ItemsSource="{Binding ElementName=PART_ComboBoxActionControl, Path=ItemSource}"
-                  SelectedItem="{Binding ElementName=PART_ComboBoxActionControl, Path=SelectedItem}"
-                  />
+                  DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"
+                  SelectedValuePath="{Binding SelectedValuePath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"
+                  ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"
+                  SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"
+                  SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"
+                  SelectionChanged="ComboBox_SelectionChanged"
+                  ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"
+                  Visibility="{Binding ElementName=PART_ComboBoxActionControl, Path=ShowComboBox, Converter={StaticResource BooleanToVisibility} }"
+                       > 
+        </ComboBox>
     </DockPanel> 
 </UserControl>

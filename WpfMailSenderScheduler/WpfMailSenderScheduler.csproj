@@ -121,8 +121,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\DBWorker.cs" />
-    <Compile Include="Data\PasswordClass.cs" />
-    <Compile Include="EMailsDataContext.designer.cs">
+    <Compile Include="Context\SqliteDataContext.cs" />
+    <Compile Include="Data\TestData.cs" />
+    <Compile Include="Context\EMailsDataContext.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EMailsDataContext.dbml</DependentUpon>
@@ -137,6 +138,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Recipient.cs" />
     <Compile Include="Models\Sender.cs" />
@@ -154,7 +156,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="EMailsDataContext.dbml.layout">
+    <None Include="Context\EMailsDataContext.dbml.layout">
       <DependentUpon>EMailsDataContext.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -164,7 +166,7 @@
     <None Include="DbMails.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="EMailsDataContext.dbml">
+    <None Include="Context\EMailsDataContext.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>EMailsDataContext.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -184,14 +186,19 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\WpfMailSenderLibrary\WpfMailSenderLibrary.csproj">
+      <Project>{3c2140d9-88b3-4f9d-a07b-bb1ba4c514fc}</Project>
+      <Name>WpfMailSenderLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfUserControlLibrary\WpfUserControlLibrary.csproj">
       <Project>{42B05413-9534-4D03-90CE-97DADA148014}</Project>
       <Name>WpfUserControlLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\task_planning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

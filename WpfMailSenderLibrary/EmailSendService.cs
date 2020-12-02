@@ -40,7 +40,7 @@ namespace WpfMailSenderLibrary
                 return true;
             }
             catch (Exception ex)
-            {
+            {                
                 SendException?.Invoke(ex.InnerException?.Message ?? ex.Message);
                 return false;
             }

@@ -48,18 +48,61 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Buttons\ButtonCancel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Buttons\ButtonClose.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Buttons\ButtonLogin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Buttons\ButtonOk.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Buttons\ButtonReplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ComboBoxActionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TabSwitcherControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Buttons\ButtonCancel.xaml.cs">
+      <DependentUpon>ButtonCancel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons\ButtonClose.xaml.cs">
+      <DependentUpon>ButtonClose.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons\ButtonLogin.xaml.cs">
+      <DependentUpon>ButtonLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons\ButtonOk.xaml.cs">
+      <DependentUpon>ButtonOk.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons\ButtonReplay.xaml.cs">
+      <DependentUpon>ButtonReplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ComboBoxActionControl.xaml.cs">
       <DependentUpon>ComboBoxActionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Convertes\BoolToVisibilityConverter.cs" />
+    <Compile Include="Dialog.cs" />
+    <Compile Include="MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabSwitcherControl.xaml.cs">
       <DependentUpon>TabSwitcherControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -99,6 +142,41 @@
     <Resource Include="Images\minus.png" />
     <Resource Include="Images\pencil_drawing.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\warning_shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\authorisation_lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\email.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\replay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\send.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\shutdown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

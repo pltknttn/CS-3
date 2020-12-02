@@ -8,7 +8,7 @@ using WpfMailSenderScheduler.Models;
 namespace WpfMailSenderScheduler.Data
 {
     public static class TestData
-    {
+    { 
         public static List<Server> Servers
         {
             get

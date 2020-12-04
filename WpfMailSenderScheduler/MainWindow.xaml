@@ -7,14 +7,15 @@
         xmlns:WpfUserControlLibrary="clr-namespace:WpfUserControlLibrary;assembly=WpfUserControlLibrary" 
         x:Class="WpfMailSenderScheduler.MainWindow"
         xmlns:data="clr-namespace:WpfMailSenderScheduler.Data"
-        xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands" 
+        xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands"         
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        mc:Ignorable="d"
-        Title="Рассыльщик" 
+        mc:Ignorable="d" 
         Height="650" 
         Width="900" 
         WindowStartupLocation="CenterScreen"
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
+        Title="{Binding Title}" 
         >
     <!--<WindowChrome.WindowChrome>
         <WindowChrome  CaptionHeight="0" ResizeBorderThickness="5" />

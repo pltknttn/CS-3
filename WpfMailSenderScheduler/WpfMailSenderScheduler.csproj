@@ -261,7 +261,9 @@
     <Compile Include="Services\DebugMailService.cs" />
     <Compile Include="Services\SmtpMailService.cs" />
     <Compile Include="Services\WindowDialog.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

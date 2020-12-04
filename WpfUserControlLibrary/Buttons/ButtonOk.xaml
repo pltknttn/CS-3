@@ -12,6 +12,6 @@
     </Button.Style>
     <DockPanel LastChildFill="True" FlowDirection="LeftToRight">
         <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/ok.png" Stretch="Uniform" DockPanel.Dock="Left"/>
-        <Label VerticalContentAlignment="Center" Margin="5" HorizontalContentAlignment="Center" >ОК</Label>
+        <Label VerticalContentAlignment="Center" Margin="10, 5, 5, 5" HorizontalContentAlignment="Center" >ОК</Label>
     </DockPanel>
 </Button>

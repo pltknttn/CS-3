@@ -178,5 +178,15 @@
   <ItemGroup>
     <Resource Include="Images\shutdown.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ask_question.png" />
+    <Resource Include="Images\chat_bubble.png" />
+    <Resource Include="Images\info.png" />
+    <Resource Include="Images\unavailable.png" />
+    <Resource Include="Images\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\information.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

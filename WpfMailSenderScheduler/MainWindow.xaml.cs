@@ -15,8 +15,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfMailSenderLibrary;
 using WpfMailSenderScheduler.Data;
+using WpfMailSenderScheduler.Interfaces;
 using WpfMailSenderScheduler.Models;
 using WpfUserControlLibrary;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WpfMailSenderScheduler
 {
@@ -66,7 +68,8 @@ namespace WpfMailSenderScheduler
 
         private void SelectSender_ButtonAddClick(object sender, RoutedEventArgs e)
         {
-            Dialog.ShowInformation("Нажата кнопка добавить отправителя");
+            App.Services.GetService<IDialogService>().ShowInfo("Нажата кнопка добавить отправителя");
+            //Dialog.ShowInformation("Нажата кнопка добавить отправителя");
         }
 
         private void SelectSender_ButtonDelClick(object sender, RoutedEventArgs e)

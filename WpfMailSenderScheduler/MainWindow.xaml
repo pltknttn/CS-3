@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfMailSenderScheduler"
         xmlns:WpfUserControlLibrary="clr-namespace:WpfUserControlLibrary;assembly=WpfUserControlLibrary" 
         x:Class="WpfMailSenderScheduler.MainWindow"
-        xmlns:data="clr-namespace:WpfMailSenderScheduler.Data" 
+        xmlns:data="clr-namespace:WpfMailSenderScheduler.Data"
+        xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands" 
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
@@ -26,7 +27,23 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Menu Grid.Row="0" MinHeight="22">
-                <MenuItem Header="Файл"/>
+                <MenuItem Header="Файл">
+                    <MenuItem.Resources>
+                        <Style TargetType="MenuItem">                            
+                            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                            <Setter Property="Margin" Value="2,2"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                    </MenuItem.Resources>
+                    <MenuItem Header="Выход">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images\cancel.png"/>
+                        </MenuItem.Icon>
+                        <MenuItem.Command>
+                            <cmd:ShutdowApplicationCommand/>
+                        </MenuItem.Command>
+                    </MenuItem>
+                </MenuItem>
                 <MenuItem Header="Помощь"/>
             </Menu>
             <Border Grid.Row="1" BorderThickness="2" BorderBrush="{StaticResource NormalBorderBrush}">

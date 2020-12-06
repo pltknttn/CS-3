@@ -44,12 +44,49 @@ namespace WpfMailSenderScheduler
         private static void ConfigureServices(HostBuilderContext hostBuilder, IServiceCollection services)
         {
             services.AddSingleton<IDialogService, WindowDialog>();
+#if DEBUG
             services.AddTransient<IMailService, DebugMailService>();
+#else
             services.AddTransient<IMailService, SmtpMailService>();
+#endif 
+             
+            var memoryStorage = new DataStorageInMemory();
+            services.AddSingleton<ISendersStorage>(memoryStorage);
+            services.AddSingleton<IServersStorage>(memoryStorage);
+            services.AddSingleton<IMessagesStorage>(memoryStorage);
+            services.AddSingleton<IRecipientsStorage>(memoryStorage);
+
+            //const string xmlFileName = "MailSenderStorage.xml";
+            //var xmlStorage = new DataStorageInXmlFile(xmlFileName);
+            //services.AddSingleton<ISendersStorage>(xmlStorage);
+            //services.AddSingleton<IServersStorage>(xmlStorage);
+            //services.AddSingleton<IMessagesStorage>(xmlStorage);
+            //services.AddSingleton<IRecipientsStorage>(xmlStorage);
+
             services.AddSingleton<MainWindowViewModel>();
             services.AddTransient<SenderEditWindowViewModel>();
             services.AddTransient<ServerEditWindowViewModel>();
+            services.AddTransient<RecipientEditWindowViewModel>();
         }
+
+        public static void ShowDialogInfo(string msg)
+        {
+            Services.GetService<IDialogService>().ShowInfo(msg);
+        }
+
+        public static void ShowDialogError(string msg)
+        {
+            Services.GetService<IDialogService>().ShowError(msg);
+        }
+
+        public static void ShowDialogError(Exception ex)
+        {
+            Services.GetService<IDialogService>().ShowError(ex.InnerException?.Message??ex.Message);
+        }
+        public static void ShowDialogWarn(string msg)
+        {
+            Services.GetService<IDialogService>().ShowWarn(msg);
+        }       
     }
     /* 
     using Microsoft.Extensions.DependencyInjection;

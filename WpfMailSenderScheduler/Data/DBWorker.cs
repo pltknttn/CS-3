@@ -13,7 +13,7 @@ namespace WpfMailSenderScheduler.Data
     public class DBWorker
     { 
         private SqliteDataContext sqliteDataContext = new SqliteDataContext();
-        private EMailsDataContext mssqlDataContext = new EMailsDataContext();
+        private EMailsDataContext mssqlDataContext = new EMailsDataContext(Properties.Settings.Default.MailsAndSendersConnectionString);
 
         public IQueryable<Email> Emails
         {
@@ -47,6 +47,15 @@ namespace WpfMailSenderScheduler.Data
             get
             {
                 Table<Recipient> mail = mssqlDataContext.GetTable<Recipient>();
+                return mail;
+            }
+        }
+
+        public IQueryable<Message> Messages
+        {
+            get
+            {
+                Table<Message> mail = mssqlDataContext.GetTable<Message>();
                 return mail;
             }
         }
@@ -165,5 +174,43 @@ namespace WpfMailSenderScheduler.Data
             mssqlDataContext.SubmitChanges();
             return true;
         }
+
+        public bool AddMessage(Message message)
+        {
+            var row = new Context.Messages
+            {
+                Subject = message.Subject,
+                Body = message.Body, 
+            };
+            mssqlDataContext.Messages.InsertOnSubmit(row);
+            mssqlDataContext.SubmitChanges();
+            return true;
+        }
+
+        public bool EditMessage(Message message)
+        {
+            var row = (from sndr in mssqlDataContext.Messages
+                       where sndr.Id == message.Id
+                       select sndr).FirstOrDefault();
+            if (row == null) return false;
+
+            row.Subject = message.Subject;
+            row.Body = message.Body; 
+
+            mssqlDataContext.SubmitChanges();
+            return true;
+        }
+
+        public bool DeleteMessage(Message message)
+        {
+            var row = (from sndr in mssqlDataContext.Messages
+                       where sndr.Id == message.Id
+                       select sndr).FirstOrDefault();
+            if (row == null) return false;
+            mssqlDataContext.Messages.DeleteOnSubmit(row);
+            mssqlDataContext.SubmitChanges();
+            return true;
+        }
+
     }
 }

@@ -43,7 +43,8 @@
             </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Button x:Name="btnPrevious" Grid.Column="0" Click="btnPrevious_Click"  
-                    Visibility="{Binding ElementName=PART_TabSwitcherControl, Path=ShowButtonPrevious, Converter={StaticResource BooleanToVisibility} }"  
+                Visibility="{Binding ElementName=PART_TabSwitcherControl, Path=ShowButtonPrevious, Converter={StaticResource BooleanToVisibility} }"  
+                ToolTip="Предыдущий"
                     >
             <Button.Content>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">                        
@@ -58,6 +59,7 @@
         </Button>
         <Button x:Name="btnNext" Grid.Column="1" Margin="0" Click="btnNext_Click" 
             Visibility="{Binding ElementName=PART_TabSwitcherControl, Path=ShowButtonNext, Converter={StaticResource BooleanToVisibility} }"  
+                ToolTip="Следующий"
             > 
             <Button.Content>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">

@@ -259,19 +259,41 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\ShutdowApplicationCommand.cs" />
+    <Compile Include="Converters\HtmlFromXamlConverter.cs" />
+    <Compile Include="Converters\RtfToHtmlConverter.cs" />
+    <Compile Include="Converters\XamlToPlainTextConverter.cs" />
     <Compile Include="Data\FileWorker.cs" />
+    <Compile Include="Formatters\HtmlFormatter.cs" />
+    <Compile Include="Formatters\PlainTextFormatter.cs" />
+    <Compile Include="Formatters\RtfFormatter.cs" />
+    <Compile Include="Formatters\XamlFormatter.cs" />
     <Compile Include="Helpers\DialogCloser.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="HtmlXamlConversion\htmlcssparser.cs" />
+    <Compile Include="HtmlXamlConversion\htmlfromxamlconverter.cs" />
+    <Compile Include="HtmlXamlConversion\htmllexicalanalyzer.cs" />
+    <Compile Include="HtmlXamlConversion\htmlparser.cs" />
+    <Compile Include="HtmlXamlConversion\htmlschema.cs" />
+    <Compile Include="HtmlXamlConversion\htmltokentype.cs" />
+    <Compile Include="HtmlXamlConversion\htmltoxamlconverter.cs" />
     <Compile Include="Interfaces\IDialogService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
+    <Compile Include="Interfaces\IServersStorage.cs" />
+    <Compile Include="Models\SenderTask.cs" />
+    <Compile Include="Services\DataStorageInXmlFile.cs" />
     <Compile Include="Services\DebugMailService.cs" />
+    <Compile Include="Services\DataStorageInMemory.cs" />
     <Compile Include="Services\SmtpMailService.cs" />
     <Compile Include="Services\WindowDialog.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\RecipientEditWindowViewModel.cs" />
     <Compile Include="ViewModels\SenderEditWindowViewModel.cs" />
     <Compile Include="ViewModels\ServerEditWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\RecipientEditWindow.xaml.cs">
+      <DependentUpon>RecipientEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SenderEditWindow.xaml.cs">
       <DependentUpon>SenderEditWindow.xaml</DependentUpon>
     </Compile>
@@ -301,6 +323,10 @@
     <Page Include="Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RecipientEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SenderEditWindow.xaml">
       <SubType>Designer</SubType>

@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace WpfMailSenderScheduler.Models
 {
-   
+    [Table(Name = "Message")]
     public class Message
-    { 
-        public int Id { get; set; } 
-        public string From { get; set; }
-        public string To { get; set; }
-        public string Subject { get; set; } 
+    {
+        [Column]
+        public int Id { get; set; }
+        [Column]
+        public string Subject { get; set; }
+        [Column]
         public string Body { get; set; }
 
         public override string ToString()
         {
-            return $"{To}: {Subject}";
+            return $"{Id}: {Subject}";
         }
     }
 }

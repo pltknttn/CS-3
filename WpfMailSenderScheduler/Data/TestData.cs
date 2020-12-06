@@ -42,7 +42,7 @@ namespace WpfMailSenderScheduler.Data
         {
             get
             {
-                return Enumerable.Range(0, 10).Select(i => new Message() { Id = i, Subject = $"Subject{i}", Body = $"Body{i}", From= $"From{i}", To = $"To{i}" }).ToList();
+                return Enumerable.Range(0, 10).Select(i => new Message() { Id = i, Subject = $"Subject{i}", Body = $"Body{i}"}).ToList();
             }
         }
     }

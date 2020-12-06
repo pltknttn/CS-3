@@ -73,14 +73,14 @@
              </Grid.ColumnDefinitions>
                 <Button x:Name="PART_ButtonAdd"  Grid.Column="0"  
                         Visibility="{Binding ElementName=PART_ComboBoxActionControl, Path=ShowButtonAdd, Converter={StaticResource BooleanToVisibility} }"  
-                        Click="btnAdd_Click">
+                        Click="btnAdd_Click" ToolTip="Добавить">
                         <Button.Content>
                              <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/add.png" /> 
                         </Button.Content>
                     </Button>
                 <Button x:Name="PART_ButtonEdit" Grid.Column="1" 
                         Visibility="{Binding ElementName=PART_ComboBoxActionControl, Path=ShowButtonEdit, Converter={StaticResource BooleanToVisibility} }" 
-                        Click="btnEdit_Click"                         
+                        Click="btnEdit_Click" ToolTip="Редактировать"                        
                         >
                     <Button.Content>
                         <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/pencil_drawing.png" />
@@ -88,7 +88,7 @@
                     </Button>
                 <Button x:Name="PART_ButtonDel" Grid.Column="2"
                         Visibility="{Binding ElementName=PART_ComboBoxActionControl, Path=ShowButtonDel, Converter={StaticResource BooleanToVisibility} }" 
-                        Click="btnDel_Click"
+                        Click="btnDel_Click" ToolTip="Удалить"
                         >
                     <Button.Content>
                             <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/minus.png" />

@@ -76,13 +76,7 @@ namespace WpfMailSenderScheduler.ViewModels
         private ICommand loadDataCommand;
         public ICommand LoadDataCommand => loadDataCommand ?? (loadDataCommand = new RelayCommand((object par) =>
         {
-            if (Servers?.Any() == true) return;
-
-            //var dbWorker = new DBWorker();
-            //Servers = new ObservableCollection<Server>(dbWorker.Servers.ToList()); 
-
-            var fileWorker = FileWorker.LoadFromXml(App.DataFileName) ?? new FileWorker();
-            Servers = new ObservableCollection<Server>(fileWorker.Servers); 
+             
         }));
     }
 }

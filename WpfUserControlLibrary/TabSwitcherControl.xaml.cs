@@ -62,18 +62,51 @@ namespace WpfUserControlLibrary
             {
                 SetValue(ShowButtonNextProperty, value);
             }
-        }  
-        
+        } 
+        public static readonly DependencyProperty SwitchNextCommandProperty = DependencyProperty.Register("SwitchNextCommand", typeof(ICommand), typeof(TabSwitcherControl));
+        public ICommand SwitchNextCommand
+        {
+            get { return (ICommand)GetValue(SwitchNextCommandProperty); }
+            set { SetValue(SwitchNextCommandProperty, value); }
+        }         
+
+        public static readonly DependencyProperty SwitchPreviousCommandProperty = DependencyProperty.Register("SwitchPreviousCommand", typeof(ICommand), typeof(TabSwitcherControl));
+        public ICommand SwitchPreviousCommand
+        {
+            get { return (ICommand)GetValue(SwitchPreviousCommandProperty); }
+            set { SetValue(SwitchPreviousCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty SwitchCommandParameterProperty = DependencyProperty.Register("SwitchCommandParameter", typeof(object), typeof(TabSwitcherControl), new UIPropertyMetadata(null));
+        public object SwitchCommandParameter
+        {
+            get { return (object)GetValue(SwitchCommandParameterProperty); }
+            set { SetValue(SwitchCommandParameterProperty, value); }
+        }
+
+
         public event RoutedEventHandler ButtonNextClick;
         public event RoutedEventHandler ButtonPreviousClick;
         
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
+            if (SwitchNextCommand != null)
+            {
+                var param = SwitchCommandParameter;
+                if (SwitchNextCommand.CanExecute(param)) SwitchNextCommand.Execute(param);
+                return;
+            }
             ButtonNextClick?.Invoke(sender, e);
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
+            if (SwitchPreviousCommand != null)
+            {
+                var param = SwitchCommandParameter;
+                if (SwitchPreviousCommand.CanExecute(param)) SwitchPreviousCommand.Execute(param);
+                return;
+            }
             ButtonPreviousClick?.Invoke(sender, e);
         }         
     }

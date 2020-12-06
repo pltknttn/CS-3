@@ -42,14 +42,17 @@ namespace WpfMailSenderScheduler.Context
     partial void InsertRecipients(Recipients instance);
     partial void UpdateRecipients(Recipients instance);
     partial void DeleteRecipients(Recipients instance);
-    #endregion
-		
-		public EMailsDataContext() : 
+    partial void InsertMessages(Messages instance);
+    partial void UpdateMessages(Messages instance);
+    partial void DeleteMessages(Messages instance);
+		#endregion
+
+		public EMailsDataContext() :
 				base(global::WpfMailSenderScheduler.Properties.Settings.Default.MailsAndSendersConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
-		
+
 		public EMailsDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
@@ -103,6 +106,14 @@ namespace WpfMailSenderScheduler.Context
 			get
 			{
 				return this.GetTable<Recipients>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Messages> Messages
+		{
+			get
+			{
+				return this.GetTable<Messages>();
 			}
 		}
 	}
@@ -570,6 +581,116 @@ namespace WpfMailSenderScheduler.Context
 					this._Address = value;
 					this.SendPropertyChanged("Address");
 					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Message")]
+	public partial class Messages : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Subject;
+		
+		private string _Body;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnSubjectChanging(string value);
+    partial void OnSubjectChanged();
+    partial void OnBodyChanging(string value);
+    partial void OnBodyChanged();
+    #endregion
+		
+		public Messages()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subject", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string Subject
+		{
+			get
+			{
+				return this._Subject;
+			}
+			set
+			{
+				if ((this._Subject != value))
+				{
+					this.OnSubjectChanging(value);
+					this.SendPropertyChanging();
+					this._Subject = value;
+					this.SendPropertyChanged("Subject");
+					this.OnSubjectChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Body", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Body
+		{
+			get
+			{
+				return this._Body;
+			}
+			set
+			{
+				if ((this._Body != value))
+				{
+					this.OnBodyChanging(value);
+					this.SendPropertyChanging();
+					this._Body = value;
+					this.SendPropertyChanged("Body");
+					this.OnBodyChanged();
 				}
 			}
 		}

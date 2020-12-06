@@ -7,7 +7,8 @@
         xmlns:WpfUserControlLibrary="clr-namespace:WpfUserControlLibrary;assembly=WpfUserControlLibrary" 
         x:Class="WpfMailSenderScheduler.MainWindow"
         xmlns:data="clr-namespace:WpfMailSenderScheduler.Data"
-        xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands"         
+        xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands"      
+        xmlns:formatters="clr-namespace:WpfMailSenderScheduler.Formatters" 
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -73,8 +74,12 @@
                 <MenuItem Header="Помощь"/>
             </Menu>
             <Border Grid.Row="1" BorderThickness="2" BorderBrush="{StaticResource NormalBorderBrush}">
-                <TabControl x:Name="Tabs"  FontSize="13" FontStyle="Normal" FontFamily="Arial"  > 
-                    
+                <TabControl x:Name="Tabs"  FontSize="13" FontStyle="Normal" FontFamily="Arial"  SelectedItem="{Binding SelectedTabItem, Mode=TwoWay}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionTabChangedCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <TabItem Header="Формирование группы рассылки" TabIndex="0">
                         <!--<WpfUserControlLibrary:TabSwitcherControl Height="30" Width="230"/>-->
                         <DockPanel>
@@ -116,9 +121,9 @@
                                                                                  DelCommand="{Binding DeleteSenderDataCommand}"
                                                                                  />
                                 </ToolBar>
-                                <ToolBar Band="1" BandIndex="0">
+                                <ToolBar Band="1" BandIndex="2">
                                     <WpfUserControlLibrary:ComboBoxActionControl x:Name="SelectAddress" Caption="Список адресатов" ToolTip="Список получателей"
-                                                                                 CaptionMinWidth="110"  Height="28" Width="210"
+                                                                                 CaptionMinWidth="100"  Height="28" Width="220"
                                                                                  ItemsSource="{Binding Recipients}"  
                                                                                  DisplayMemberPath="FullName" 
                                                                                  SelectedValuePath="Id"
@@ -131,13 +136,15 @@
                                 </ToolBar>
                                 <ToolBar Band="1" BandIndex="1">
                                     <StackPanel Height="30" Margin="2,0" Orientation="Horizontal" VerticalAlignment="Stretch">
-                                        <WpfUserControlLibrary:TabSwitcherControl x:Name="SwitchNextPrevios" Width="110" ShowButtonCaption="False" 
-                                                                                  ButtonPreviousClick="SwitchNextPrevios_ButtonPreviousClick"
-                                                                                  ButtonNextClick="SwitchNextPrevios_ButtonNextClick"/>
-                                        <Button x:Name="GotoScheduler" Margin="2,0" VerticalAlignment="Center" Click="GotoScheduler_Click" >
+                                        <WpfUserControlLibrary:TabSwitcherControl x:Name="SwitchNextPrevios" Width="135" ShowButtonCaption="False" 
+                                                                                  SwitchNextCommand="{Binding SwitchNextCommand}"
+                                                                                  SwitchPreviousCommand="{Binding SwitchPreviosCommand}"/>
+                                        <Button x:Name="GotoScheduler" Margin="2,0" VerticalAlignment="Center"
+                                                Command="{Binding GotoTabCommand}" CommandParameter="{Binding ElementName=tabScheduler}"
+                                                >
                                             <Button.Content>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Margin="10,0,0,0"
+                                                    <TextBlock Margin="15,0,10,0"
                                                                Text="Перейти в Планировщик" 
                                                                VerticalAlignment="Center" 
                                                                HorizontalAlignment="Stretch" FontSize="14" FontFamily="Arial"/>
@@ -148,15 +155,24 @@
                                     </StackPanel>
                                 </ToolBar>
                             </ToolBarTray>
-                            <DataGrid Name="dgEmails" AutoGenerateColumns="False" 
+                            <DataGrid Name="RecipientsList" AutoGenerateColumns="False" 
                                       VerticalGridLinesBrush="SandyBrown" 
                                       HorizontalGridLinesBrush="SandyBrown" 
-                                      CanUserAddRows="False">
+                                      CanUserAddRows="False"
+                                      ItemsSource="{Binding Recipients}"
+                                      SelectedItem="{Binding SelectedRecipient, Mode=TwoWay}"
+                                      IsReadOnly="True"                                      
+                                      >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="№" Binding="{Binding Path=Id}" Width="40"></DataGridTextColumn>
                                     <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" Width="Auto" MinWidth="80"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Value}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Адрес" Binding="{Binding Path=Address}" Width="*"></DataGridTextColumn>
                                 </DataGrid.Columns>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding SelectedRecipientCommand}" PassEventArgsToCommand="True"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </DataGrid>
                         </DockPanel>
                     </TabItem>
@@ -169,33 +185,38 @@
                             <GroupBox Header="Календарь" 
                                       Grid.Column="0" HorizontalContentAlignment="Stretch">
                                 <StackPanel Orientation="Vertical" Width="180">
-                                    <Calendar/>
-                                    <Button Name="SendButton" Margin="2" Click="SendButton_Click">
+                                    <Calendar SelectedDate="{Binding SelectedCalendarDate}"/>
+                                    <Button Name="SendButton" Margin="2" ToolTip="Отправить сразу"  
+                                            Command="{Binding SendMailMessageCommand}"
+                                            CommandParameter="{Binding ElementName=TabMailEditor}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock VerticalAlignment="Center" Text="Отправить" Margin="10,0"></TextBlock>
-                                            <fa5:SvgAwesome Icon="Brands_FacebookMessenger" Foreground="#FFFB3307" VerticalAlignment="Center" HorizontalAlignment="Center" Height="24" />
+                                            <fa5:SvgAwesome Icon="Brands_FacebookMessenger" Foreground="#FFFB3307" VerticalAlignment="Center" 
+                                                            HorizontalAlignment="Center" Height="24" />
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="SaveTask" Margin="2" Click="SaveTask_Click">
+                                    <Button x:Name="SaveTask" Margin="2" Command="{Binding SaveTaskCommand}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock VerticalAlignment="Center" Text="Запланировать" Margin="10,0"></TextBlock>
-                                            <fa5:SvgAwesome Icon="Regular_Clock" Foreground="#FF3E07FB" VerticalAlignment="Center" HorizontalAlignment="Center" Height="24" />
+                                            <fa5:SvgAwesome Icon="Regular_Clock" Foreground="#FF3E07FB" VerticalAlignment="Center" 
+                                                            HorizontalAlignment="Center" Height="24" />
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="UndoTask" Margin="2" Click="UndoTask_Click">
+                                    <Button x:Name="UndoTask" Margin="2" Command="{Binding UndoTaskCommand}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock VerticalAlignment="Center" Text="Отменить" Margin="10,0,15,0"></TextBlock>
-                                            <fa5:SvgAwesome Icon="Solid_Undo" Foreground="#FF1E8167" VerticalAlignment="Center" HorizontalAlignment="Center" Height="24" />
+                                            <fa5:SvgAwesome Icon="Solid_Undo" Foreground="#FF1E8167" VerticalAlignment="Center" 
+                                                            HorizontalAlignment="Center" Height="24" />
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Header="Управление" Grid.Column="1">
                                 <StackPanel Orientation="Vertical" Margin="0,3,0,0">
-                                    <GroupBox Width="300" HorizontalAlignment="Left">
+                                    <GroupBox Width="400" HorizontalAlignment="Left">
                                         <GroupBox.Header>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Margin="5,0" Text="Задание"></TextBlock>
+                                                <TextBlock Margin="5, 0" Text="Задание"></TextBlock>
                                                 <fa5:SvgAwesome Icon="Solid_Tasks" 
                                                                 Foreground="#FF0A3470" VerticalAlignment="Center" 
                                                                 HorizontalAlignment="Center" Width="16" Height="16"/>
@@ -212,24 +233,43 @@
                                                 <RowDefinition Height="Auto"></RowDefinition>
                                                 <RowDefinition Height="Auto"></RowDefinition>
                                                 <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition Height="Auto"></RowDefinition>
                                             </Grid.RowDefinitions>
 
                                             <Grid.Resources>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="Margin" Value="4"></Setter>
+                                                    <Setter Property="Margin" Value="4, 5, 4, 1"></Setter>
                                                 </Style>
                                             </Grid.Resources>
 
-                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Время"></TextBlock>
-                                            <xctk:DateTimePicker Grid.Row="0" Grid.Column="1" Text="2020-01-01 00:00:00"/>
+                                            <TextBlock  Grid.Row="0" Grid.Column="0" Text="Время"></TextBlock>
+                                            <xctk:DateTimePicker Margin="4, 5, 4, 1" Grid.Row="0" Grid.Column="1" 
+                                                                 Value="{Binding SelectedTask.SendDate}" 
+                                                                 FormatString="dd.MM.yyyy hh:mm:ss"/>
                                             <!--<TextBlock Grid.Row="0" Grid.Column="1" Text="2020-01-01 00:00:00"></TextBlock>-->
                                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Отправитель"></TextBlock>
-                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="Иванов"></TextBlock>
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedTask.SenderName, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
                                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Получатель"></TextBlock>
-                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="Петров"></TextBlock>
-                                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Сообщение"></TextBlock>
-                                            <TextBox x:Name="MessageBody" Grid.Row="3" Grid.Column="1" 
-                                                       Text="Текст сообщения"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedTask.RecipientName, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Тема"></TextBlock>
+                                            <TextBlock x:Name="MessageSubject" Grid.Row="3" Grid.Column="1" 
+                                                       Text="{Binding SelectedTask.Subject}"/>
+                                            <TextBlock  Grid.Row="4" Grid.Column="0" Text="Сообщение"></TextBlock>
+                                            <!--<TextBox x:Name="MessageBody" Grid.Row="4" Grid.Column="1" 
+                                                       Text="{Binding SelectedTask.Body}"/>-->
+                                            <xctk:RichTextBox Margin="4, 5, 4, 1" x:Name="MessageBody" Grid.Row="4" Grid.Column="1" MinHeight="100"
+                                                          HorizontalAlignment="Stretch" 
+                                                          Text="{Binding SelectedTask.Body, UpdateSourceTrigger=PropertyChanged}"
+                                                          AcceptsTab="True"
+                                                          AcceptsReturn="True" 
+                                                          AutoWordSelection="True"
+                                                          HorizontalScrollBarVisibility="Auto"
+                                                          VerticalScrollBarVisibility="Auto" 
+                                                          >
+                                                <xctk:RichTextBox.TextFormatter>
+                                                    <formatters:HtmlFormatter />
+                                                </xctk:RichTextBox.TextFormatter>
+                                            </xctk:RichTextBox>
                                         </Grid>
                                     </GroupBox>
                                 </StackPanel>
@@ -246,21 +286,27 @@
                             <GroupBox Grid.Column="0" Header="Письма" HorizontalContentAlignment="Stretch">
                                 <ListBox Name="MessageList" 
                                          ItemsSource="{Binding Messages}" 
-                                         DisplayMemberPath="Subject"                                         
+                                         DisplayMemberPath="Subject"   
+                                         SelectedItem="{Binding SelectedMessage}"
                                          >
                                 </ListBox>
                             </GroupBox>
                             <GroupBox Grid.Column="1" Header="Редактирование письма">
                                 <DockPanel LastChildFill="True" Margin="10,3,10,10">
                                     <GroupBox Header="Тема письма" DockPanel.Dock="Top" Padding="0,5,0,3">
+                                        <!--<TextBox x:Name="SubjectEditor" 
+                                                 Text="{Binding ElementName=MessageList, Path=SelectedItem.Subject, 
+                                                        UpdateSourceTrigger=PropertyChanged}"/>-->
                                         <TextBox x:Name="SubjectEditor" 
-                                                 Text="{Binding ElementName=MessageList, Path=SelectedItem.Subject, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                 Text="{Binding SelectedMessage.Subject, 
+                                                        UpdateSourceTrigger=PropertyChanged}"/>
                                     </GroupBox>
                                     <DockPanel DockPanel.Dock="Bottom">
-                                        <Button x:Name="SaveLetter"
+                                        <Button x:Name="SaveMessage"
                                                 HorizontalContentAlignment="Center"
                                                 HorizontalAlignment="Center" Margin="0,10,0,0"
-                                                Click="SaveLetter_Click">
+                                                Command="{Binding SaveMessageDataCommand}"                                                
+                                                >
                                             <StackPanel Orientation="Horizontal" Margin="5,5">
                                                 <TextBlock Text="Сохранить" Margin="10,0"/>
                                                 <fa5:SvgAwesome Icon="Solid_Save"
@@ -270,7 +316,7 @@
                                         </Button>
                                     </DockPanel>
                                     <GroupBox Header="Тело письма"  Padding="0,5,0,3">
-                                        <xctk:RichTextBox x:Name="BodyEditor" 
+                                        <!--<xctk:RichTextBox x:Name="BodyEditor" 
                                                           HorizontalAlignment="Stretch" 
                                                           Text="{Binding ElementName=MessageList, Path=SelectedItem.Body, Mode=OneWay}" 
                                                           AcceptsTab="True"
@@ -279,7 +325,22 @@
                                                           HorizontalScrollBarVisibility="Auto"
                                                           VerticalScrollBarVisibility="Auto"
                                                           >
-                                             
+                                            <xctk:RichTextBox.TextFormatter>
+                                                <formatters:HtmlFormatter />
+                                            </xctk:RichTextBox.TextFormatter>
+                                        </xctk:RichTextBox>-->
+                                        <xctk:RichTextBox x:Name="BodyEditor" 
+                                                          HorizontalAlignment="Stretch" 
+                                                          Text="{Binding SelectedMessage.Body, UpdateSourceTrigger=PropertyChanged}" 
+                                                          AcceptsTab="True"
+                                                          AcceptsReturn="True" 
+                                                          AutoWordSelection="True"
+                                                          HorizontalScrollBarVisibility="Auto"
+                                                          VerticalScrollBarVisibility="Auto"
+                                                          >
+                                            <xctk:RichTextBox.TextFormatter>
+                                                <formatters:HtmlFormatter />
+                                            </xctk:RichTextBox.TextFormatter>
                                         </xctk:RichTextBox>
                                     </GroupBox>
                                 </DockPanel>
@@ -325,11 +386,11 @@
                                     </Grid.Resources>
 
                                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Кол-во серверов" Style="{StaticResource StatColumn0Style}" ></TextBlock>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="3" HorizontalAlignment="Center" Style="{StaticResource StatColumn1Style}"></TextBlock>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CountServers}" HorizontalAlignment="Center" Style="{StaticResource StatColumn1Style}"></TextBlock>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Кол-во отправителей" Style="{StaticResource StatColumn0Style}"></TextBlock>
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="10" HorizontalAlignment="Center" Style="{StaticResource StatColumn1Style}"></TextBlock>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CountSenders}" HorizontalAlignment="Center" Style="{StaticResource StatColumn1Style}"></TextBlock>
                                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Кол-во получателей" Style="{StaticResource StatColumn0Style}"></TextBlock>
-                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="7" HorizontalAlignment="Center" Style="{StaticResource StatColumn1Style}"></TextBlock>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CountRecipients}" HorizontalAlignment="Center" Style="{StaticResource StatColumn1Style}"></TextBlock>
                                 </Grid>
                             </GroupBox>
                         </Border>

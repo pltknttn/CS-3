@@ -12,5 +12,6 @@ namespace WpfMailSenderScheduler.ViewModels
         public MainWindowViewModel MainWindowModel => App.Services.GetRequiredService<MainWindowViewModel>();
         public SenderEditWindowViewModel SenderEditWindowModel => App.Services.GetRequiredService<SenderEditWindowViewModel>();
         public ServerEditWindowViewModel ServerEditWindowModel => App.Services.GetRequiredService<ServerEditWindowViewModel>();
+        public RecipientEditWindowViewModel RecipientEditWindowModel => App.Services.GetRequiredService<RecipientEditWindowViewModel>(); 
     }
 }

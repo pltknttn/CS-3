@@ -203,20 +203,90 @@ namespace WpfUserControlLibrary
 
         public event RoutedEventHandler ButtonAddClick;
         public event RoutedEventHandler ButtonEditClick;
-        public event RoutedEventHandler ButtonDelClick;
+        public event RoutedEventHandler ButtonDelClick; 
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (AddCommand != null)
+            {
+                var param = AddCommandParameter;
+                if (AddCommand.CanExecute(param)) AddCommand.Execute(param);
+                return;
+            }
             ButtonAddClick?.Invoke(sender, e);
+        }
+
+        public static readonly DependencyProperty AddCommandProperty =
+               DependencyProperty.Register("AddCommand", typeof(ICommand), typeof(ComboBoxActionControl), new UIPropertyMetadata(null));
+
+        public ICommand AddCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(AddCommandProperty);
+            }
+            set
+            {
+                SetValue(AddCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty AddCommandParameterProperty = DependencyProperty.Register("AddCommandParameter", typeof(object), typeof(ComboBoxActionControl));
+        public object AddCommandParameter
+        {
+            get => (object)GetValue(AddCommandParameterProperty);
+            set { SetValue(AddCommandParameterProperty, value); }
+        }
+
+
+        public static readonly DependencyProperty EditCommandProperty = DependencyProperty.Register("EditCommand", typeof(ICommand), typeof(ComboBoxActionControl));
+        public ICommand EditCommand
+        {
+            get { return (ICommand)GetValue(EditCommandProperty); }
+            set { SetValue(EditCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty EditCommandParameterProperty = DependencyProperty.Register("EditCommandParameter", typeof(object), typeof(ComboBoxActionControl));
+        public object EditCommandParameter
+        {
+            get => (object)GetValue(EditCommandParameterProperty);
+            set { SetValue(EditCommandParameterProperty, value); }
+        }
+
+        public static readonly DependencyProperty DelCommandProperty = DependencyProperty.Register("DelCommand", typeof(ICommand), typeof(ComboBoxActionControl));
+        public ICommand DelCommand
+        {
+            get { return (ICommand)GetValue(DelCommandProperty); }
+            set { SetValue(DelCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty DelCommandParameterProperty = DependencyProperty.Register("DelCommandParameter", typeof(object), typeof(ComboBoxActionControl), new UIPropertyMetadata( null));
+        public object DelCommandParameter
+        {
+            get { return (object)GetValue(DelCommandParameterProperty); }
+            set { SetValue(DelCommandParameterProperty, value); }
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            ButtonEditClick?.Invoke(sender, e);
+            if (EditCommand != null)
+            {
+                var param = EditCommandParameter ?? PART_ComboBox.SelectedItem;
+                if (EditCommand.CanExecute(param)) EditCommand.Execute(param);
+                return;
+            }
+            ButtonEditClick?.Invoke(sender, e); 
         }
 
         private void btnDel_Click(object sender, RoutedEventArgs e)
-        {
+        {           
+            if (DelCommand != null)
+            {
+                var param = DelCommandParameter ?? PART_ComboBox.SelectedItem;
+                if (DelCommand.CanExecute(param)) DelCommand.Execute(param);
+                return;
+            }
+
             ButtonDelClick?.Invoke(sender, e);
         }
 

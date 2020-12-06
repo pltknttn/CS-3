@@ -42,6 +42,15 @@ namespace WpfMailSenderScheduler.Data
             }
         }
 
+        public IQueryable<Recipient> Recipients
+        {
+            get
+            {
+                Table<Recipient> mail = mssqlDataContext.GetTable<Recipient>();
+                return mail;
+            }
+        }
+
         public bool AddEmail(Email email)
         {
             var row = new Context.Emails

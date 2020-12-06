@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUserControlLibrary.Buttons"
-        mc:Ignorable="d" Width="120" Height="30"
+        mc:Ignorable="d" Width="100" Height="30"
         VerticalContentAlignment="Center"
         >
     <Button.Style>
@@ -12,6 +12,6 @@
     </Button.Style>
     <DockPanel LastChildFill="True"  FlowDirection="LeftToRight">
         <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/cancel.png" Stretch="Uniform" DockPanel.Dock="Left"/>
-        <Label VerticalContentAlignment="Center" Margin="5" HorizontalAlignment="Center">Отмена</Label>
+        <Label VerticalContentAlignment="Center" Margin="5,0" HorizontalAlignment="Center">Отмена</Label>
     </DockPanel>
 </Button>

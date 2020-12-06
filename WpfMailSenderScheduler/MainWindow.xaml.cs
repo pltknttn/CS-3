@@ -95,6 +95,7 @@ namespace WpfMailSenderScheduler
         private void SelectServer_ButtonDelClick(object sender, RoutedEventArgs e)
         {
             Dialog.ShowInformation("Нажата кнопка удалить smtp-сервер");
+             
         }
 
         private string GetPlainBody()

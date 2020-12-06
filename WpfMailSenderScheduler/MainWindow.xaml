@@ -10,6 +10,7 @@
         xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands"         
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" 
         Height="650" 
         Width="900" 
@@ -20,6 +21,11 @@
     <!--<WindowChrome.WindowChrome>
         <WindowChrome  CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>-->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Border BorderThickness="2" BorderBrush="{StaticResource NormalBorderBrush}">
         <Grid>
             <Grid.RowDefinitions>
@@ -34,8 +40,27 @@
                             <Setter Property="BorderBrush" Value="Transparent"></Setter>
                             <Setter Property="Margin" Value="2,2"/>
                             <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        </Style>
+                            <Setter Property="MinHeight" Value="24"/> 
+                        </Style>                        
                     </MenuItem.Resources>
+                    <MenuItem Header="Сервис">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images\services.png"/>
+                        </MenuItem.Icon>
+                        <MenuItem Header="Загрузить\Обновить данные" Command="{Binding LoadDataCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images\software_installer.png"/>
+                            </MenuItem.Icon> 
+                        </MenuItem>
+                        <MenuItem Header="Сохранить данные" Command="{Binding SaveDataCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images\save.png"/>
+                                <!--<fa5:SvgAwesome Icon="Solid_Save"
+                                                                Foreground="#FF0A3470" VerticalAlignment="Center" 
+                                                                HorizontalAlignment="Center" Width="16" Height="16"/>-->
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
                     <MenuItem Header="Выход">
                         <MenuItem.Icon>
                             <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images\cancel.png"/>
@@ -65,31 +90,46 @@
                                         <Setter Property="Orientation" Value="Vertical"/>
                                     </Style>-->
                                 </ToolBarTray.Resources>
+                                <ToolBar Band="0" BandIndex="0" >
+                                    <WpfUserControlLibrary:ComboBoxActionControl x:Name="SelectServer" 
+                                                                                 Caption="Выбрать smtp-сервер" 
+                                                                                 CaptionMinWidth="110"  Height="28" Width="400" 
+                                                                                 ItemsSource="{Binding Servers}"  
+                                                                                 DisplayMemberPath="FullAddress"  
+                                                                                 SelectedValuePath="Id" 
+                                                                                 SelectedItem="{Binding SelectedServer, Mode=TwoWay}"
+                                                                                 AddCommand="{Binding CreateServerDataCommand}"
+                                                                                 EditCommand="{Binding EditServerDataCommand}"
+                                                                                 DelCommand="{Binding DeleteServerDataCommand}"
+                                                                                 />
+                                </ToolBar>
                                 <ToolBar Band="0" BandIndex="1" >
                                     <WpfUserControlLibrary:ComboBoxActionControl x:Name="SelectSender"
                                                                                  Caption="Выбрать отправителя" 
                                                                                  CaptionMinWidth="110"  Height="28" Width="400"
-                                                                                 ItemsSource="{x:Static data:TestData.Senders}"  
+                                                                                 ItemsSource="{Binding Senders}"  
                                                                                  DisplayMemberPath="FullName" 
-                                                                                 SelectedValuePath="Id"
-                                                                                 SelectedIndex="0"
-                                                                                 ButtonAddClick="SelectSender_ButtonAddClick"
-                                                                                 ButtonEditClick="SelectSender_ButtonEditClick"
-                                                                                 ButtonDelClick="SelectSender_ButtonDelClick"
+                                                                                 SelectedValuePath="Id" 
+                                                                                 SelectedItem="{Binding SelectedSender, Mode=TwoWay}"
+                                                                                 AddCommand="{Binding CreateSenderDataCommand}"
+                                                                                 EditCommand="{Binding EditSenderDataCommand}"
+                                                                                 DelCommand="{Binding DeleteSenderDataCommand}"
                                                                                  />
                                 </ToolBar>
-                                <ToolBar Band="1" BandIndex="2" >
-                                    <WpfUserControlLibrary:ComboBoxActionControl x:Name="SelectServer" 
-                                                                                 Caption="Выбрать smtp-сервер" 
-                                                                                 CaptionMinWidth="110"  Height="28" Width="400" 
-                                                                                 ItemsSource="{x:Static data:TestData.Servers}"  
-                                                                                 DisplayMemberPath="FullAddress" 
-                                                                                 SelectedIndex="0"
-                                                                                 ButtonAddClick="SelectServer_ButtonAddClick"
-                                                                                 ButtonEditClick="SelectServer_ButtonEditClick"
-                                                                                 ButtonDelClick="SelectServer_ButtonDelClick"/>                                
+                                <ToolBar Band="1" BandIndex="0">
+                                    <WpfUserControlLibrary:ComboBoxActionControl x:Name="SelectAddress" Caption="Список адресатов" ToolTip="Список получателей"
+                                                                                 CaptionMinWidth="110"  Height="28" Width="210"
+                                                                                 ItemsSource="{Binding Recipients}"  
+                                                                                 DisplayMemberPath="FullName" 
+                                                                                 SelectedValuePath="Id"
+                                                                                 ShowComboBox="False"
+                                                                                 SelectedItem="{Binding SelectedRecipient, Mode=TwoWay}"
+                                                                                 AddCommand="{Binding CreateRecipientDataCommand}"
+                                                                                 EditCommand="{Binding EditRecipientDataCommand}"
+                                                                                 DelCommand="{Binding DeleteRecipientDataCommand}"
+                                                                                 />
                                 </ToolBar>
-                                <ToolBar BandIndex="1">
+                                <ToolBar Band="1" BandIndex="1">
                                     <StackPanel Height="30" Margin="2,0" Orientation="Horizontal" VerticalAlignment="Stretch">
                                         <WpfUserControlLibrary:TabSwitcherControl x:Name="SwitchNextPrevios" Width="110" ShowButtonCaption="False" 
                                                                                   ButtonPreviousClick="SwitchNextPrevios_ButtonPreviousClick"
@@ -105,19 +145,7 @@
                                                 </StackPanel>
                                             </Button.Content>
                                         </Button>
-                                    </StackPanel>                                    
-                                </ToolBar>
-                                <ToolBar Band="1" BandIndex="3">
-                                    <WpfUserControlLibrary:ComboBoxActionControl x:Name="SelectAddress" Caption="Список адресатов" 
-                                                                                 CaptionMinWidth="110"  Height="28" Width="210"
-                                                                                 ItemsSource="{x:Static data:TestData.Recipients}"  
-                                                                                 DisplayMemberPath="FullName" 
-                                                                                 SelectedIndex="0"
-                                                                                 ShowComboBox="False"
-                                                                                 ButtonAddClick="SelectAddress_ButtonAddClick"
-                                                                                 ButtonEditClick="SelectAddress_ButtonEditClick"
-                                                                                 ButtonDelClick="SelectAddress_ButtonDelClick"
-                                                                                 />
+                                    </StackPanel>
                                 </ToolBar>
                             </ToolBarTray>
                             <DataGrid Name="dgEmails" AutoGenerateColumns="False" 
@@ -217,7 +245,7 @@
                             </Grid.ColumnDefinitions>
                             <GroupBox Grid.Column="0" Header="Письма" HorizontalContentAlignment="Stretch">
                                 <ListBox Name="MessageList" 
-                                         ItemsSource="{x:Static data:TestData.Messages}" 
+                                         ItemsSource="{Binding Messages}" 
                                          DisplayMemberPath="Subject"                                         
                                          >
                                 </ListBox>

@@ -13,6 +13,6 @@
     </Button.Style>
     <DockPanel LastChildFill="True"  FlowDirection="LeftToRight">
         <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/shutdown.png" Stretch="Uniform" DockPanel.Dock="Left"/>
-        <Label VerticalContentAlignment="Center" Margin="5" HorizontalAlignment="Center">Завершить</Label>
+        <Label VerticalContentAlignment="Center" Margin="5,0" HorizontalAlignment="Center">Завершить</Label>
     </DockPanel>
 </Button>

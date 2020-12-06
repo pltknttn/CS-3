@@ -73,15 +73,14 @@
              </Grid.ColumnDefinitions>
                 <Button x:Name="PART_ButtonAdd"  Grid.Column="0"  
                         Visibility="{Binding ElementName=PART_ComboBoxActionControl, Path=ShowButtonAdd, Converter={StaticResource BooleanToVisibility} }"  
-                        Click="btnAdd_Click"
-                        >
+                        Click="btnAdd_Click">
                         <Button.Content>
                              <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/add.png" /> 
                         </Button.Content>
                     </Button>
                 <Button x:Name="PART_ButtonEdit" Grid.Column="1" 
                         Visibility="{Binding ElementName=PART_ComboBoxActionControl, Path=ShowButtonEdit, Converter={StaticResource BooleanToVisibility} }" 
-                        Click="btnEdit_Click"
+                        Click="btnEdit_Click"                         
                         >
                     <Button.Content>
                         <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/pencil_drawing.png" />
@@ -96,7 +95,7 @@
                         </Button.Content>
                     </Button>
          </Grid>
-        <ComboBox Margin="4,0,0,0"  VerticalContentAlignment="Center"
+        <ComboBox x:Name="PART_ComboBox" Margin="4,0,0,0"  VerticalContentAlignment="Center"
                   FontFamily="{Binding ElementName=PART_ComboBoxActionControl, Path=FontFamily}"
                   FontSize="{Binding ElementName=PART_ComboBoxActionControl, Path=FontSize}"
                   DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"

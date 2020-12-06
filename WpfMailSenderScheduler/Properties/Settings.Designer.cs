@@ -25,12 +25,10 @@ namespace WpfMailSenderScheduler.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-96D0KUM\\SQL2019;Initial Catalog=MailsAndSenders;Integrated Se" +
-            "curity=True")]
-        public string MailsAndSendersConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("DataFile.xml")]
+        public string DataFileName {
             get {
-                return ((string)(this["MailsAndSendersConnectionString"]));
+                return ((string)(this["DataFileName"]));
             }
         }
         
@@ -39,9 +37,9 @@ namespace WpfMailSenderScheduler.Properties {
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-96D0KUM\\SQL2019;Initial Catalog=MailsAndSenders;Integrated Se" +
             "curity=True;Pooling=False")]
-        public string MailsAndSendersConnectionString1 {
+        public string MailsAndSendersConnectionString {
             get {
-                return ((string)(this["MailsAndSendersConnectionString1"]));
+                return ((string)(this["MailsAndSendersConnectionString"]));
             }
         }
     }

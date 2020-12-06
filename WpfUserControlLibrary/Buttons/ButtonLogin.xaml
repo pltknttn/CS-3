@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUserControlLibrary.Buttons"
         mc:Ignorable="d" 
-        Width="90" Height="30"
+        Width="100" Height="30"
         VerticalContentAlignment="Center">
     <Button.Style>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"/>
     </Button.Style> 
     <DockPanel LastChildFill="True" FlowDirection="LeftToRight">
         <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/enter.png" Stretch="Uniform" DockPanel.Dock="Left"/>
-        <Label VerticalContentAlignment="Center" Margin="5" >Войти</Label>
+        <Label VerticalContentAlignment="Center" Margin="5,0" >Войти</Label>
     </DockPanel>
 </Button>

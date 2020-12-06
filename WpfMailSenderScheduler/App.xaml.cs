@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfMailSenderScheduler.Interfaces;
@@ -18,6 +20,11 @@ namespace WpfMailSenderScheduler
     /// </summary>
     public partial class App : Application
     {
+        public static string Program = Assembly.GetExecutingAssembly().Location;
+        public static string AppDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        public static string DataFileName = Path.Combine(AppDirectory, WpfMailSenderScheduler.Properties.Settings.Default.DataFileName); 
+
+
         private static IHost _hosting;
 
         public static IHost Hosting
@@ -40,6 +47,8 @@ namespace WpfMailSenderScheduler
             services.AddTransient<IMailService, DebugMailService>();
             services.AddTransient<IMailService, SmtpMailService>();
             services.AddSingleton<MainWindowViewModel>();
+            services.AddTransient<SenderEditWindowViewModel>();
+            services.AddTransient<ServerEditWindowViewModel>();
         }
     }
     /* 

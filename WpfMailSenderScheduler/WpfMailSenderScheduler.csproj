@@ -147,6 +147,9 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -256,14 +259,25 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\ShutdowApplicationCommand.cs" />
+    <Compile Include="Data\FileWorker.cs" />
+    <Compile Include="Helpers\DialogCloser.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Interfaces\IDialogService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
     <Compile Include="Services\DebugMailService.cs" />
     <Compile Include="Services\SmtpMailService.cs" />
     <Compile Include="Services\WindowDialog.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\SenderEditWindowViewModel.cs" />
+    <Compile Include="ViewModels\ServerEditWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\SenderEditWindow.xaml.cs">
+      <DependentUpon>SenderEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServerEditWindow.xaml.cs">
+      <DependentUpon>ServerEditWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -287,6 +301,14 @@
     <Page Include="Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SenderEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServerEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

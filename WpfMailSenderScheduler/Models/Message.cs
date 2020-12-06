@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WpfMailSenderScheduler.Models
-{ 
+{
+   
     public class Message
     { 
         public int Id { get; set; } 

@@ -12,7 +12,7 @@
     </Button.Style>
     <DockPanel LastChildFill="True" FlowDirection="LeftToRight">
         <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/replay.png" Stretch="Uniform" DockPanel.Dock="Left"/>
-        <Label VerticalContentAlignment="Center" Margin="5" HorizontalContentAlignment="Center" >Повторить
+        <Label VerticalContentAlignment="Center" Margin="5,0" HorizontalContentAlignment="Center" >Повторить
         </Label>
     </DockPanel>
 </Button>

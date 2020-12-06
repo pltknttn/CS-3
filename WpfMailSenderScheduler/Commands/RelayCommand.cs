@@ -24,9 +24,10 @@ namespace WpfMailSenderScheduler.Commands
             _canExecute = canExecute;
         }
 
-        public RelayCommand(Action<object> execute):this(execute, null)
+        public RelayCommand(Action<object> execute) : this(execute, null)
         { 
-        }
+        } 
+        public RelayCommand(Action execute) : this((o) => execute(), null) { }
 
         public bool CanExecute(object parameter)
         {

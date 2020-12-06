@@ -10,5 +10,7 @@ namespace WpfMailSenderScheduler.ViewModels
     public class ViewModelLocator
     {
         public MainWindowViewModel MainWindowModel => App.Services.GetRequiredService<MainWindowViewModel>();
+        public SenderEditWindowViewModel SenderEditWindowModel => App.Services.GetRequiredService<SenderEditWindowViewModel>();
+        public ServerEditWindowViewModel ServerEditWindowModel => App.Services.GetRequiredService<ServerEditWindowViewModel>();
     }
 }

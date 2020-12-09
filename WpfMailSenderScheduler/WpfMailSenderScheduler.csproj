@@ -259,6 +259,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\ShutdowApplicationCommand.cs" />
+    <Compile Include="Converters\RtfToPlainTextConverter.cs" />
     <Compile Include="Converters\HtmlFromXamlConverter.cs" />
     <Compile Include="Converters\RtfToHtmlConverter.cs" />
     <Compile Include="Converters\XamlToPlainTextConverter.cs" />
@@ -280,7 +281,6 @@
     <Compile Include="Interfaces\IDialogService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
     <Compile Include="Interfaces\IServersStorage.cs" />
-    <Compile Include="Models\SenderTask.cs" />
     <Compile Include="Services\DataStorageInXmlFile.cs" />
     <Compile Include="Services\DebugMailService.cs" />
     <Compile Include="Services\DataStorageInMemory.cs" />
@@ -290,6 +290,7 @@
     <Compile Include="ViewModels\RecipientEditWindowViewModel.cs" />
     <Compile Include="ViewModels\SenderEditWindowViewModel.cs" />
     <Compile Include="ViewModels\ServerEditWindowViewModel.cs" />
+    <Compile Include="ViewModels\TaskEditWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\RecipientEditWindow.xaml.cs">
@@ -346,11 +347,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Email.cs" />
-    <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\Recipient.cs" />
-    <Compile Include="Models\Sender.cs" />
-    <Compile Include="Models\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using WpfMailSenderLibrary;
 using WpfMailSenderScheduler.Data;
 using WpfMailSenderScheduler.Interfaces;
-using WpfMailSenderScheduler.Models;
+using WpfMailSenderLibrary.Models;
 using WpfUserControlLibrary;
 using Microsoft.Extensions.DependencyInjection;
 

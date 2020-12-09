@@ -5,21 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfMailSenderScheduler.Models
+namespace WpfMailSenderLibrary.Models
 {
-    [Table(Name = "Message")]
-    public class Message
+    [Table(Name = "Recipient")]
+    public class Recipient
     {
         [Column]
         public int Id { get; set; }
         [Column]
-        public string Subject { get; set; }
+        public string Name { get; set; }
         [Column]
-        public string Body { get; set; }
+        public string Address { get; set; }
+
+        public string FullName { get { return $"{Name}:{Address}"; } }
 
         public override string ToString()
         {
-            return $"{Id}: {Subject}";
+            return FullName;
         }
     }
 }

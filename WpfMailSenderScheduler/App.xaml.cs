@@ -67,6 +67,7 @@ namespace WpfMailSenderScheduler
             services.AddTransient<SenderEditWindowViewModel>();
             services.AddTransient<ServerEditWindowViewModel>();
             services.AddTransient<RecipientEditWindowViewModel>();
+            services.AddTransient<TaskEditWindowViewModel>();
         }
 
         public static void ShowDialogInfo(string msg)

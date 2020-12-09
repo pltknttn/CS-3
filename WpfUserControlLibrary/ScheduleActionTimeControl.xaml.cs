@@ -39,6 +39,31 @@ namespace WpfUserControlLibrary
             }
         }
 
+        public static readonly DependencyProperty EditDateProperty =
+            DependencyProperty.Register("EditDate", typeof(bool),
+            typeof(ScheduleActionTimeControl), new UIPropertyMetadata(true));
+
+        public bool EditDate
+        {
+            get { return (bool)GetValue(EditDateProperty); }
+            set
+            {
+                SetValue(EditDateProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ShowDateProperty =
+            DependencyProperty.Register("ShowDate", typeof(bool),
+            typeof(ScheduleActionTimeControl), new UIPropertyMetadata(true));
+
+        public bool ShowDate
+        {
+            get { return (bool)GetValue(ShowDateProperty); }
+            set
+            {
+                SetValue(ShowDateProperty, value);
+            }
+        }
 
         public static readonly DependencyProperty ShowButtonDelProperty =
             DependencyProperty.Register("ShowButtonDel", typeof(bool),

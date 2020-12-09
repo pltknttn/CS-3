@@ -7,12 +7,19 @@
         xmlns:buttons="clr-namespace:WpfUserControlLibrary.Buttons;assembly=WpfUserControlLibrary" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:helpers="clr-namespace:WpfMailSenderScheduler.Helpers"  
-        xmlns:validation="clr-namespace:WpfMailSenderScheduler.Data.ValidationRules" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:formatters="clr-namespace:WpfMailSenderScheduler.Formatters"
+        xmlns:validation="clr-namespace:WpfMailSenderScheduler.Data.ValidationRules"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+        xmlns:formatters="clr-namespace:WpfMailSenderScheduler.Formatters"
+        xmlns:converters="clr-namespace:WpfUserControlLibrary.Converters;assembly=WpfUserControlLibrary"
         mc:Ignorable="d" 
         Height="550" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
-        DataContext="{Binding RecipientEditWindowModel, Source={StaticResource Locator}}"
+        DataContext="{Binding TaskEditWindowViewModel, Source={StaticResource Locator}}"
         Title="{Binding Title, Mode=TwoWay}"
         helpers:DialogCloseHelper.DialogResult="{Binding DialogResult}">
+    
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BooleanToVisibility" IsReversed="False"  UseHidden="False"/>
+    </Window.Resources>
     
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -39,28 +46,51 @@
         </Grid.Resources>
         <StackPanel  Grid.Row="0" Margin="0,6,0,3">
             <Label Content="Дата и время отправки" />
-            <xctk:DateTimePicker Format="Custom"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <xctk:DateTimePicker Grid.Column="0" Format="Custom"
+                             FormatString="dd.MM.yyyy"  
+                             TimePickerVisibility="Collapsed"  Value="{Binding SendDate}"
+                             ShowButtonSpinner="{Binding CanEditSendDate}"
+                             ShowDropDownButton="{Binding CanEditSendDate}" 
+                             AutoCloseCalendar="True" IsEnabled="{Binding CanEditSendDate}" 
+                             />
+                <xctk:TimePicker Grid.Column="1" 
+                             Format="LongTime" Value="{Binding SendDate}"
+                             FormatString="hh:mm:ss"  IsEnabled="{Binding CanEdit}"  />
+            </Grid>
+            <!--<xctk:DateTimePicker Format="Custom"  Value="{Binding SendDate}"
                                  FormatString="dd.MM.yyyy hh:mm:ss" 
                                  TimeFormat="LongTime" 
                                  TimeFormatString="hh:mm:ss"  
                                  AutoCloseCalendar="True"
-                                 />
+                                 />-->
         </StackPanel>
         <StackPanel  Grid.Row="1" Margin="0,6,0,3">
             <Label Content="Отправитель" />
-            <ComboBox x:Name="cbSender"  
+            <ComboBox x:Name="cbSender"  ItemsSource="{Binding Senders}" SelectedItem="{Binding Sender, UpdateSourceTrigger=PropertyChanged,  
+                                              NotifyOnValidationError=True}"
                      IsEnabled="{Binding CanEdit}"
+                     Style="{StaticResource NotifyStyleComboBoxError}"
                       />
         </StackPanel>
         <StackPanel  Grid.Row="2" Margin="0,3">
             <Label Content="Получатель"/>
-            <ComboBox x:Name="cbRecipient" 
-                      IsEnabled="{Binding CanEdit}"     >
+            <ComboBox x:Name="cbRecipient"  ItemsSource="{Binding Recipients}" SelectedItem="{Binding Recipient, UpdateSourceTrigger=PropertyChanged,  
+                                              NotifyOnValidationError=True}"
+                      IsEnabled="{Binding CanEdit}" 
+                      Style="{StaticResource NotifyStyleComboBoxError}" >
             </ComboBox>
         </StackPanel>
         <StackPanel  Grid.Row="3" Margin="0,3">
             <Label Content="Тема"/>
-            <TextBox x:Name="Recipient" 
+            <TextBox x:Name="teSubject" 
+                     Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged,  
+                                              NotifyOnValidationError=True}" 
+                      Style="{StaticResource NotifyStyleTextBoxError}" 
                       IsEnabled="{Binding CanEdit}">
             </TextBox>
         </StackPanel>
@@ -70,11 +100,14 @@
                 <RowDefinition Height="*"/> 
             </Grid.RowDefinitions>
             <Label Content="Тело" Grid.Row="0"/>
-            <xctk:RichTextBox x:Name="BodyEditor" Grid.Row="1"
+            <xctk:RichTextBox x:Name="teBodyEditor" Grid.Row="1" Text="{Binding Body, UpdateSourceTrigger=PropertyChanged,  
+                                              NotifyOnValidationError=True}"
                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                    AcceptsTab="True" AcceptsReturn="True"  AutoWordSelection="True"
                    HorizontalScrollBarVisibility="Auto"
                    VerticalScrollBarVisibility="Auto"
+                   IsEnabled="{Binding CanEdit}"
+                   Style="{StaticResource NotifyStyleRichError}"
                 >
                 <xctk:RichTextBox.TextFormatter>
                     <formatters:HtmlFormatter />

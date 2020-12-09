@@ -9,6 +9,18 @@ using System.Windows.Controls;
 
 namespace WpfMailSenderScheduler.Data.ValidationRules
 {
+    public static class UtilValidation
+    {
+        private static string regPattern = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+        public static bool ValidateAddress(string address, out string error)
+        {
+            error = null;
+            if (string.IsNullOrWhiteSpace(address) || Regex.IsMatch(address, regPattern, RegexOptions.IgnoreCase))
+                return true;
+            error = "Введите адрес электронной почты!";
+            return false;
+        }
+    }
     public class IntValidation : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
@@ -24,14 +36,13 @@ namespace WpfMailSenderScheduler.Data.ValidationRules
 
     public class MailValidation : ValidationRule
     {
-        private static string regPattern = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            var mail = value?.ToString();
-            if (value != null && !string.IsNullOrWhiteSpace(mail) && Regex.IsMatch(mail, regPattern, RegexOptions.IgnoreCase))
+            var address  = value?.ToString();
+            if (UtilValidation.ValidateAddress(address, out var err))
                return new ValidationResult(true, null);
             
-            return new ValidationResult(false, "Введите адрес электронной почты!"); 
+            return new ValidationResult(false, err); 
         }
     }
 

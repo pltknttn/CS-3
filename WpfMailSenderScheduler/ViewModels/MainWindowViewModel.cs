@@ -9,7 +9,7 @@ using System.Windows.Input;
 using WpfMailSenderScheduler.Commands;
 using WpfMailSenderScheduler.Data;
 using WpfMailSenderScheduler.Interfaces;
-using WpfMailSenderScheduler.Models;
+using WpfMailSenderLibrary.Models;
 using WpfMailSenderScheduler.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Controls;
@@ -46,11 +46,11 @@ namespace WpfMailSenderScheduler.ViewModels
 
         public string CountServers => (Servers?.Count??0).ToString();
 
-        private ObservableCollection<Sender> _sender;
+        private ObservableCollection<Sender> _senders;
         public ObservableCollection<Sender> Senders
         {
-            get { return _sender; }
-            set => Set(ref _sender, value);
+            get { return _senders; }
+            set => Set(ref _senders, value);
         }
 
         public string CountSenders => (Senders?.Count ?? 0).ToString();
@@ -375,8 +375,7 @@ namespace WpfMailSenderScheduler.ViewModels
                 App.ShowDialogWarn("Пустая тема письма!");
                 return;
             }
-            var xamlTextBody = string.IsNullOrWhiteSpace(message.Body) ? null : HTMLConverter.HtmlToXamlConverter.ConvertHtmlToXaml(message.Body, false);
-            var plainTextBody = string.IsNullOrWhiteSpace(xamlTextBody) ? null : Converters.XamlToPlainTextConverter.ConvertRtfToXaml(xamlTextBody);
+            var plainTextBody = Converters.RtfToPlainTextConverter.ConvertRtfToPlainText(message.Body);
             if (string.IsNullOrWhiteSpace(plainTextBody?.Trim()?.Replace("\n\r", "").Trim()))
             {
                 App.ShowDialogWarn("Пустое тело письма!");
@@ -542,18 +541,28 @@ namespace WpfMailSenderScheduler.ViewModels
 
         private ICommand _editTaskCommand;
         public ICommand EditTaskCommand => _editTaskCommand ?? (_editTaskCommand = new RelayCommand((object par) => {
+            if (SelectedTask == null)
+            {
+                App.ShowDialogWarn("Выберите задание");
+                return;
+            }
+            var senderTask = SelectedTask;
             var senderWindow = new TaskEditWindow()
             {
-                //DataContext = new SenderEditWindowViewModel(null, (s) => {
-                //    s.Id = Senders.DefaultIfEmpty().Max(x => x?.Id ?? 0) + 1;
-                //    Senders.Add(s);
-                //    _sendersStorage.Items.Add(s);
-                //    SelectedSender = s;
-                //    return true;
-                //})                 
+                DataContext = new TaskEditWindowViewModel(senderTask, (s) => {
+                    var indx = SenderTasks.IndexOf(senderTask);
+                    SenderTasks.RemoveAt(indx);
+                    SenderTasks.Insert(indx, s);
+                    SelectedTask = s;
+                    return true;
+                })
+                {
+                    Recipients = this.Recipients,
+                    Senders = this.Senders,
+                    CanEditSendDate = false
+                }
             };
             senderWindow.ShowDialog(); 
-
         }));
 
         /*

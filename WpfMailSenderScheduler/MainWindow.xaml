@@ -6,13 +6,14 @@
         xmlns:local="clr-namespace:WpfMailSenderScheduler"
         xmlns:WpfUserControlLibrary="clr-namespace:WpfUserControlLibrary;assembly=WpfUserControlLibrary" 
         x:Class="WpfMailSenderScheduler.MainWindow"
-        xmlns:data="clr-namespace:WpfMailSenderScheduler.Data"
-        xmlns:model="clr-namespace:WpfMailSenderScheduler.Models"
+        xmlns:data="clr-namespace:WpfMailSenderScheduler.Data" 
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
         xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands"      
         xmlns:formatters="clr-namespace:WpfMailSenderScheduler.Formatters" 
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:model="clr-namespace:WpfMailSenderLibrary.Models;assembly=WpfMailSenderLibrary" 
         mc:Ignorable="d" 
         Height="650" 
         Width="900" 
@@ -46,6 +47,7 @@
                                                                           AncestorType={x:Type local:MainWindow}}}"
                                                                           EditCommand="{Binding DataContext.EditTaskCommand, RelativeSource={RelativeSource FindAncestor, 
                                                                           AncestorType={x:Type local:MainWindow}}}"
+                                                                          EditDate="False"
                                                                           />
                         <StackPanel Grid.Row="1" Margin="2,6">
                             <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding RecipientName}"/>

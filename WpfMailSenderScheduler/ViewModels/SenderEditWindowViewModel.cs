@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfMailSenderScheduler.Commands;
 using WpfMailSenderScheduler.Data;
-using WpfMailSenderScheduler.Models;
+using WpfMailSenderLibrary.Models;
 
 namespace WpfMailSenderScheduler.ViewModels
 {

@@ -96,6 +96,43 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
+
+                    <Style x:Key="NotifyStyleRichError" TargetType="RichTextBox"> 
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <AdornedElementPlaceholder />
+                                        <ItemsControl Margin="2 1 2 0" FontSize="12" ItemsSource="{Binding}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Foreground="Red" Text="{Binding ErrorContent}" TextAlignment="Left" VerticalAlignment="Top" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter> 
+                    </Style>
+                    <Style x:Key="NotifyStyleComboBoxError" TargetType="ComboBox">
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <AdornedElementPlaceholder />
+                                        <ItemsControl Margin="2 1 2 0" FontSize="12" ItemsSource="{Binding}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Foreground="Red" Text="{Binding ErrorContent}" TextAlignment="Left" VerticalAlignment="Top" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

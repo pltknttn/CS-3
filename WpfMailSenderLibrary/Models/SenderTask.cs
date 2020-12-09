@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfMailSenderScheduler.Models
+namespace WpfMailSenderLibrary.Models
 {
-    public class SenderTask
+    public class SenderTask : ICloneable
     { 
         public int Id { get; set; } 
         
@@ -26,6 +26,10 @@ namespace WpfMailSenderScheduler.Models
 
         public string RecipientName => Recipient?.FullName;
 
+        public object Clone()
+        {
+            return this.MemberwiseClone() as SenderTask;
+        }
 
         public override string ToString()
         {

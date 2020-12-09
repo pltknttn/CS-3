@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfMailSenderScheduler.Commands;
 using WpfMailSenderScheduler.Data.ValidationRules;
-using WpfMailSenderScheduler.Models;
+using WpfMailSenderLibrary.Models;
 
 namespace WpfMailSenderScheduler.ViewModels
 {
@@ -29,7 +29,7 @@ namespace WpfMailSenderScheduler.ViewModels
             {
                 Set(ref _address, value);
                 RemoveError("Address");
-                if (!ValidateAddress(value, out var error)) AddError("Address", error);
+                if (!UtilValidation.ValidateAddress(value, out var error)) AddError("Address", error);
             } } 
 
         public RecipientEditWindowViewModel() : this(null) { }
@@ -80,16 +80,6 @@ namespace WpfMailSenderScheduler.ViewModels
         private ICommand loadDataCommand;
         public ICommand LoadDataCommand => loadDataCommand ?? (loadDataCommand = new RelayCommand((object par) =>
         { 
-        }));
-
-        private static string regPattern = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
-        private bool ValidateAddress(string address, out string error)
-        {
-            error = null;
-            if (string.IsNullOrWhiteSpace(address) || Regex.IsMatch(address, regPattern, RegexOptions.IgnoreCase))
-                return true;
-            error = "Введите адрес электронной почты!";
-            return false;
-        }
+        })); 
     }
 }

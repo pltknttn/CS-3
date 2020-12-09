@@ -30,12 +30,36 @@
                 <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/pencil_drawing.png" />
             </Button.Content>
         </Button>
-        <xctk:DateTimePicker Grid.Column="1" 
+        <Grid Grid.Column="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/> 
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <xctk:DateTimePicker Grid.Column="0" Format="Custom"
+                             FormatString="dd.MM.yyyy"  
+                             TimePickerVisibility="Collapsed"
+                             ShowButtonSpinner="{Binding EditDate, RelativeSource={RelativeSource FindAncestor, 
+                                 AncestorType={x:Type local:ScheduleActionTimeControl}}}"
+                             ShowDropDownButton="{Binding EditDate, RelativeSource={RelativeSource FindAncestor, 
+                                 AncestorType={x:Type local:ScheduleActionTimeControl}}}"
+                             Visibility="{Binding ElementName=PART_ScheduleActionTimeControl, Path=ShowDate, Converter={StaticResource BooleanToVisibility} }" 
+                             AutoCloseCalendar="True" IsEnabled="{Binding ElementName=PART_ScheduleActionTimeControl, Path=EditDate }" 
+                             Value="{Binding ActionDateTime, RelativeSource={RelativeSource FindAncestor, 
+                                 AncestorType={x:Type local:ScheduleActionTimeControl}}}"/>
+            <xctk:TimePicker Grid.Column="1" 
+                             Format="LongTime"
+                             FormatString="hh:mm:ss"  
+                             Value="{Binding ActionDateTime, RelativeSource={RelativeSource FindAncestor, 
+                             AncestorType={x:Type local:ScheduleActionTimeControl}}}"/>
+        </Grid>
+        
+        <!--<xctk:DateTimePicker Grid.Column="1" 
                              Format="Custom"
                              FormatString="dd.MM.yyyy hh:mm:ss" 
                              TimeFormat="LongTime" TimeFormatString="hh:mm:ss"  
+                             AutoCloseCalendar="True"
                              Value="{Binding ActionDateTime, RelativeSource={RelativeSource FindAncestor, 
-            AncestorType={x:Type local:ScheduleActionTimeControl}}}"/>
+                                 AncestorType={x:Type local:ScheduleActionTimeControl}}}"/>-->
         <Button x:Name="PART_ButtonDel"  Grid.Column="2"  
                         Visibility="{Binding ElementName=PART_ScheduleActionTimeControl, Path=ShowButtonDel, 
                               Converter={StaticResource BooleanToVisibility} }"  

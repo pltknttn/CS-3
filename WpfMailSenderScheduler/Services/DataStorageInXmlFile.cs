@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using WpfMailSenderScheduler.Interfaces;
-using WpfMailSenderScheduler.Models;
+using WpfMailSenderLibrary.Models;
 
 namespace WpfMailSenderScheduler.Services
 {

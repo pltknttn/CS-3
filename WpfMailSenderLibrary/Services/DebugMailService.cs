@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfMailSenderLibrary.Interfaces;
 
-namespace WpfMailSenderScheduler.Services
+namespace WpfMailSenderLibrary.Services
 {
     public class DebugMailService : IMailService
     {

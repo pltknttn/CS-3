@@ -12,8 +12,7 @@ using WpfMailSenderLibrary.Interfaces;
 using WpfMailSenderLibrary.Models;
 using WpfMailSenderScheduler.Views;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Controls;
-using WpfMailSenderLibrary.Interfaces;
+using System.Windows.Controls; 
 using WpfMailSenderLibrary;
 
 namespace WpfMailSenderScheduler.ViewModels

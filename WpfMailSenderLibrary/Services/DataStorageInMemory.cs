@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WpfMailSenderLibrary.Interfaces;
 using WpfMailSenderLibrary.Models;
 
-namespace WpfMailSenderScheduler.Services
+namespace WpfMailSenderLibrary.Services
 {
     public class DataStorageInMemory : IServersStorage, IRecipientsStorage, ISendersStorage, IMessagesStorage
     {

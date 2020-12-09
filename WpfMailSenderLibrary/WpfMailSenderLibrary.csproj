@@ -55,6 +55,10 @@
     <Compile Include="PasswordUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchedulerClass.cs" />
+    <Compile Include="Services\DataStorageInMemory.cs" />
+    <Compile Include="Services\DataStorageInXmlFile.cs" />
+    <Compile Include="Services\DebugMailService.cs" />
+    <Compile Include="Services\SmtpMailService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

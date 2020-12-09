@@ -5,10 +5,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using WpfMailSenderLibrary.Interfaces;
-using WpfUserControlLibrary;
+using WpfMailSenderLibrary.Interfaces; 
 
-namespace WpfMailSenderScheduler.Services
+namespace WpfMailSenderLibrary.Services
 {
     public class SmtpMailService : IMailService
     {

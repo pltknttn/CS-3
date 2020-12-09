@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfMailSenderLibrary.Interfaces;
 using WpfMailSenderScheduler.Services;
+using WpfMailSenderLibrary.Services;
 using WpfMailSenderScheduler.ViewModels;
 
 namespace WpfMailSenderScheduler

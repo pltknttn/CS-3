@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 using WpfMailSenderLibrary.Models;
 using WpfMailSenderLibrary.Interfaces;
 
-namespace WpfMailSenderScheduler.Services
+namespace WpfMailSenderLibrary.Services
 {
     public class DataStorageInXmlFile : IServersStorage, IRecipientsStorage, ISendersStorage, IMessagesStorage
     {
@@ -23,8 +23,7 @@ namespace WpfMailSenderScheduler.Services
 
         private readonly string _fileName;
 
-        public DataStorageInXmlFile(string fileName) => _fileName = fileName; 
-        public DataStorageInXmlFile() : this(App.DataFileName) { }
+        public DataStorageInXmlFile(string fileName) => _fileName = fileName;  
 
         private XmlFileDataStructure Data { get; set; } = new XmlFileDataStructure(); 
 

@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="WpfUserControlLibrary.ScheduleActionTimeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUserControlLibrary" xmlns:converters="clr-namespace:WpfUserControlLibrary.Converters" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" x:Name="PART_ScheduleActionTimeControl" 
+             d:DesignHeight="60" 
+             d:DesignWidth="500">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BooleanToVisibility" IsReversed="False"  UseHidden="False"/> 
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>            
+        </Grid.ColumnDefinitions>        
+        <Button x:Name="PART_ButtonEdit" Grid.Column="0" 
+                        Visibility="{Binding ElementName=PART_ScheduleActionTimeControl, Path=ShowButtonEdit, Converter={StaticResource BooleanToVisibility} }" 
+                        Click="btnEdit_Click" ToolTip="Редактировать"                        
+                        >
+            <Button.Content>
+                <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/pencil_drawing.png" />
+            </Button.Content>
+        </Button>
+        <xctk:DateTimePicker Grid.Column="1" 
+                             Format="Custom"
+                             FormatString="dd.MM.yyyy hh:mm:ss" 
+                             TimeFormat="LongTime" TimeFormatString="hh:mm:ss"  
+                             Value="{Binding ActionDateTime, RelativeSource={RelativeSource FindAncestor, 
+            AncestorType={x:Type local:ScheduleActionTimeControl}}}"/>
+        <Button x:Name="PART_ButtonDel"  Grid.Column="2"  
+                        Visibility="{Binding ElementName=PART_ScheduleActionTimeControl, Path=ShowButtonDel, 
+                              Converter={StaticResource BooleanToVisibility} }"  
+                        Click="btnDel_Click" ToolTip="Добавить">
+            <Button.Content>
+                <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images/minus.png" />
+            </Button.Content>
+        </Button>
+    </Grid>
+</UserControl>

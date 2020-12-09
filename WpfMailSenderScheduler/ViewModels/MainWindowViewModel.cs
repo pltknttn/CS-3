@@ -128,21 +128,20 @@ namespace WpfMailSenderScheduler.ViewModels
             get => _selectedTask;
             set => Set(ref _selectedTask, value);
         }
+         
+        private ObservableCollection<SenderTask> _senderTasks = new ObservableCollection<SenderTask>();
+        public ObservableCollection<SenderTask> SenderTasks
+        {
+            get { return _senderTasks; }
+            set => Set(ref _senderTasks, value);
+        }
 
+        /// <summary>
+        /// Загрузка
+        /// </summary>
         private ICommand loadDataCommand;
         public ICommand LoadDataCommand => loadDataCommand ?? (loadDataCommand = new RelayCommand((object par) =>
         {
-            //var dbWorker = new DBWorker();
-            //Servers = new ObservableCollection<Server>(dbWorker.Servers.ToList());
-            //Senders = new ObservableCollection<Sender>(dbWorker.Senders.ToList());
-            //Recipients = new ObservableCollection<Recipient>(dbWorker.Recipients.ToList());
-
-            //var fileWorker = FileWorker.LoadFromXml(App.DataFileName) ?? new FileWorker();
-            //Servers = new ObservableCollection<Server>(fileWorker.Servers);
-            //Senders = new ObservableCollection<Sender>(fileWorker.Senders);
-            //Recipients = new ObservableCollection<Recipient>(fileWorker.Recipients);
-            //Messages = new ObservableCollection<Message>(fileWorker.Messages);
-
             _serversStorage.Load();
             _sendersStorage.Load();
             _recipientsStorage.Load();
@@ -158,16 +157,11 @@ namespace WpfMailSenderScheduler.ViewModels
             OnPropertyChanged("CountRecipients"); 
         }));
 
+        /// <summary>
+        /// Сохранить результаты
+        /// </summary>
         private ICommand saveDataCommand;
-        public ICommand SaveDataCommand => saveDataCommand ?? (saveDataCommand = new RelayCommand((object par) => {
-            //var fileWorker = new FileWorker {
-            //    Servers = this.Servers.ToList(),
-            //    Senders = this.Senders.ToList(),
-            //    Recipients = this.Recipients.ToList(),
-            //    Messages = this.Messages.ToList()
-            //};
-            //fileWorker.SaveToXml(App.DataFileName);
-
+        public ICommand SaveDataCommand => saveDataCommand ?? (saveDataCommand = new RelayCommand((object par) => { 
             _serversStorage.SaveChanges();
             _sendersStorage.SaveChanges();
             _recipientsStorage.SaveChanges();
@@ -175,6 +169,9 @@ namespace WpfMailSenderScheduler.ViewModels
 
         }));
 
+        /// <summary>
+        /// Создать сервер
+        /// </summary>
         private ICommand createServerDataCommand;
         public ICommand CreateServerDataCommand => createServerDataCommand ?? (createServerDataCommand = new RelayCommand((object par) => {
 
@@ -238,6 +235,9 @@ namespace WpfMailSenderScheduler.ViewModels
             OnPropertyChanged("CountServers"); 
         }));
 
+        /// <summary>
+        /// Создать отправителя
+        /// </summary>
         private ICommand createSenderDataCommand;
         public ICommand CreateSenderDataCommand => createSenderDataCommand ?? (createSenderDataCommand = new RelayCommand((object par) => {
             var senderWindow = new SenderEditWindow()
@@ -465,8 +465,7 @@ namespace WpfMailSenderScheduler.ViewModels
             {
                 App.ShowDialogError("Пустое тело сообщения");
                 SelectedMessage = new Message { Subject = SelectedTask.Subject };
-                GotoTabCommand.Execute(par);//перейти во вкладку для редактирования тела письма
-                //OnPropertyChanged("SelectedMessage");
+                GotoTabCommand.Execute(par);//перейти во вкладку для редактирования тела письма 
                 return;
             }
 
@@ -497,19 +496,31 @@ namespace WpfMailSenderScheduler.ViewModels
 
         private ICommand undoTaskCommand;
         public ICommand UndoTaskCommand => undoTaskCommand ?? (undoTaskCommand = new RelayCommand((object par) => {
-            App.ShowDialogInfo("Нажата кнопка отменить задание");
+            SenderTasks.Clear();
         }));
+
+        private void AddTemplateTask()
+        {
+            /*для demo */
+            var count = SenderTasks.Count + 1;
+            var date = SelectedCalendarDate ?? DateTime.Now;
+            var newTask = new SenderTask { 
+                TaskDate = date.AddDays(-1), 
+                SendDate = date, 
+                Subject = $"Тема сообщения № {count} от {date:dd.MM.yyyy hh:mm:ss}", 
+                Body = "Тело сообщения", 
+                Recipient = SelectedRecipient, 
+                Sender = SelectedSender };      
+            SenderTasks.Add(newTask);             
+            SelectedTask = SenderTasks.LastOrDefault();           
+        }
 
         private ICommand _selectionTabChangedCommand; 
         public ICommand SelectionTabChangedCommand => _selectionTabChangedCommand ?? (_selectionTabChangedCommand = new RelayCommand((object par) => {
-            if (par is SelectionChangedEventArgs args && args.Source is TabControl tab)
+            if (par is SelectionChangedEventArgs args && args.Source is TabControl tab && (tab.SelectedItem as TabItem)?.Name == "tabScheduler")
             {
                 /*для demo */
-                var date = SelectedCalendarDate ?? DateTime.Now; 
-                SelectedTask = SelectedTask ?? new SenderTask { TaskDate = date.AddDays(-1), SendDate = date, Subject = "Тема сообщения", Body="Тело сообщения" };
-                SelectedTask.Recipient = SelectedRecipient;
-                SelectedTask.Sender = SelectedSender;
-                OnPropertyChanged("SelectedTask");
+                //AddTemplateTask();
             }
         }));
 
@@ -517,6 +528,34 @@ namespace WpfMailSenderScheduler.ViewModels
         public ICommand SaveMessageCommand => _saveMessageCommand ?? (_saveMessageCommand = new RelayCommand((object par) => {
             App.ShowDialogInfo("Нажата кнопка сохранить сообщение");
         }));
+
+        private ICommand addNewTaskCommand;
+        public ICommand AddNewTaskCommand => addNewTaskCommand ?? (addNewTaskCommand = new RelayCommand((object par) => {
+            AddTemplateTask();
+        }));
+
+        private ICommand removeTaskCommand;
+        public ICommand RemoveTaskCommand => removeTaskCommand ?? (removeTaskCommand = new RelayCommand((object par) => {
+            SenderTasks.Remove(SelectedTask);
+            SelectedTask = SenderTasks.LastOrDefault();
+        }));
+
+        private ICommand _editTaskCommand;
+        public ICommand EditTaskCommand => _editTaskCommand ?? (_editTaskCommand = new RelayCommand((object par) => {
+            var senderWindow = new TaskEditWindow()
+            {
+                //DataContext = new SenderEditWindowViewModel(null, (s) => {
+                //    s.Id = Senders.DefaultIfEmpty().Max(x => x?.Id ?? 0) + 1;
+                //    Senders.Add(s);
+                //    _sendersStorage.Items.Add(s);
+                //    SelectedSender = s;
+                //    return true;
+                //})                 
+            };
+            senderWindow.ShowDialog(); 
+
+        }));
+
         /*
          private ICommand _templateCommand;
          public ICommand TemplateCommand => _templateCommand ?? (_templateCommand = new RelayCommand((object par) => {

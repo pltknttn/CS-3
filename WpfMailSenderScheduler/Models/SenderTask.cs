@@ -29,7 +29,7 @@ namespace WpfMailSenderScheduler.Models
 
         public override string ToString()
         {
-            return $"{TaskDate:dd.MM.yyyy hh:mm:ss}: {Recipient?.FullName}";
+            return $"{SendDate:dd.MM.yyyy hh:mm:ss}: {Recipient?.FullName}";
         }
     }
 }

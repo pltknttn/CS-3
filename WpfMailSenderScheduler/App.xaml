@@ -18,7 +18,85 @@
                 <ResourceDictionary>
                     <vm:ViewModelLocator x:Key="Locator"></vm:ViewModelLocator>
                 </ResourceDictionary>
-                <ResourceDictionary Source="Theme.xaml"/> 
+                <ResourceDictionary Source="Theme.xaml"/>
+                <ResourceDictionary>
+                    <Style x:Key="DefaultTextBoxStyle" TargetType="TextBox">
+                        <Setter Property="Margin" Value="5" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+
+                    <Style x:Key="ToolTipWithErrorMessageOnErrorStyle" TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="RedBackgroundOnErrorStyle" TargetType="TextBox" BasedOn="{StaticResource ToolTipWithErrorMessageOnErrorStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="Background" Value="Red" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="CustomErrorControlOnErrorStyle" TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <AdornedElementPlaceholder x:Name="PART_AdornedElementPlaceholder" />
+                                        <TextBlock FontSize="11" FontStyle="Italic" Foreground="Red"
+                                             Text="{Binding ElementName=PART_AdornedElementPlaceholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                                        
+                    <Style x:Key="DefaultStyleTextBoxError" TargetType="{x:Type TextBox}"> 
+                        <Setter Property="MinHeight" Value="22"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="Foreground" Value="Brown" />
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="NotifyStyleTextBoxError" TargetType="TextBox">
+                        <Setter Property="Padding" Value="2 1" />
+                        <Setter Property="MinHeight" Value="22" />
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <AdornedElementPlaceholder />
+                                        <ItemsControl Margin="2 1 2 0" FontSize="12" ItemsSource="{Binding}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Foreground="Red" Text="{Binding ErrorContent}" TextAlignment="Left" VerticalAlignment="Top" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TextBox">
+                                    <StackPanel>
+                                        <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1">
+                                            <ScrollViewer x:Name="PART_ContentHost" />
+                                        </Border>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -7,12 +7,27 @@
         xmlns:buttons="clr-namespace:WpfUserControlLibrary.Buttons;assembly=WpfUserControlLibrary" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:helpers="clr-namespace:WpfMailSenderScheduler.Helpers"  
+        xmlns:validation="clr-namespace:WpfMailSenderScheduler.Data.ValidationRules"  
         mc:Ignorable="d" 
-        Height="180" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Height="185" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         SizeToContent="Height"
         DataContext="{Binding RecipientEditWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title, Mode=TwoWay}"
         helpers:DialogCloseHelper.DialogResult="{Binding DialogResult}">
+    
+    <!--<Window.Resources>
+        <ControlTemplate x:Key="ValidationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <StackPanel Orientation="Horizontal">
+                        <AdornedElementPlaceholder />
+                        <TextBlock Text="!" FontSize="18" FontWeight="Bold" Foreground="Red" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>-->
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding WindowClosingCommand}" PassEventArgsToCommand="True"/>
@@ -21,6 +36,7 @@
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    
     <Grid Margin="10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -30,22 +46,33 @@
         <Grid.Resources>
             <Style TargetType="TextBox">
                 <Setter Property="MinHeight" Value="22"></Setter>
-            </Style>
-            <Style TargetType="PasswordBox">
-                <Setter Property="MinHeight" Value="22"></Setter>
-            </Style>
+            </Style> 
         </Grid.Resources>
         <StackPanel  Grid.Row="0" Margin="0,6,0,3">
             <Label Content="Название\ФИО" />
-            <TextBox x:Name="textName" Text="{Binding Name}" IsEnabled="{Binding CanEdit}"/>
+            <TextBox x:Name="textName" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,   
+                                              ValidatesOnDataErrors=True }" 
+                     IsEnabled="{Binding CanEdit}"/>
         </StackPanel> 
         <StackPanel  Grid.Row="1" Margin="0,3">
             <Label Content="Адрес почты"/>
-            <TextBox Text="{Binding Address}" IsEnabled="{Binding CanEdit}"/>
+            <TextBox IsEnabled="{Binding CanEdit}"  
+                     Style="{StaticResource NotifyStyleTextBoxError}"
+                     Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  
+                                              NotifyOnValidationError=True}">
+                <!--<TextBox.Text>
+                    <Binding Path="Address" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" 
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <validation:MailValidation/>                     
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>-->
+            </TextBox>
         </StackPanel> 
         <StackPanel  Grid.Row="2" Orientation="Horizontal" 
                      HorizontalAlignment="Center" 
-                     VerticalAlignment="Top" Margin="0,15,0,0">
+                     VerticalAlignment="Top" Margin="0,18,0,0">
             <buttons:ButtonOk Command="{Binding DoOkCommand}" IsDefault="True"/>
             <Label Width="10"/>
             <buttons:ButtonCancel Command="{Binding DoCancelCommand}" IsCancel="True" />

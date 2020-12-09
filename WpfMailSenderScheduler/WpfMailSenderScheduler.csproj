@@ -263,6 +263,7 @@
     <Compile Include="Converters\RtfToHtmlConverter.cs" />
     <Compile Include="Converters\XamlToPlainTextConverter.cs" />
     <Compile Include="Data\FileWorker.cs" />
+    <Compile Include="Data\ValidationRules.cs" />
     <Compile Include="Formatters\HtmlFormatter.cs" />
     <Compile Include="Formatters\PlainTextFormatter.cs" />
     <Compile Include="Formatters\RtfFormatter.cs" />
@@ -300,6 +301,9 @@
     <Compile Include="Views\ServerEditWindow.xaml.cs">
       <DependentUpon>ServerEditWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TaskEditWindow.xaml.cs">
+      <DependentUpon>TaskEditWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -333,6 +337,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ServerEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TaskEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

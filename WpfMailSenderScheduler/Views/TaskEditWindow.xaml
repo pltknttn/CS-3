@@ -1,0 +1,92 @@
+﻿<Window x:Class="WpfMailSenderScheduler.Views.TaskEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMailSenderScheduler.Views" 
+        xmlns:buttons="clr-namespace:WpfUserControlLibrary.Buttons;assembly=WpfUserControlLibrary" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:helpers="clr-namespace:WpfMailSenderScheduler.Helpers"  
+        xmlns:validation="clr-namespace:WpfMailSenderScheduler.Data.ValidationRules" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:formatters="clr-namespace:WpfMailSenderScheduler.Formatters"
+        mc:Ignorable="d" 
+        Height="550" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
+        DataContext="{Binding RecipientEditWindowModel, Source={StaticResource Locator}}"
+        Title="{Binding Title, Mode=TwoWay}"
+        helpers:DialogCloseHelper.DialogResult="{Binding DialogResult}">
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding WindowClosingCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="70"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="MinHeight" Value="22"></Setter>
+            </Style>
+        </Grid.Resources>
+        <StackPanel  Grid.Row="0" Margin="0,6,0,3">
+            <Label Content="Дата и время отправки" />
+            <xctk:DateTimePicker Format="Custom"
+                                 FormatString="dd.MM.yyyy hh:mm:ss" 
+                                 TimeFormat="LongTime" 
+                                 TimeFormatString="hh:mm:ss"  
+                                 AutoCloseCalendar="True"
+                                 />
+        </StackPanel>
+        <StackPanel  Grid.Row="1" Margin="0,6,0,3">
+            <Label Content="Отправитель" />
+            <ComboBox x:Name="cbSender"  
+                     IsEnabled="{Binding CanEdit}"
+                      />
+        </StackPanel>
+        <StackPanel  Grid.Row="2" Margin="0,3">
+            <Label Content="Получатель"/>
+            <ComboBox x:Name="cbRecipient" 
+                      IsEnabled="{Binding CanEdit}"     >
+            </ComboBox>
+        </StackPanel>
+        <StackPanel  Grid.Row="3" Margin="0,3">
+            <Label Content="Тема"/>
+            <TextBox x:Name="Recipient" 
+                      IsEnabled="{Binding CanEdit}">
+            </TextBox>
+        </StackPanel>
+        <Grid  Grid.Row="4" Margin="0,3">            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /> 
+                <RowDefinition Height="*"/> 
+            </Grid.RowDefinitions>
+            <Label Content="Тело" Grid.Row="0"/>
+            <xctk:RichTextBox x:Name="BodyEditor" Grid.Row="1"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   AcceptsTab="True" AcceptsReturn="True"  AutoWordSelection="True"
+                   HorizontalScrollBarVisibility="Auto"
+                   VerticalScrollBarVisibility="Auto"
+                >
+                <xctk:RichTextBox.TextFormatter>
+                    <formatters:HtmlFormatter />
+                </xctk:RichTextBox.TextFormatter>
+            </xctk:RichTextBox>
+        </Grid>
+        <StackPanel  Grid.Row="5" Orientation="Horizontal" 
+                     HorizontalAlignment="Center" 
+                     VerticalAlignment="Top" Margin="0,18,0,0">
+            <buttons:ButtonOk Command="{Binding DoOkCommand}" IsDefault="True"/>
+            <Label Width="10"/>
+            <buttons:ButtonCancel Command="{Binding DoCancelCommand}" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

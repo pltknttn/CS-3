@@ -7,6 +7,7 @@
         xmlns:WpfUserControlLibrary="clr-namespace:WpfUserControlLibrary;assembly=WpfUserControlLibrary" 
         x:Class="WpfMailSenderScheduler.MainWindow"
         xmlns:data="clr-namespace:WpfMailSenderScheduler.Data"
+        xmlns:model="clr-namespace:WpfMailSenderScheduler.Models"
         xmlns:cmd="clr-namespace:WpfMailSenderScheduler.Commands"      
         xmlns:formatters="clr-namespace:WpfMailSenderScheduler.Formatters" 
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
@@ -22,6 +23,43 @@
     <!--<WindowChrome.WindowChrome>
         <WindowChrome  CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>-->
+    <Window.Resources>
+        <DataTemplate x:Key="ScheduleTaskTemplateItem" DataType="{x:Type model:SenderTask}">
+             <GroupBox MaxWidth="350">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5, 0" Text="Задание"/>
+                            <fa5:SvgAwesome Icon="Solid_Tasks"  
+                                            Foreground="#FF0A3470" VerticalAlignment="Center" 
+                                            HorizontalAlignment="Center" Width="16" Height="16"/>
+                        </StackPanel>
+                    </GroupBox.Header>
+                    <Grid Margin="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <WpfUserControlLibrary:ScheduleActionTimeControl  Grid.Row="0"  Height="25"  
+                                                                          BorderBrush="Gray" BorderThickness="1" 
+                                                                          ActionDateTime="{Binding SendDate}"
+                                                                          DelCommand="{Binding DataContext.RemoveTaskCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                                          AncestorType={x:Type local:MainWindow}}}"
+                                                                          EditCommand="{Binding DataContext.EditTaskCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                                          AncestorType={x:Type local:MainWindow}}}"
+                                                                          />
+                        <StackPanel Grid.Row="1" Margin="2,6">
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding RecipientName}"/>
+                            <Label Height="5"/>
+                            <TextBlock Text="{Binding Subject}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+             </GroupBox>    
+        </DataTemplate>
+        <Style TargetType="ListBox">
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+    </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
@@ -212,67 +250,74 @@
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Header="Управление" Grid.Column="1">
-                                <StackPanel Orientation="Vertical" Margin="0,3,0,0">
-                                    <GroupBox Width="400" HorizontalAlignment="Left">
-                                        <GroupBox.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Margin="5, 0" Text="Задание"></TextBlock>
-                                                <fa5:SvgAwesome Icon="Solid_Tasks" 
-                                                                Foreground="#FF0A3470" VerticalAlignment="Center" 
-                                                                HorizontalAlignment="Center" Width="16" Height="16"/>
-                                            </StackPanel>
+                                <Grid Margin="0,3,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Button x:Name="AddNewTask" Margin="2" MaxHeight="30"
+                                            Command="{Binding AddNewTaskCommand}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images\add.png" 
+                                                   Margin="10,0"/>
+                                            <TextBlock VerticalAlignment="Center" Text="Добавить письмо" Margin="10,0,15,0"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                    <ListBox  Grid.Row="1" HorizontalContentAlignment="Stretch"  
+                                                 ItemTemplate="{StaticResource ScheduleTaskTemplateItem}"
+                                                 ItemsSource="{Binding SenderTasks, Mode=TwoWay}"
+                                                 SelectedItem="{Binding SelectedTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                             
+                                     /> 
+                                    <!-- ВАРИАНТ 2
+                                     <ListView Grid.Row="1" Margin="5" Name="SenderTasks" 
+                                              ItemsSource="{Binding SenderTasks}"
+                                              SelectedItem="{Binding SelectedTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"          
+                                              > 
+                                        <ListView.View>
+                                            <GridView> 
+                                                <GridViewColumn Width="250" Header="Отправка">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <WpfUserControlLibrary:ScheduleActionTimeControl  Grid.Row="0"  Height="25"  
+                                                                          BorderBrush="Gray" BorderThickness="1" 
+                                                                          ActionDateTime="{Binding SendDate}"
+                                                                          DelCommand="{Binding DataContext.RemoveTaskCommand, RelativeSource={RelativeSource FindAncestor, 
+                                                                          AncestorType={x:Type local:MainWindow}}}"
+                                                                          />
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>                                                    
+                                                </GridViewColumn>
+                                                <GridViewColumn  Width="150" Header="Отправитель" DisplayMemberBinding="{Binding SenderName}"></GridViewColumn>
+                                                <GridViewColumn  Width="150" Header="Получатель" DisplayMemberBinding="{Binding RecipientName}"></GridViewColumn>
+                                                <GridViewColumn  Width="150" Header="Тема письма" DisplayMemberBinding="{Binding Subject}"></GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>-->
 
-                                        </GroupBox.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                            </Grid.RowDefinitions>
+                                    <!-- ВАРИАНТ 3
+                                    <ListView Grid.Row="1" Margin="5" Name="SenderTasks" 
+                                              ItemsSource="{Binding SenderTasks}"
+                                              SelectedItem="{Binding SelectedTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"          
+                                              >
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Width="500" CellTemplate="{StaticResource ScheduleTaskTemplateItem}">
 
-                                            <Grid.Resources>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Margin" Value="4, 5, 4, 1"></Setter>
-                                                </Style>
-                                            </Grid.Resources>
+                                                    <GridViewColumnHeader HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                                        <Button x:Name="AddNewTask" Margin="2" MaxHeight="30" Command="{Binding AddNewTaskCommand}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Image Source="pack://application:,,,/WpfUserControlLibrary;component/Images\add.png" 
+                                                   Margin="10,0"/>
+                                                                <TextBlock VerticalAlignment="Center" Text="Добавить письмо" Margin="10,0,15,0"></TextBlock>
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </GridViewColumnHeader> 
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>-->
 
-                                            <TextBlock  Grid.Row="0" Grid.Column="0" Text="Время"></TextBlock>
-                                            <xctk:DateTimePicker Margin="4, 5, 4, 1" Grid.Row="0" Grid.Column="1" 
-                                                                 Value="{Binding SelectedTask.SendDate}" 
-                                                                 FormatString="dd.MM.yyyy hh:mm:ss"/>
-                                            <!--<TextBlock Grid.Row="0" Grid.Column="1" Text="2020-01-01 00:00:00"></TextBlock>-->
-                                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Отправитель"></TextBlock>
-                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedTask.SenderName, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Получатель"></TextBlock>
-                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedTask.RecipientName, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-                                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Тема"></TextBlock>
-                                            <TextBlock x:Name="MessageSubject" Grid.Row="3" Grid.Column="1" 
-                                                       Text="{Binding SelectedTask.Subject}"/>
-                                            <TextBlock  Grid.Row="4" Grid.Column="0" Text="Сообщение"></TextBlock>
-                                            <!--<TextBox x:Name="MessageBody" Grid.Row="4" Grid.Column="1" 
-                                                       Text="{Binding SelectedTask.Body}"/>-->
-                                            <xctk:RichTextBox Margin="4, 5, 4, 1" x:Name="MessageBody" Grid.Row="4" Grid.Column="1" MinHeight="100"
-                                                          HorizontalAlignment="Stretch" 
-                                                          Text="{Binding SelectedTask.Body, UpdateSourceTrigger=PropertyChanged}"
-                                                          AcceptsTab="True"
-                                                          AcceptsReturn="True" 
-                                                          AutoWordSelection="True"
-                                                          HorizontalScrollBarVisibility="Auto"
-                                                          VerticalScrollBarVisibility="Auto" 
-                                                          >
-                                                <xctk:RichTextBox.TextFormatter>
-                                                    <formatters:HtmlFormatter />
-                                                </xctk:RichTextBox.TextFormatter>
-                                            </xctk:RichTextBox>
-                                        </Grid>
-                                    </GroupBox>
-                                </StackPanel>
+                                </Grid>
                             </GroupBox>
                             <GridSplitter Grid.Column="0" HorizontalAlignment="Right" Width="1"></GridSplitter>
                         </Grid>
@@ -294,9 +339,6 @@
                             <GroupBox Grid.Column="1" Header="Редактирование письма">
                                 <DockPanel LastChildFill="True" Margin="10,3,10,10">
                                     <GroupBox Header="Тема письма" DockPanel.Dock="Top" Padding="0,5,0,3">
-                                        <!--<TextBox x:Name="SubjectEditor" 
-                                                 Text="{Binding ElementName=MessageList, Path=SelectedItem.Subject, 
-                                                        UpdateSourceTrigger=PropertyChanged}"/>-->
                                         <TextBox x:Name="SubjectEditor" 
                                                  Text="{Binding SelectedMessage.Subject, 
                                                         UpdateSourceTrigger=PropertyChanged}"/>
@@ -316,19 +358,6 @@
                                         </Button>
                                     </DockPanel>
                                     <GroupBox Header="Тело письма"  Padding="0,5,0,3">
-                                        <!--<xctk:RichTextBox x:Name="BodyEditor" 
-                                                          HorizontalAlignment="Stretch" 
-                                                          Text="{Binding ElementName=MessageList, Path=SelectedItem.Body, Mode=OneWay}" 
-                                                          AcceptsTab="True"
-                                                          AcceptsReturn="True" 
-                                                          AutoWordSelection="True"
-                                                          HorizontalScrollBarVisibility="Auto"
-                                                          VerticalScrollBarVisibility="Auto"
-                                                          >
-                                            <xctk:RichTextBox.TextFormatter>
-                                                <formatters:HtmlFormatter />
-                                            </xctk:RichTextBox.TextFormatter>
-                                        </xctk:RichTextBox>-->
                                         <xctk:RichTextBox x:Name="BodyEditor" 
                                                           HorizontalAlignment="Stretch" 
                                                           Text="{Binding SelectedMessage.Body, UpdateSourceTrigger=PropertyChanged}" 

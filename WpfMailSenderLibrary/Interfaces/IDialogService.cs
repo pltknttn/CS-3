@@ -1,6 +1,6 @@
-﻿namespace WpfMailSenderScheduler.Interfaces
+﻿namespace WpfMailSenderLibrary.Interfaces
 {
-    interface IDialogService
+    public interface IDialogService
     {
         bool Show(string title, string msg);
         void ShowInfo(string msg);

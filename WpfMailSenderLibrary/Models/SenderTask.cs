@@ -17,7 +17,11 @@ namespace WpfMailSenderLibrary.Models
         public string Subject { get; set; } 
         
         public string Body { get; set; }
-        
+
+        public bool IsHtmlBody { get; set; } = true;
+
+        public Server Server { get; set; }
+
         public Sender Sender { get; set; }
 
         public string SenderName => Sender?.FullName;
@@ -25,6 +29,9 @@ namespace WpfMailSenderLibrary.Models
         public Recipient Recipient { get; set; }
 
         public string RecipientName => Recipient?.FullName;
+
+        public bool IsSendEnd { get; set; } 
+        public string ErrorSend { get; set; }
 
         public object Clone()
         {

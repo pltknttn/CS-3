@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using WpfMailSenderScheduler.Interfaces;
+using WpfMailSenderLibrary.Interfaces;
 using WpfMailSenderScheduler.Services;
 using WpfMailSenderScheduler.ViewModels;
 

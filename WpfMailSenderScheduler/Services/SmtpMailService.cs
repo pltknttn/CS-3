@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using WpfMailSenderScheduler.Interfaces;
+using WpfMailSenderLibrary.Interfaces;
 using WpfUserControlLibrary;
 
 namespace WpfMailSenderScheduler.Services
@@ -35,7 +35,7 @@ namespace WpfMailSenderScheduler.Services
             Password = password;
         }
 
-        public void Send(string from, string recipient, string subject, string body, bool isBodyHtml)
+        public string Send(string from, string recipient, string subject, string body, bool isBodyHtml)
         {
             try
             {
@@ -61,8 +61,9 @@ namespace WpfMailSenderScheduler.Services
             }
             catch (Exception ex)
             {
-                Dialog.ShowException("Отправка письма", ex.InnerException?.Message ?? ex.Message); 
-            } 
+                return ex.InnerException?.Message ?? ex.Message; 
+            }
+            return null;
         }
     }
 }

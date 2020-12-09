@@ -278,9 +278,6 @@
     <Compile Include="HtmlXamlConversion\htmlschema.cs" />
     <Compile Include="HtmlXamlConversion\htmltokentype.cs" />
     <Compile Include="HtmlXamlConversion\htmltoxamlconverter.cs" />
-    <Compile Include="Interfaces\IDialogService.cs" />
-    <Compile Include="Interfaces\IMailService.cs" />
-    <Compile Include="Interfaces\IServersStorage.cs" />
     <Compile Include="Services\DataStorageInXmlFile.cs" />
     <Compile Include="Services\DebugMailService.cs" />
     <Compile Include="Services\DataStorageInMemory.cs" />

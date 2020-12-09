@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfMailSenderScheduler.Commands;
 using WpfMailSenderScheduler.Data;
-using WpfMailSenderScheduler.Interfaces;
+using WpfMailSenderLibrary.Interfaces;
 using WpfMailSenderLibrary.Models;
 using WpfMailSenderScheduler.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Controls;
+using WpfMailSenderLibrary.Interfaces;
+using WpfMailSenderLibrary;
 
 namespace WpfMailSenderScheduler.ViewModels
 {
@@ -344,6 +346,7 @@ namespace WpfMailSenderScheduler.ViewModels
             };
             recipientWindow.ShowDialog();
             OnPropertyChanged("CountRecipients");
+            OnPropertyChanged("CountRecipients");
         }));
         
         private ICommand deleteRecipientDataCommand;
@@ -490,7 +493,27 @@ namespace WpfMailSenderScheduler.ViewModels
 
         private ICommand saveTaskCommand;
         public ICommand SaveTaskCommand => saveTaskCommand ?? (saveTaskCommand = new RelayCommand((object par) => {
-            App.ShowDialogInfo("Нажата кнопка запланировать задание");
+
+            if ((SenderTasks?.Count??0) == 0)
+            {
+                App.ShowDialogError("Список заданий пуст");
+                return;
+            }
+            foreach (var task in SenderTasks)
+            {
+                task.IsSendEnd = false;
+                task.ErrorSend = null;
+            }
+            var sc = new SchedulerClass();
+            var list = SenderTasks.ToList();
+            sc.SendTask(list, _mailService);
+            App.ShowDialogInfo($"Выполнение заданий завешено! Выполнено {list.Sum(s=>s.IsSendEnd ? 1 : 0)} заданий.");
+
+            SenderTasks = new ObservableCollection<SenderTask>(list);
+            OnPropertyChanged("SenderTasks");
+
+            SelectedTask = SenderTasks.FirstOrDefault();
+            OnPropertyChanged("SelectedTask"); 
         }));
 
         private ICommand undoTaskCommand;
@@ -509,7 +532,9 @@ namespace WpfMailSenderScheduler.ViewModels
                 Subject = $"Тема сообщения № {count} от {date:dd.MM.yyyy hh:mm:ss}", 
                 Body = "Тело сообщения", 
                 Recipient = SelectedRecipient, 
-                Sender = SelectedSender };      
+                Sender = SelectedSender,
+                Server = Servers?.FirstOrDefault(x => x.Address == SelectedSender?.Address)
+            };      
             SenderTasks.Add(newTask);             
             SelectedTask = SenderTasks.LastOrDefault();           
         }
@@ -551,6 +576,7 @@ namespace WpfMailSenderScheduler.ViewModels
             {
                 DataContext = new TaskEditWindowViewModel(senderTask, (s) => {
                     var indx = SenderTasks.IndexOf(senderTask);
+                    s.Server = Servers?.FirstOrDefault(x => x.Address == s.Sender.Address);
                     SenderTasks.RemoveAt(indx);
                     SenderTasks.Insert(indx, s);
                     SelectedTask = s;

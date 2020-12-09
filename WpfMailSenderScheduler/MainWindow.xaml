@@ -14,17 +14,16 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:model="clr-namespace:WpfMailSenderLibrary.Models;assembly=WpfMailSenderLibrary" 
+        xmlns:converters="clr-namespace:WpfUserControlLibrary.Converters;assembly=WpfUserControlLibrary"
         mc:Ignorable="d" 
         Height="650" 
         Width="900" 
         WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}" 
-        >
-    <!--<WindowChrome.WindowChrome>
-        <WindowChrome  CaptionHeight="0" ResizeBorderThickness="5" />
-    </WindowChrome.WindowChrome>-->
+        > 
     <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BooleanToVisibility" IsReversed="False"  UseHidden="False"/> 
         <DataTemplate x:Key="ScheduleTaskTemplateItem" DataType="{x:Type model:SenderTask}">
              <GroupBox MaxWidth="350">
                     <GroupBox.Header>
@@ -39,10 +38,11 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <WpfUserControlLibrary:ScheduleActionTimeControl  Grid.Row="0"  Height="25"  
                                                                           BorderBrush="Gray" BorderThickness="1" 
-                                                                          ActionDateTime="{Binding SendDate}"
+                                                                          ActionDateTime="{Binding SendDate, Mode=TwoWay}"
                                                                           DelCommand="{Binding DataContext.RemoveTaskCommand, RelativeSource={RelativeSource FindAncestor, 
                                                                           AncestorType={x:Type local:MainWindow}}}"
                                                                           EditCommand="{Binding DataContext.EditTaskCommand, RelativeSource={RelativeSource FindAncestor, 
@@ -51,16 +51,33 @@
                                                                           />
                         <StackPanel Grid.Row="1" Margin="2,6">
                             <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding RecipientName}"/>
-                            <Label Height="5"/>
-                            <TextBlock Text="{Binding Subject}" TextWrapping="Wrap"/>
+                                <Label Height="5"/>
+                            <TextBlock Text="{Binding Subject, Mode=TwoWay}" TextWrapping="Wrap"/>
                         </StackPanel>
-                    </Grid>
+                        <StackPanel Grid.Row="2" Margin="2,6" >
+                        <CheckBox IsChecked="{Binding IsSendEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                           Content="Отправка" IsEnabled="False" FontSize="14" Foreground="Brown">
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground" Value="Brown"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
+                                <Label Height="1"/>
+                                <TextBlock Text="{Binding ErrorSend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" MaxHeight="200" Foreground="Red" FontSize="16"/>
+                        </StackPanel>
+                </Grid>
              </GroupBox>    
         </DataTemplate>
         <Style TargetType="ListBox">
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         </Style>
+
     </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -267,7 +284,7 @@
                                     </Button>
                                     <ListBox  Grid.Row="1" HorizontalContentAlignment="Stretch"  
                                                  ItemTemplate="{StaticResource ScheduleTaskTemplateItem}"
-                                                 ItemsSource="{Binding SenderTasks, Mode=TwoWay}"
+                                                 ItemsSource="{Binding SenderTasks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  SelectedItem="{Binding SelectedTask, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                             
                                      /> 
                                     <!-- ВАРИАНТ 2

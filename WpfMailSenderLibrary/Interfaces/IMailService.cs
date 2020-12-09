@@ -1,4 +1,5 @@
-﻿ namespace WpfMailSenderScheduler.Interfaces
+﻿
+namespace WpfMailSenderLibrary.Interfaces
 {
     public interface IMailService
     {
@@ -7,6 +8,6 @@
 
     public interface IMailSender
     {
-        void Send(string from, string recipient, string subject, string body, bool isBodyHtml);
+        string Send(string from, string recipient, string subject, string body, bool isBodyHtml); 
     }
 }

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfMailSenderScheduler.Interfaces;
+using WpfMailSenderLibrary.Interfaces;
 
 namespace WpfMailSenderScheduler.Services
 {
@@ -33,11 +33,12 @@ namespace WpfMailSenderScheduler.Services
             Password = password;
         }
 
-        public void Send(string from, string recipient, string subject, string body, bool isBodyHtml)
+        public string Send(string from, string recipient, string subject, string body, bool isBodyHtml)
         {
             Debug.WriteLine($"Send from={from} to={recipient}");
             Debug.WriteLine($"Subject={subject}");
             Debug.WriteLine($"Body{(isBodyHtml?"HTML":"")}={body}");
+            return null;
         }
     }
 }

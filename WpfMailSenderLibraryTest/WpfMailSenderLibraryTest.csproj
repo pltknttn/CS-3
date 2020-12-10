@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="PasswordUtilsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchedulerClassTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

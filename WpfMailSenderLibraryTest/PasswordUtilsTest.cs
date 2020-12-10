@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics;
 using WpfMailSenderScheduler.Data;
 
 namespace WpfMailSenderLibraryTest
@@ -12,6 +13,7 @@ namespace WpfMailSenderLibraryTest
         [TestInitialize]
         public void TestPrepare()
         {
+            Debug.WriteLine("TestPrepare");
             testStr = "abcd";
         } 
 
@@ -36,7 +38,7 @@ namespace WpfMailSenderLibraryTest
         { 
             const string expectedDecodePassword = "";
             var result = PasswordUtils.Decode(testStr);
-            Assert.AreEqual(expectedDecodePassword, result);
+            Assert.AreEqual(expectedDecodePassword, result); 
         }
 
         [TestMethod]
@@ -44,7 +46,7 @@ namespace WpfMailSenderLibraryTest
         { 
             const string expectedDecodePassword = "`abc";
             var result = PasswordUtils.Encode(testStr);
-            Assert.AreEqual(expectedDecodePassword,result);
+            Assert.AreEqual(expectedDecodePassword,result, "Корректный результат"); 
         }
 
         [TestMethod]
@@ -52,7 +54,21 @@ namespace WpfMailSenderLibraryTest
         {
             const string expectedDecodePassword = "abca";
             var result = PasswordUtils.Encode(testStr);
-            Assert.AreEqual(expectedDecodePassword, result);
+            Assert.AreEqual(expectedDecodePassword, result, "Значения не совпали"); 
+        }
+
+        [TestMethod]
+        public void TestEncodPassword_Error_v2()
+        {
+            const string expectedDecodePassword = "abca";
+            var result = PasswordUtils.Encode(testStr); 
+            StringAssert.Contains(expectedDecodePassword, result); 
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            Debug.WriteLine("Clenup");
         }
     }
 }

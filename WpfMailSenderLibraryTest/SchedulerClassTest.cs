@@ -20,6 +20,8 @@ namespace WpfMailSenderLibraryTest
         [TestInitialize]
         public void TestPrepare()
         {
+            Debug.WriteLine("TestPrepare");
+
             senderTasks = Enumerable.Range(1, 20).Select(s => new SenderTask
             {
                 SendDate = DateTime.Now.AddSeconds(30),
@@ -67,6 +69,12 @@ namespace WpfMailSenderLibraryTest
             var countExpected = 0;
             var countSend = senderTasks.Sum(x => x.IsSendEnd ? 1 : 0);
             Assert.AreEqual(countExpected, countSend);
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        { 
+            Debug.WriteLine("Clenup"); 
         }
     }
 }

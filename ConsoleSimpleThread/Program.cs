@@ -13,12 +13,14 @@ namespace ConsoleSimpleThread
         {
             FamiliarityAtCurrentThread();
             //ThreadTimer();
-            ParametrizedThreadTimer();
+            //ParametrizedThreadTimer();
+            StopThreadTime();
 
+            Console.WriteLine("\n\rExit key = N");
 
-            Console.WriteLine("Exit key = N");
-
-            while (Console.ReadKey().KeyChar != 'N') { Console.WriteLine(); }
+            while (Console.ReadKey().KeyChar != 'N') { 
+                Console.WriteLine(); 
+            }
 
             Console.WriteLine("\n\rExit...");
             Thread.Sleep(1000);
@@ -36,11 +38,19 @@ namespace ConsoleSimpleThread
         static void PrintTime(object text)
         {
             var currentDateTime = DateTime.Now;
-            while (true)
+            while (!threadStop)
             {
-                Console.Title = $"{currentDateTime:dd.MM.yyyy HH:mm:ss.fff} {text}";
-                Thread.Sleep(100);
-                currentDateTime = DateTime.Now;
+                try
+                {
+                    Console.Title = $"{currentDateTime:dd.MM.yyyy HH:mm:ss.fff} {text}";                
+                    Thread.Sleep(100);                
+                    currentDateTime = DateTime.Now;
+                }
+                catch 
+                {
+                    Console.WriteLine("Thread stop");
+                    break;
+                }
             }
         }
 
@@ -61,6 +71,35 @@ namespace ConsoleSimpleThread
                 IsBackground = true
             };
             timer.Start("Hello!");
+        }
+
+        static void ThreadTime()
+        {
+            var time = new Time("Hello!", 200);
+            var timer = new Thread(time.Print) { IsBackground = true };
+            timer.Start();
+        }
+
+        static bool threadStop = false;
+        static void StopThreadTime()
+        {
+            var timer = new Thread(() => PrintTime(string.Empty))
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Highest
+            };
+            timer.Start();
+
+            while (true) {
+                if(Console.ReadKey().KeyChar == 'S')
+                {
+                    //timer.Abort();                   
+                    //timer.Interrupt();
+                    threadStop = true;
+                    break;
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

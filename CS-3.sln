@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfMailSenderLibraryTest", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleSimpleThread", "ConsoleSimpleThread\ConsoleSimpleThread.csproj", "{A3F0D0B3-17C1-4213-A378-6B8D739837CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleThreadMath", "ConsoleThreadMath\ConsoleThreadMath.csproj", "{9BFF3793-499C-4AB5-AF34-82C9E1DF8A68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{A3F0D0B3-17C1-4213-A378-6B8D739837CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3F0D0B3-17C1-4213-A378-6B8D739837CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3F0D0B3-17C1-4213-A378-6B8D739837CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BFF3793-499C-4AB5-AF34-82C9E1DF8A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BFF3793-499C-4AB5-AF34-82C9E1DF8A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BFF3793-499C-4AB5-AF34-82C9E1DF8A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BFF3793-499C-4AB5-AF34-82C9E1DF8A68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

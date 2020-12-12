@@ -1,0 +1,45 @@
+﻿<Window x:Class="WpfConverterCsvToTxt.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfConverterCsvToTxt" xmlns:wpfusercontrollibrary="clr-namespace:WpfUserControlLibrary;assembly=WpfUserControlLibrary"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
+        Title="{Binding Title}" 
+        Height="310" Width="700"
+        FontFamily="Arial"
+        FontSize="14"
+        >
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label Content="Выберите csv файл для конвертации:" FontWeight="Bold"/>
+            <wpfusercontrollibrary:FileChooserControl Filter="csv files (*.csv)|*.csv" 
+                                                      File="{Binding FileFrom, Mode=TwoWay}" 
+                                                      IsEnabled="{Binding IsFileFromEnabled}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <Label Content="Выберите txt файл для сохранения результатов:" FontWeight="Bold"/>
+            <wpfusercontrollibrary:FileChooserControl IsSaveDialog="True"  Filter="txt files (*.txt)|*.txt" 
+                                                      File="{Binding FileTo, Mode=TwoWay}"
+                                                      IsEnabled="{Binding IsFileToEnabled}"/>
+        </StackPanel> 
+        <StackPanel Grid.Row="2" Margin="0,10">
+            <ProgressBar MinHeight="30" Value="{Binding ProgressValue}"/>
+            <Label Content="{Binding ResultLabel}" />
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" 
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" Height="40">
+            <Button Content="Конвертировать" Width="120" Margin="5,0" Command="{Binding StartCommand}" IsEnabled="{Binding IsButtonConvertEnabled}"/>
+            <Button Content="СТОП" Width="100" Margin="5,0" Command="{Binding StopCommand}" IsEnabled="{Binding IsButtonStopEnabled}"/>
+            <Button Content="Отмена" Width="100" Margin="5,0" Command="{Binding CloseCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -12,8 +12,10 @@ namespace ConsoleSimpleThread
         static void Main(string[] args)
         {
             FamiliarityAtCurrentThread();
-            ThreadTimer();
-            
+            //ThreadTimer();
+            ParametrizedThreadTimer();
+
+
             Console.WriteLine("Exit key = N");
 
             while (Console.ReadKey().KeyChar != 'N') { Console.WriteLine(); }
@@ -31,12 +33,12 @@ namespace ConsoleSimpleThread
             Console.WriteLine($"id={currentThread.ManagedThreadId}, name={currentThread.Name} priority={currentThread.Priority}");
         }
 
-        static void PrintTime()
+        static void PrintTime(object text)
         {
             var currentDateTime = DateTime.Now;
             while (true)
             {
-                Console.Title = $"{currentDateTime:dd.MM.yyyy HH:mm:ss.fff}";
+                Console.Title = $"{currentDateTime:dd.MM.yyyy HH:mm:ss.fff} {text}";
                 Thread.Sleep(100);
                 currentDateTime = DateTime.Now;
             }
@@ -44,12 +46,21 @@ namespace ConsoleSimpleThread
 
         static void ThreadTimer()
         {
-            var timer = new Thread(new ThreadStart(PrintTime))
+            var timer = new Thread(new ThreadStart(() => PrintTime(string.Empty)))
             {
                 IsBackground = true,
                 Priority = ThreadPriority.Highest
             };
             timer.Start();
+        }
+
+        static void ParametrizedThreadTimer()
+        {
+            var timer = new Thread(new ParameterizedThreadStart(PrintTime))
+            {
+                IsBackground = true
+            };
+            timer.Start("Hello!");
         }
     }
 }

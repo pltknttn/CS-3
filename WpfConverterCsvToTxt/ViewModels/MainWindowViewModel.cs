@@ -156,7 +156,7 @@ namespace WpfConverterCsvToTxt.ViewModels
             } 
         }
 
-        private bool WriteStudent(string fileName, List<string> list, BackgroundWorker worker, DoWorkEventArgs doWorkEvent)
+        private bool WriteCsv(string fileName, List<string> list, BackgroundWorker worker, DoWorkEventArgs doWorkEvent)
         {
             if (worker.CancellationPending) return false;
 
@@ -194,7 +194,7 @@ namespace WpfConverterCsvToTxt.ViewModels
         private bool ConverterCsvToTxt(string fileFrom, string fileTo, BackgroundWorker worker, DoWorkEventArgs e)
         {
             if(LoadCsv(fileFrom, worker, e, out var list))             
-                return WriteStudent(fileTo, list, worker, e);
+                return WriteCsv(fileTo, list, worker, e);
             return true;
         }
 

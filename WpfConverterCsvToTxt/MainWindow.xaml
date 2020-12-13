@@ -39,7 +39,7 @@
                     HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" Height="40">
             <Button Content="Конвертировать" Width="120" Margin="5,0" Command="{Binding StartCommand}" IsEnabled="{Binding IsButtonConvertEnabled}"/>
             <Button Content="СТОП" Width="100" Margin="5,0" Command="{Binding StopCommand}" IsEnabled="{Binding IsButtonStopEnabled}"/>
-            <Button Content="Отмена" Width="100" Margin="5,0" Command="{Binding CloseCommand}"/>
+            <Button Content="Закрыть" Width="120" Margin="5,0" Command="{Binding CloseCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

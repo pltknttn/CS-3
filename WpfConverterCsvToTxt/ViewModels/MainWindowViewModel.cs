@@ -36,8 +36,7 @@ namespace WpfConverterCsvToTxt.ViewModels
         private double _progressValue = 0;
         public double ProgressValue { get => _progressValue; set => Set(ref _progressValue, value); }
          
-        private int highestPercentageReached = 0;
-        //private int numberToCompute = 0;
+        private int highestPercentageReached = 0; 
         private BackgroundWorker backgroundWorker = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation =true};
 
         public MainWindowViewModel()

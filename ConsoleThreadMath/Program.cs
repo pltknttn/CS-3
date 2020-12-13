@@ -50,7 +50,7 @@ namespace ConsoleThreadMath
                     Console.WriteLine($"\n\rСуммаЧисел({n}) = {sum}");
                     currentCursorPosition++;
                 }
-            }) { IsBackground = true, Priority = ThreadPriority.AboveNormal, Name = "СуммаЧисел" };
+            }) { IsBackground = true, Priority = ThreadPriority.BelowNormal, Name = "СуммаЧисел" };
 
             bool startThread = false;
             bool isCalc = true;

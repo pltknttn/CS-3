@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleThreadMath", "Consol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfConverterCsvToTxt", "WpfConverterCsvToTxt\WpfConverterCsvToTxt.csproj", "{639FFE05-99B2-4B49-ADD6-DFF0BB225E55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleConverterCsvToTxt", "ConsoleConverterCsvToTxt\ConsoleConverterCsvToTxt.csproj", "{E88A8956-EE1A-483A-9F14-176308E2F703}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{639FFE05-99B2-4B49-ADD6-DFF0BB225E55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{639FFE05-99B2-4B49-ADD6-DFF0BB225E55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{639FFE05-99B2-4B49-ADD6-DFF0BB225E55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E88A8956-EE1A-483A-9F14-176308E2F703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E88A8956-EE1A-483A-9F14-176308E2F703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E88A8956-EE1A-483A-9F14-176308E2F703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E88A8956-EE1A-483A-9F14-176308E2F703}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

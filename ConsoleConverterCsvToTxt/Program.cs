@@ -68,17 +68,21 @@ namespace ConsoleConverterCsvToTxt
             var threadWrite = new Thread((p) =>
             {                
                 while (threadRead.IsAlive) 
-                { 
+                {
+                    Thread.Sleep(100);
                     //ждем пока считает данные
                 }
-                var fileName = p as string;
-                var result = WriteCsv(fileName, lists, out var error)? $"Успешно" : "Не успешно";
-                lock (lockConsole)
+                lock (lockLists)
                 {
-                    Console.SetCursorPosition(0, currentCursorPosition++);
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"\n\rЗапись в файл {fileName} завершена = {result}:{error}".TrimEnd(':'));
-                    currentCursorPosition++;
+                    var fileName = p as string;
+                    var result = WriteCsv(fileName, lists, out var error) ? $"Успешно" : "Не успешно";
+                    lock (lockConsole)
+                    {
+                        Console.SetCursorPosition(0, currentCursorPosition++);
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine($"\n\rЗапись в файл {fileName} завершена = {result}:{error}".TrimEnd(':'));
+                        currentCursorPosition++;
+                    }
                 }
             })
             { IsBackground = true, Priority = ThreadPriority.BelowNormal, Name = "Запись" };
@@ -138,8 +142,7 @@ namespace ConsoleConverterCsvToTxt
         }
 
         private static bool LoadCsv(string filename, out List<string> list, out string error)
-        {
-            Thread.Sleep(1000);
+        {           
             error = string.Empty;
             list = new List<string>();
             StreamReader sr = null; 
@@ -150,6 +153,7 @@ namespace ConsoleConverterCsvToTxt
                 {
                     try
                     {
+                        Thread.Sleep(10);
                         list.Add(sr.ReadLine()); 
                     }
                     catch (Exception e)
@@ -173,14 +177,14 @@ namespace ConsoleConverterCsvToTxt
 
         private static bool WriteCsv(string fileName, List<string> lists, out string error)
         {
-            Thread.Sleep(1000);
             error = string.Empty;
             StreamWriter sr = null;
             try
             {
                 sr = new StreamWriter(fileName);
                 foreach (string l in lists)
-                { 
+                {
+                    Thread.Sleep(10);
                     sr.WriteLine(l);
                 }
                 return true;

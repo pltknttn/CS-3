@@ -38,8 +38,7 @@ namespace ConsoleFileTask
               .ContinueWith(o =>
             {
                 Console.WriteLine($"ReadDir Result: \n\r{o.Result} files");
-            });
-
+            }); 
             var taskParseFile = Task.Run(() =>
             {
                 var stringBuilder = new StringBuilder();
@@ -50,8 +49,13 @@ namespace ConsoleFileTask
                 return stringBuilder.ToString();
             })
                 .ContinueWith(o =>
-            {
+            {                
                 Console.WriteLine($"ParseFile Result: \n\r{o.Result}");
+
+                var filepath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\result.dat";
+                File.WriteAllText(filepath, o.Result);
+                
+                Console.WriteLine($"Save result to file '{filepath}'");
             });
                        
             Task.WaitAll(taskReadDir, taskParseFile);

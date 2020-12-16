@@ -10,7 +10,13 @@
         Height="400" Width="900" ResizeMode="CanResizeWithGrip" 
         WindowStartupLocation="CenterScreen" 
         WindowStyle="ToolWindow">
-    <Grid Margin="3">        
+    <Grid Margin="3">
+        <Grid.Resources>
+            <Style TargetType="DataGrid">
+                <Setter Property="CanUserAddRows" Value="False"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>

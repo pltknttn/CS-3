@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Entity.cs" />
+    <Compile Include="Data\MailsAndSendersInitializer.cs" />
     <Compile Include="Data\Message.cs" />
     <Compile Include="Data\Recipient.cs" />
     <Compile Include="Data\Sender.cs" />

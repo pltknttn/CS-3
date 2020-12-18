@@ -16,8 +16,8 @@ namespace EFEmailsDb
         public MailsAndSendersDb()
             : base("name=MailsAndSendersDb")
         {
+            Database.SetInitializer<MailsAndSendersDb>(new MailsAndSendersInitializer());
         }
-
 
         public virtual DbSet<Server> Servers { get; set; }
         public virtual DbSet<Sender> Senders { get; set; }

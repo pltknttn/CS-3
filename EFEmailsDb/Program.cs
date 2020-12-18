@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFEmailsDb.Data;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -10,12 +11,15 @@ namespace EFEmailsDb
     public class Program
     {
         public static void Main()
-        {
-            // Эта настройка нужна для того, чтобы база данных автоматически
-            // удалялась и заново создавалась при изменении структуры модели
-            // (чтобы было удобно тестировать примеры)
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MailsAndSendersDb>()); 
-            Console.ReadLine();
+        {            
+            using (var ctx = new MailsAndSendersDb())
+            {
+                var sender = new Sender() {Name = "DemoTest", Address="demo@test.eu"};
+                ctx.Senders.Add(sender);
+                ctx.SaveChanges();
+            }
+            Console.WriteLine("Demo completed.");
+            Console.ReadLine(); 
         }
     }
 }

@@ -15,5 +15,7 @@ namespace EFEmailsDb.Data
 
         [Column, MaxLength(500)]
         public string Description { get; set; }
+
+        public ICollection<MessageRecipient> MessageRecipients { get; set; }
     }
 }

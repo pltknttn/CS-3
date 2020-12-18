@@ -27,6 +27,8 @@ namespace EFEmailsDb.Data
 
         [Required, Column(TypeName = "int"), EnumDataType(typeof(ServerKind))]
         public ServerKind ServerKind { get; set; }
+
+        public ICollection<Task> Tasks { get; set; }
     }
 
     public enum ServerKind : int

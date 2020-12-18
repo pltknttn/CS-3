@@ -14,8 +14,7 @@ namespace EFEmailsDb
             // Эта настройка нужна для того, чтобы база данных автоматически
             // удалялась и заново создавалась при изменении структуры модели
             // (чтобы было удобно тестировать примеры)
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MailsAndSendersDb>());
-
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MailsAndSendersDb>()); 
             Console.ReadLine();
         }
     }

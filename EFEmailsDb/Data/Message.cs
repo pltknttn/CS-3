@@ -34,8 +34,9 @@ namespace EFEmailsDb.Data
         public DateTime? ReceivedDate { get; set; }
 
         public Sender Sender { get; set; }
-        public ICollection<MessageRecipient> Recipients { get; set; }
-        public ICollection<MessageAttachment> Attachments { get; set; }
+        public ICollection<MessageRecipient> MessageRecipients { get; set; }
+        public ICollection<MessageAttachment> MessageAttachments { get; set; }
+        public ICollection<TaskMessage> TaskMessages { get; set; }
     }
 
 

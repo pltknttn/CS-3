@@ -15,5 +15,7 @@ namespace EFEmailsDb.Data
 
         [Column, StringLength(500)]
         public string Description { get; set; }
+
+        public ICollection<Message> Messages { get; set; }
     }
 }

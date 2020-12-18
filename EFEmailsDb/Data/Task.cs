@@ -11,7 +11,7 @@ namespace EFEmailsDb.Data
     public class Task : NamedEntity
     {
         [Required, Column(TypeName = "int"), EnumDataType(typeof(TaskKind))]
-        public TaskKind TaskKind { get; set; }
+        public TaskKind TaskKind { get; set; } = TaskKind.Send;
 
         [Column, Required, ForeignKey("Server")]
         public int ServerId { get; set; }
@@ -23,13 +23,13 @@ namespace EFEmailsDb.Data
         public DateTime? RunDate { get; set; }
 
         [Required, Column(TypeName = "int"), EnumDataType(typeof(TaskState))]
-        public TaskState TaskState { get; set; }
+        public TaskState TaskState { get; set; } = TaskState.None;
 
         [Column, Required]
         public int Attempt { get; set; }
 
         public Server Server { get; set; }
-        public ICollection<TaskMessage> Messages { get; set; }
+        public ICollection<TaskMessage> TaskMessages { get; set; }
     }
 
     public enum TaskKind

@@ -57,7 +57,7 @@ namespace WpfCalcMatrixAB
             {
                 for (int j = 0; j < s; j++)
                 {                    
-                    a[i, j] = random.Next(0,10);
+                    a[i, j] = random.Next(0,11);
                 }
             });
         }

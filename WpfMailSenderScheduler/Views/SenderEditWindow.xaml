@@ -8,61 +8,59 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:helpers="clr-namespace:WpfMailSenderScheduler.Helpers"  
         mc:Ignorable="d" 
-        Height="280" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Height="185" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         SizeToContent="Height"
         DataContext="{Binding SenderEditWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title, Mode=TwoWay}"
         helpers:DialogCloseHelper.DialogResult="{Binding DialogResult}">
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing"> 
+        <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding WindowClosingCommand}" PassEventArgsToCommand="True"/>
         </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+
     <Grid Margin="10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" MinHeight="70"/>
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <Style TargetType="TextBox"> 
-                <Setter Property="MinHeight" Value="22"></Setter>
-            </Style>
-            <Style TargetType="PasswordBox">
+            <Style TargetType="TextBox">
                 <Setter Property="MinHeight" Value="22"></Setter>
             </Style>
         </Grid.Resources>
         <StackPanel  Grid.Row="0" Margin="0,6,0,3">
             <Label Content="Название\ФИО" />
-            <TextBox x:Name="textName" Text="{Binding Name}" IsEnabled="{Binding CanEdit}"/>
+            <TextBox x:Name="textName" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,   
+                                              ValidatesOnDataErrors=True }" 
+                     IsEnabled="{Binding CanEdit}"/>
         </StackPanel>
         <StackPanel  Grid.Row="1" Margin="0,3">
-            <Label Content="Сервер"/>
-            <ComboBox ItemsSource="{Binding Servers}" 
-                      SelectedValue="{Binding Address}" 
-                      SelectedValuePath="Address" IsEnabled="{Binding CanEdit}"/>
+            <Label Content="Адрес почты"/>
+            <TextBox IsEnabled="{Binding CanEdit}"  
+                     Style="{StaticResource NotifyStyleTextBoxError}"
+                     Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  
+                                              NotifyOnValidationError=True}">
+                <!--<TextBox.Text>
+                    <Binding Path="Address" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" 
+                             NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <validation:MailValidation/>                     
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>-->
+            </TextBox>
         </StackPanel>
-        <StackPanel  Grid.Row="2" Margin="0,3">
-            <Label Content="Логин"/>
-            <TextBox Text="{Binding Login}" IsEnabled="{Binding CanEdit}"/>
-        </StackPanel>
-        <StackPanel  Grid.Row="3" Margin="0,3">
-            <Label Content="Пароль"/>
-            <PasswordBox helpers:PasswordHelper.Attach="True" 
-                         helpers:PasswordHelper.Password="{Binding Pass, Mode=TwoWay}" 
-                         IsEnabled="{Binding CanEdit}"/>
-        </StackPanel> 
-        <StackPanel  Grid.Row="4" Orientation="Horizontal" 
+        <StackPanel  Grid.Row="2" Orientation="Horizontal" 
                      HorizontalAlignment="Center" 
-                     VerticalAlignment="Top" Margin="0,15,0,0">
+                     VerticalAlignment="Top" Margin="0,18,0,0">
             <buttons:ButtonOk Command="{Binding DoOkCommand}" IsDefault="True"/>
             <Label Width="10"/>
             <buttons:ButtonCancel Command="{Binding DoCancelCommand}" IsCancel="True" />
         </StackPanel>
-    </Grid>       
+    </Grid>
 </Window>

@@ -29,8 +29,8 @@ namespace WpfMailSenderLibrary.Services
             Debug.WriteLine("Вызвана процедура загрузки данных из памяти");
             Servers = new List<Server>
             {
-                new Server { Id = 1, Address = "yandex.ru", Port = 587 },
-                new Server { Id = 2, Address = "gmail.com", Port = 587 }
+                new Server { Id = 1, Address = "yandex.ru", Port = 587, Login = "testyandex", Password="TEST", UseSSL = true },
+                new Server { Id = 2, Address = "gmail.com", Port = 587, Login = "testgmail", Password="TEST", UseSSL = true }
             };
             Recipients = new List<Recipient>
             {
@@ -38,10 +38,22 @@ namespace WpfMailSenderLibrary.Services
             };
             Senders = new List<Sender>
             {
-                new Sender{Id = 1, Address="yandex.ru", Login="test", Password="test", Name="Тестовый отправитель"}
+                new Sender{Id = 1, Address="test.yandex.ru", Name="Тестовый отправитель"}
             };
             Messages = Enumerable.Range(1, 20)
-                .Select(i => new Message { Id = i, Subject = $"Сообщение № {i}, тестирование приложения Рассыльщик", Body = $"Тестовое сообщение № {i}" }).ToList();
+                .Select(i => new Message
+                {
+                    Id = i,
+                    Subject = $"Сообщение № {i}, тестирование приложения Рассыльщик",
+                    Body = $"Тестовое сообщение № {i}"
+                ,
+                    SenderId = Senders.FirstOrDefault().Id,
+                    Sender = Senders.FirstOrDefault()
+                ,
+                    RecipientId = Recipients.FirstOrDefault().Id,
+                    Recipient = Recipients.FirstOrDefault(),
+                    IsBodyHtml = false
+                }).ToList();
         }
         public void SaveChanges()
         {

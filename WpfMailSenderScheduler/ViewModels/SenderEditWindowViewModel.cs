@@ -9,6 +9,7 @@ using System.Windows.Input;
 using WpfMailSenderScheduler.Commands;
 using WpfMailSenderScheduler.Data;
 using WpfMailSenderLibrary.Models;
+using WpfMailSenderScheduler.Data.ValidationRules;
 
 namespace WpfMailSenderScheduler.ViewModels
 {
@@ -29,9 +30,17 @@ namespace WpfMailSenderScheduler.ViewModels
 
         public int Id { get; private set; }
         public string Name { get; set; }
-        public string Address { get; set; }
-        public string Login { get; set; }
-        public string Pass { get; set; }
+        private string _address;
+        public string Address
+        {
+            get => _address;
+            set
+            {
+                Set(ref _address, value);
+                RemoveError("Address");
+                if (!UtilValidation.ValidateAddress(value, out var error)) AddError("Address", error);
+            }
+        }
 
         public SenderEditWindowViewModel() : this(null) { }
         public SenderEditWindowViewModel(Sender sender, Predicate<Sender> saveFunc = null)
@@ -41,9 +50,7 @@ namespace WpfMailSenderScheduler.ViewModels
             {
                 Id = sender.Id;
                 Name = sender.Name;
-                Address = sender.Address;
-                Login = sender.Login;
-                Pass = sender.Password;
+                Address = sender.Address; 
                 Title = $"Редактирование отправителя {sender.FullName}";
             }
         }
@@ -59,7 +66,7 @@ namespace WpfMailSenderScheduler.ViewModels
         private ICommand doOkCommand;
         public ICommand DoOkCommand => doOkCommand ?? (doOkCommand = new RelayCommand(()=> {
 
-            var sender = new Sender { Id = this.Id, Name = this.Name, Address = this.Address, Login = this.Login, Password = Pass };
+            var sender = new Sender { Id = this.Id, Name = this.Name, Address = this.Address};
             if(_saveFunc?.Invoke(sender)??false) DialogResult = true;
         }));
         

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFEmailsDb.Data
+namespace EFMailsAndSendersDb.Data
 {
     public class Recipient : NamedEntity
     {
@@ -16,6 +16,6 @@ namespace EFEmailsDb.Data
         [Column, MaxLength(500)]
         public string Description { get; set; }
 
-        public ICollection<MessageRecipient> MessageRecipients { get; set; }
+        public ICollection<Message> Messages { get; set; }
     }
 }

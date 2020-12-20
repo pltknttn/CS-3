@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EFEmailsDb.Data
+namespace EFMailsAndSendersDb.Data
 {
     public class Server : NamedEntity
     {
@@ -23,17 +23,8 @@ namespace EFEmailsDb.Data
         public string Login { get; set; }
 
         [Column, Required, StringLength(100)]
-        public string Password { get; set; }
+        public string Password { get; set; } 
 
-        [Required, Column(TypeName = "int"), EnumDataType(typeof(ServerKind))]
-        public ServerKind ServerKind { get; set; }
-
-        public ICollection<Task> Tasks { get; set; }
-    }
-
-    public enum ServerKind : int
-    {
-        Smtp = 1,
-        Imap = 2
-    }
+        public ICollection<SenderTask> SenderTasks { get; set; }
+    } 
 }

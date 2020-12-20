@@ -25,20 +25,24 @@ namespace WpfMailSenderLibrary
                         s.IsSendEnd = true;
                         if (s.Server == null)
                         {
-                            s.ErrorSend = "Не задан сервер отправки!";
+                            s.ErrorSend  = "Не задан сервер отправки!";
                         }
-                        else if (s.Sender == null)
+                        else if (s.Message == null)
                         {
-                            s.ErrorSend = "Не задан отправитель!";
+                            s.ErrorSend = "Не задано сообщение!";
                         }
-                        else if (s.Recipient == null)
+                        else if (s.Message.Sender == null)
+                        {
+                            s.ErrorSend  = "Не задан отправитель!";
+                        }
+                        else if (s.Message.Recipient == null)
                         {
                             s.ErrorSend = "Не задан получатель!";
                         }
                         else
                         {
-                            var client = service.GetSender(s.Server.Address, s.Server.Port, true, s.Sender.Login, s.Sender.Password);
-                            s.ErrorSend = client.Send(s.Sender.Email, s.Recipient.Address, s.Subject, s.Body, s.IsHtmlBody);
+                            var client = service.GetSender(s.Server.Address, s.Server.Port, true, s.Server.Login, s.Server.Password);
+                            s.ErrorSend  = client.Send(s.Message.Sender.Address, s.Message.Recipient.Address, s.Message.Subject, s.Message.Body, s.Message.IsBodyHtml);
                         }
                        
                     });
@@ -59,41 +63,46 @@ namespace WpfMailSenderLibrary
                         {
                             s.ErrorSend = "Не задан сервер отправки!";
                         }
-                        else if (s.Sender == null)
+                        else if (s.Message == null)
+                        {
+                            s.ErrorSend = "Не задано сообщение!";
+                        }
+                        else if (s.Message.Sender == null)
                         {
                             s.ErrorSend = "Не задан отправитель!";
                         }
-                        else if (s.Recipient == null)
+                        else if (s.Message.Recipient == null)
                         {
                             s.ErrorSend = "Не задан получатель!";
                         }
                         else
                         {
-                            s.ErrorSend = SendMessage(s.Sender.Login, s.Sender.Password, s.Server.Address, s.Server.Port, s.Recipient.Address, s.Subject, s.Body, s.IsHtmlBody);
+                            s.ErrorSend = SendMessage(s.Server.Login, s.Server.Password, s.Server.Address, s.Server.Port,
+                                s.Message.Sender.Address, s.Message.Recipient.Address,
+                                s.Message.Subject, s.Message.Body, s.Message.IsBodyHtml);
                         }
                     });
                 dt = DateTime.Now;
             }
         }
 
-        private string SendMessage(string login, string password, string domain, int port, string toAddr, string subj, string body, bool htmlBody)
+        private string SendMessage(string login, string password, string domain, int port, string fromAddr, string toAddr, string subj, string body, bool htmlBody)
         {
             try
             {
                 using (var mailMessage = new MailMessage())
-                {
-                    var from = $"{login}@{domain}";
+                { 
                     var client = new SmtpClient($"smtp.{domain}", port)
                     {
                         UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(from, password),
+                        Credentials = new NetworkCredential(login, password),
                         DeliveryMethod = SmtpDeliveryMethod.Network,
                         EnableSsl = true,
                         Timeout = 50000
                     };
 
                     toAddr.Split(new char[] { ',', ';', ' ' }).Select(x => new MailAddress(x)).ToList().ForEach(mailMessage.To.Add);
-                    mailMessage.From = new MailAddress(from);
+                    mailMessage.From = new MailAddress(fromAddr);
                     mailMessage.Subject = subj;
                     mailMessage.Body = body;
                     mailMessage.IsBodyHtml = htmlBody;

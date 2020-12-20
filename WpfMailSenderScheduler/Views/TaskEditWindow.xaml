@@ -33,6 +33,7 @@
     <Grid Margin="10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -70,6 +71,14 @@
                                  />-->
         </StackPanel>
         <StackPanel  Grid.Row="1" Margin="0,6,0,3">
+            <Label Content="Сервер" />
+            <ComboBox x:Name="cbServer"  ItemsSource="{Binding Servers}" SelectedItem="{Binding Server, UpdateSourceTrigger=PropertyChanged,  
+                                              NotifyOnValidationError=True}"
+                     IsEnabled="{Binding CanEdit}"
+                     Style="{StaticResource NotifyStyleComboBoxError}"
+                      />
+        </StackPanel>
+        <StackPanel  Grid.Row="2" Margin="0,6,0,3">
             <Label Content="Отправитель" />
             <ComboBox x:Name="cbSender"  ItemsSource="{Binding Senders}" SelectedItem="{Binding Sender, UpdateSourceTrigger=PropertyChanged,  
                                               NotifyOnValidationError=True}"
@@ -77,7 +86,7 @@
                      Style="{StaticResource NotifyStyleComboBoxError}"
                       />
         </StackPanel>
-        <StackPanel  Grid.Row="2" Margin="0,3">
+        <StackPanel  Grid.Row="3" Margin="0,3">
             <Label Content="Получатель"/>
             <ComboBox x:Name="cbRecipient"  ItemsSource="{Binding Recipients}" SelectedItem="{Binding Recipient, UpdateSourceTrigger=PropertyChanged,  
                                               NotifyOnValidationError=True}"
@@ -85,7 +94,7 @@
                       Style="{StaticResource NotifyStyleComboBoxError}" >
             </ComboBox>
         </StackPanel>
-        <StackPanel  Grid.Row="3" Margin="0,3">
+        <StackPanel  Grid.Row="4" Margin="0,3">
             <Label Content="Тема"/>
             <TextBox x:Name="teSubject" 
                      Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged,  
@@ -94,7 +103,7 @@
                       IsEnabled="{Binding CanEdit}">
             </TextBox>
         </StackPanel>
-        <Grid  Grid.Row="4" Margin="0,3">            
+        <Grid  Grid.Row="5" Margin="0,3">            
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" /> 
                 <RowDefinition Height="*"/> 
@@ -114,7 +123,7 @@
                 </xctk:RichTextBox.TextFormatter>
             </xctk:RichTextBox>
         </Grid>
-        <StackPanel  Grid.Row="5" Orientation="Horizontal" 
+        <StackPanel  Grid.Row="6" Orientation="Horizontal" 
                      HorizontalAlignment="Center" 
                      VerticalAlignment="Top" Margin="0,18,0,0">
             <buttons:ButtonOk Command="{Binding DoOkCommand}" IsDefault="True"/>

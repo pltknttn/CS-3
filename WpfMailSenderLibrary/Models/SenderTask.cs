@@ -8,30 +8,75 @@ namespace WpfMailSenderLibrary.Models
 {
     public class SenderTask : ICloneable
     { 
-        public int Id { get; set; } 
+        public int Id { get; set; }
         
+        public string Name { get; set; }
+
         public DateTime TaskDate { get; set; }
         
-        public DateTime SendDate { get; set; }
-        
-        public string Subject { get; set; } 
-        
-        public string Body { get; set; }
+        public DateTime? SendDate { get; set; }
 
-        public bool IsHtmlBody { get; set; } = true;
+        public int ServerId { get; set; }
+
+        public int Attempt { get; set; } 
+         
+        public int MessageId { get; set; }
+         
+        public string ErrorSend { get; set; }
+
+        public bool IsSendEnd { get; set; } = false;
+
+        public bool IsSuccessful { get; set; } = false;
+
+        public bool IsProcessed { get; set; } = false;
+
+        public Message Message { get; set; } 
 
         public Server Server { get; set; }
 
-        public Sender Sender { get; set; }
+        public string RecipientName => Message?.Recipient?.FullName??string.Empty;
 
-        public string SenderName => Sender?.FullName;
+        public string SenderName => Message?.Sender?.FullName ?? string.Empty;
 
-        public Recipient Recipient { get; set; }
+        public string Body
+        {
+            get => Message?.Body;
+            set
+            {
+                Message = Message ?? new Message { Id = MessageId };
+                Message.Body = value;
+            }
+        }
 
-        public string RecipientName => Recipient?.FullName;
+        public string Subject
+        {
+            get => Message?.Subject;
+            set
+            {
+                Message = Message ?? new Message { Id = MessageId };
+                Message.Subject = value;
+            }
+        }
 
-        public bool IsSendEnd { get; set; } 
-        public string ErrorSend { get; set; }
+        public Sender Sender
+        {
+            get => Message?.Sender;
+            set
+            {
+                Message = Message ?? new Message { Id = MessageId };
+                Message.Sender = value;
+            }
+        }
+
+        public Recipient Recipient
+        {
+            get => Message?.Recipient;
+            set
+            {
+                Message = Message ?? new Message { Id = MessageId };
+                Message.Recipient = value;
+            }
+        }
 
         public object Clone()
         {
@@ -40,7 +85,7 @@ namespace WpfMailSenderLibrary.Models
 
         public override string ToString()
         {
-            return $"{SendDate:dd.MM.yyyy hh:mm:ss}: {Recipient?.FullName}";
+            return $"{SendDate:dd.MM.yyyy hh:mm:ss}: {Name}";
         }
     }
 }

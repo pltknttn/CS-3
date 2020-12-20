@@ -15,7 +15,7 @@ namespace WpfMailSenderLibraryTest
     [TestClass]
     public class SchedulerClassTest
     {
-        private List<SenderTask> senderTasks;       
+        private List<SenderTask> senderTasks;
 
         [TestInitialize]
         public void TestPrepare()
@@ -25,23 +25,31 @@ namespace WpfMailSenderLibraryTest
             senderTasks = Enumerable.Range(1, 20).Select(s => new SenderTask
             {
                 SendDate = DateTime.Now.AddSeconds(30),
-                Sender = new Sender { Login = $"test {s}", Password = "test", Address = "yandex.ru", Name = $"test {s}" },
-                Recipient = new Recipient { Name = $"test {s}", Address = $"test{s}@yandex.ru" },
-                Server=new Server { Address="yandex.ru", Port=587},
-                Body = $"test {s} Body {s}",
-                Subject = $"test {s} Body {s}"
+                Server = new Server { Address = $"yandex.ru", Port = 587, Login = $"test {s}", Password = "test", UseSSL = true },
+                Message = new Message
+                {
+                    Sender = new Sender { Address = $"test{s}@yandex.ru", Name = $"test {s}", Id = s },
+                    Recipient = new Recipient { Name = $"test {s}", Address = $"test{s}@yandex.ru" },
+                    Body = $"test {s} Body {s}",
+                    Subject = $"test {s} Body {s}",
+                    IsBodyHtml = false
+                }
             }
             ).Concat
             (
                 Enumerable.Range(1, 20).Select(s => new SenderTask
-            {
-                SendDate = DateTime.Now.AddSeconds(-60),
-                Sender = new Sender { Login = $"test {s}", Password = "test", Address = "yandex.ru", Name = $"test {s}" },
-                Recipient = new Recipient { Name = $"test {s}", Address = $"test{s}@yandex.ru" },
-                Server = new Server { Address = "yandex.ru", Port = 587 },
-                Body = $"test {s} Body {s}",
-                Subject = $"test {s} Body {s}"
-            })).ToList();
+                {
+                    SendDate = DateTime.Now.AddSeconds(-60),
+                    Server = new Server { Address = $"yandex.ru", Port = 587, Login = $"test {s}", Password = "test", UseSSL = true },
+                    Message = new Message
+                    {
+                        Sender = new Sender { Address = $"test{s}@yandex.ru", Name = $"test {s}", Id = s },
+                        Recipient = new Recipient { Name = $"test {s}", Address = $"test{s}@yandex.ru" },
+                        Body = $"test {s} Body {s}",
+                        Subject = $"test {s} Body {s}",
+                        IsBodyHtml = false
+                    }
+                })).ToList();
         }
 
         [TestMethod]

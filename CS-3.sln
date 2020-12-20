@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{07F4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WpfDemo", "WpfDemo", "{F3CAB8CE-263F-4EB3-9F3C-185A41318796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFEmailsDb", "EFEmailsDb\EFEmailsDb.csproj", "{005E6CF6-BBAF-4859-BC35-0656CE7CEB3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFMailsAndSendersDb", "EFMailsAndSendersDb\EFMailsAndSendersDb.csproj", "{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,10 +87,10 @@ Global
 		{3817D238-4CFD-4213-A2EC-365B04764ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3817D238-4CFD-4213-A2EC-365B04764ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3817D238-4CFD-4213-A2EC-365B04764ABE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{005E6CF6-BBAF-4859-BC35-0656CE7CEB3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{005E6CF6-BBAF-4859-BC35-0656CE7CEB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{005E6CF6-BBAF-4859-BC35-0656CE7CEB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{005E6CF6-BBAF-4859-BC35-0656CE7CEB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

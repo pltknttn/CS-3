@@ -9,7 +9,7 @@
         xmlns:helpers="clr-namespace:WpfMailSenderScheduler.Helpers"  
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" 
-        Height="180" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Height="280" Width="270" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         SizeToContent="Height"
         DataContext="{Binding ServerEditWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title, Mode=TwoWay}"
@@ -25,7 +25,9 @@
     <Grid Margin="10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>  
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" MinHeight="70"/>
         </Grid.RowDefinitions>
         <Grid.Resources>
@@ -44,7 +46,17 @@
             <Label Content="Порт"/>
             <xctk:IntegerUpDown Text="{Binding Port}" IsEnabled="{Binding CanEdit}" Increment="1" Minimum="0" Maximum="9999"/>
         </StackPanel>
-        <StackPanel  Grid.Row="2" Orientation="Horizontal" 
+        <StackPanel  Grid.Row="2" Margin="0,3">
+            <Label Content="Логин"/>
+            <TextBox Text="{Binding Login}" IsEnabled="{Binding CanEdit}"/>
+        </StackPanel>
+        <StackPanel  Grid.Row="3" Margin="0,3">
+            <Label Content="Пароль"/>
+            <PasswordBox helpers:PasswordHelper.Attach="True" 
+                         helpers:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" 
+                         IsEnabled="{Binding CanEdit}"/>
+        </StackPanel>
+        <StackPanel  Grid.Row="4" Orientation="Horizontal" 
                      HorizontalAlignment="Center" 
                      VerticalAlignment="Top" Margin="0,15,0,0">
             <buttons:ButtonOk Command="{Binding DoOkCommand}" IsDefault="True"/>

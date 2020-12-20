@@ -6,18 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WpfMailSenderLibrary.Models
-{
-    [Table(Name = "Recipient")]
-    public class Recipient
-    {
-        [Column]
-        public int Id { get; set; }
-        [Column]
-        public string Name { get; set; }
-        [Column]
+{ 
+    public class Recipient : ICloneable
+    { 
+        public int Id { get; set; } 
+        public string Name { get; set; } 
         public string Address { get; set; }
-
+        public string Description { get; set; }
         public string FullName { get { return $"{Name}:{Address}"; } }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone() as Recipient;
+        }
 
         public override string ToString()
         {

@@ -50,11 +50,13 @@ namespace WpfMailSenderScheduler.ViewModels
             {
                 Set(ref _sender, value);
                 RemoveError("Sender");
-                if (Recipient != null && !UtilValidation.ValidateAddress(value?.Email, out var _))
+                if (Recipient != null && !UtilValidation.ValidateAddress(value?.Address, out var _))
                     AddError("Sender", "Некорректный адрес электронной почты");
             }
         }
 
+        public Server Server { get; set; }
+      
         private ObservableCollection<Sender> _senders;
         public ObservableCollection<Sender> Senders
         {
@@ -69,6 +71,8 @@ namespace WpfMailSenderScheduler.ViewModels
             set => Set(ref _recipients, value);
         }
 
+        public ObservableCollection<Server> Servers { get; set; }
+
 
         public TaskEditWindowViewModel() : this(null) { }
         public TaskEditWindowViewModel(SenderTask task, Predicate<SenderTask> saveFunc = null)
@@ -77,11 +81,13 @@ namespace WpfMailSenderScheduler.ViewModels
             if (task != null)
             {
                 Id = task.Id;
-                Recipient = task.Recipient;
-                Sender = task.Sender;
-                SendDate = task.SendDate;
-                Subject = task.Subject;
-                Body = task.Body;
+                task.Message = task.Message ?? new Message();
+                Recipient = task.Message.Recipient;
+                Sender = task.Message.Sender;
+                SendDate = task.SendDate?? DateTime.MinValue;
+                Subject = task.Message.Subject;
+                Body = task.Message.Body;
+                Server = task.Server;
                 Title = task.Id > 0 ? $"Редактирование задания № {task.Id}" : "Добавление задания";
             }
         }
@@ -155,7 +161,15 @@ namespace WpfMailSenderScheduler.ViewModels
                 App.ShowDialogError("Исправьте ошибки ввода!");                
                 return;
             }
-            var senderTask = new SenderTask { Id = this.Id, Body = this.Body, Subject = this.Subject, Recipient = this.Recipient, Sender = this.Sender, SendDate = this.SendDate};
+            var senderTask = new SenderTask { Id = this.Id, 
+                Message = new Message
+                {
+                    Body = this.Body,
+                    Subject = this.Subject,
+                    Recipient = this.Recipient,
+                    Sender = this.Sender
+                }, 
+                SendDate = this.SendDate};
             if (_saveFunc?.Invoke(senderTask) ?? false) DialogResult = true;
         }));
 

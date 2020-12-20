@@ -23,18 +23,22 @@ namespace WpfMailSenderScheduler.ViewModels
         
         public int Id { get; private set; } 
         public string Address { get; set; }
-        public int Port { get; set; } 
+        public int Port { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; } 
 
         public ServerEditWindowViewModel() : this(null) { }
-        public ServerEditWindowViewModel(Server sender, Predicate<Server> saveFunc = null)
+        public ServerEditWindowViewModel(Server server, Predicate<Server> saveFunc = null)
         {
             _saveFunc = saveFunc;
-            if (sender != null)
+            if (server != null)
             {
-                Id = sender.Id; 
-                Address = sender.Address;
-                Port = sender.Port; 
-                Title = $"Редактирование smtp-сервера {sender.FullAddress}";
+                Id = server.Id; 
+                Address = server.Address;
+                Port = server.Port;
+                Login = server.Login;
+                Password = server.Password;
+                Title = $"Редактирование smtp-сервера {server.FullAddress}";
             }
         }
 

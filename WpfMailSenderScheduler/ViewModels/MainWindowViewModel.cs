@@ -445,42 +445,47 @@ namespace WpfMailSenderScheduler.ViewModels
                 App.ShowDialogError("Нeвыбрано задание");
                 return;
             }
-            if (SelectedTask.Sender == null || string.IsNullOrWhiteSpace(SelectedTask.Sender.Address) || string.IsNullOrWhiteSpace(SelectedTask.Sender.Login) || string.IsNullOrWhiteSpace(SelectedTask.Sender.Password))
+            if (SelectedTask.Server == null || string.IsNullOrWhiteSpace(SelectedTask.Server.Address) || string.IsNullOrWhiteSpace(SelectedTask.Server.Login) || string.IsNullOrWhiteSpace(SelectedTask.Server.Password))
             {
-                App.ShowDialogError("Отправитель не задан или некорректные данные для отправки smpt-сервером! \n\rПроверьте параметры: адрес, логин, пароль.");
+                App.ShowDialogError("Некорректные данные для отправки smpt-сервером! \n\rПроверьте параметры: адрес, логин, пароль.");
                 return;
             }
-            if (SelectedTask.Recipient == null || string.IsNullOrWhiteSpace(SelectedTask.Recipient.Address))
+            if (SelectedTask.Message.Sender == null || string.IsNullOrWhiteSpace(SelectedTask.Message.Sender.Address))
+            {
+                App.ShowDialogError("Отправитель не задан или некорректные данные адреса");
+                return;
+            }
+            if (SelectedTask.Message.Recipient == null || string.IsNullOrWhiteSpace(SelectedTask.Message.Recipient.Address))
             {
                 App.ShowDialogError("Получатель не задан или некорректные данные адреса");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(SelectedTask.Subject))
+            if (string.IsNullOrWhiteSpace(SelectedTask.Message.Subject))
             {
                 App.ShowDialogError("Пустая тема сообщения");
                 return;
             }
-            var xamlTextBody = string.IsNullOrWhiteSpace(SelectedTask.Body) ? null : HTMLConverter.HtmlToXamlConverter.ConvertHtmlToXaml(SelectedTask.Body, false);
+            var xamlTextBody = string.IsNullOrWhiteSpace(SelectedTask.Message.Body) ? null : HTMLConverter.HtmlToXamlConverter.ConvertHtmlToXaml(SelectedTask.Message.Body, false);
             var plainTextBody = string.IsNullOrWhiteSpace(xamlTextBody) ? null : Converters.XamlToPlainTextConverter.ConvertRtfToXaml(xamlTextBody);
             if (string.IsNullOrWhiteSpace(plainTextBody))
             {
                 App.ShowDialogError("Пустое тело сообщения");
-                SelectedMessage = new Message { Subject = SelectedTask.Subject };
+                SelectedMessage = new Message { Subject = SelectedTask.Message.Subject };
                 GotoTabCommand.Execute(par);//перейти во вкладку для редактирования тела письма 
                 return;
             }
 
-            var sender = SelectedTask.Sender;
-            var serverName = SelectedTask.Sender.Address;
-            var server  = Servers.FirstOrDefault(x=>x.Address == serverName);
-            var client = _mailService.GetSender(server.Address, server.Port, true, sender.Login, sender.Password);
-            var recipient = SelectedTask.Recipient;
-            var subject = SelectedTask.Subject;
-            var body = SelectedTask.Body;
+            var sender = SelectedTask.Message.Sender;
+            var serverName = SelectedTask.Message.Sender.Address;
+            var server  = SelectedTask.Server;
+            var client = _mailService.GetSender(server.Address, server.Port, true, server.Login, server.Password);
+            var recipient = SelectedTask.Message.Recipient;
+            var subject = SelectedTask.Message.Subject;
+            var body = SelectedTask.Message.Body;
 
             try
             {
-                client.Send($"{sender.Login}@{serverName}", recipient.Address, subject, body, true);
+                client.Send(sender.Address, recipient.Address, subject, body, true);
                 App.ShowDialogInfo("Сообщение успешно отправлено!");
             }
             catch(Exception ex)
@@ -528,11 +533,14 @@ namespace WpfMailSenderScheduler.ViewModels
             var newTask = new SenderTask { 
                 TaskDate = date.AddDays(-1), 
                 SendDate = date, 
-                Subject = $"Тема сообщения № {count} от {date:dd.MM.yyyy hh:mm:ss}", 
-                Body = "Тело сообщения", 
-                Recipient = SelectedRecipient, 
-                Sender = SelectedSender,
-                Server = Servers?.FirstOrDefault(x => x.Address == SelectedSender?.Address)
+                Message = new Message
+                {
+                    Subject = $"Тема сообщения № {count} от {date:dd.MM.yyyy hh:mm:ss}",
+                    Body = "Тело сообщения",
+                    Recipient = SelectedRecipient,
+                    Sender = SelectedSender
+                },
+                Server = Servers?.FirstOrDefault()
             };      
             SenderTasks.Add(newTask);             
             SelectedTask = SenderTasks.LastOrDefault();           
@@ -574,8 +582,7 @@ namespace WpfMailSenderScheduler.ViewModels
             var senderWindow = new TaskEditWindow()
             {
                 DataContext = new TaskEditWindowViewModel(senderTask, (s) => {
-                    var indx = SenderTasks.IndexOf(senderTask);
-                    s.Server = Servers?.FirstOrDefault(x => x.Address == s.Sender.Address);
+                    var indx = SenderTasks.IndexOf(senderTask); 
                     SenderTasks.RemoveAt(indx);
                     SenderTasks.Insert(indx, s);
                     SelectedTask = s;
@@ -584,6 +591,7 @@ namespace WpfMailSenderScheduler.ViewModels
                 {
                     Recipients = this.Recipients,
                     Senders = this.Senders,
+                    Servers = this.Servers, 
                     CanEditSendDate = false
                 }
             };

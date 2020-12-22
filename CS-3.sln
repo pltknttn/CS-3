@@ -35,6 +35,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFMailsAndSendersDb", "EFMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfReportViewer", "WpfReportViewer\WpfReportViewer.csproj", "{D59FDC37-2481-4A47-ACC2-1359003AFE47}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{99CCDF0A-7A35-4278-B889-A6BF4C071A7D}"
+	ProjectSection(SolutionItems) = preProject
+		HW8.txt = HW8.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

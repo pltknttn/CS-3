@@ -24,6 +24,7 @@ namespace WpfMailSenderScheduler.ViewModels
         private readonly IMailService _mailService;
         private readonly MailsAndSendersDbModel _mailsAndSendersDb;
 
+        public string ConnString => _mailsAndSendersDb.Database.GetDbConnection().ConnectionString;
 
         public MainWindowViewModel(IMailService mailService, MailsAndSendersDbModel mailsAndSendersDb)
         {

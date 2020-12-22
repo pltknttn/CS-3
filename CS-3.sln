@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WpfOther", "WpfOther", "{F3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFMailsAndSendersDb", "EFMailsAndSendersDb\EFMailsAndSendersDb.csproj", "{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfReportViewer", "WpfReportViewer\WpfReportViewer.csproj", "{D59FDC37-2481-4A47-ACC2-1359003AFE47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E66B2A4-8BA8-4F1B-8FBA-4D3909D06CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D59FDC37-2481-4A47-ACC2-1359003AFE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D59FDC37-2481-4A47-ACC2-1359003AFE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D59FDC37-2481-4A47-ACC2-1359003AFE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D59FDC37-2481-4A47-ACC2-1359003AFE47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -449,6 +449,10 @@
       <Project>{3c2140d9-88b3-4f9d-a07b-bb1ba4c514fc}</Project>
       <Name>WpfMailSenderLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfReportViewer\WpfReportViewer.csproj">
+      <Project>{d59fdc37-2481-4a47-acc2-1359003afe47}</Project>
+      <Name>WpfReportViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfUserControlLibrary\WpfUserControlLibrary.csproj">
       <Project>{42B05413-9534-4D03-90CE-97DADA148014}</Project>
       <Name>WpfUserControlLibrary</Name>

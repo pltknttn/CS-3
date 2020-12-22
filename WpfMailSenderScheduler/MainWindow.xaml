@@ -14,8 +14,8 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:model="clr-namespace:WpfMailSenderLibrary.Models;assembly=WpfMailSenderLibrary" 
-        xmlns:converters="clr-namespace:WpfUserControlLibrary.Converters;assembly=WpfUserControlLibrary"
-        mc:Ignorable="d" 
+        xmlns:converters="clr-namespace:WpfUserControlLibrary.Converters;assembly=WpfUserControlLibrary" xmlns:wpfreportviewer="clr-namespace:WpfReportViewer;assembly=WpfReportViewer"
+    mc:Ignorable="d" 
         Height="650" 
         Width="900" 
         WindowStartupLocation="CenterScreen"
@@ -443,7 +443,12 @@
                                 </Grid>
                             </GroupBox>
                         </Border>
-                    </TabItem> 
+                    </TabItem>
+                    <TabItem Header="Отчет" TabIndex="4">
+                        <Grid>
+                            <wpfreportviewer:ReportViewerControl ConnString="{Binding ConnString}"/>
+                        </Grid>
+                    </TabItem>
                 </TabControl>
             </Border>
             <StatusBar Grid.Row="2" MinHeight="20" Visibility="Collapsed"/>

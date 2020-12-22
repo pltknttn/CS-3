@@ -25,7 +25,7 @@ namespace WpfMailSenderScheduler.ViewModels
         /// </summary>
         private ICommand loadDataCommand;
         public ICommand LoadDataCommand => loadDataCommand ?? (loadDataCommand = new RelayCommand((object par) =>
-        {
+        { 
             Servers = new ObservableCollection<Server>(_mailsAndSendersDb.Servers);
             Senders = new ObservableCollection<Sender>(_mailsAndSendersDb.Senders);
             Recipients = new ObservableCollection<Recipient>(_mailsAndSendersDb.Recipients);

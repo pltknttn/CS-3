@@ -29,7 +29,8 @@ namespace WpfMailSenderScheduler.ViewModels
         public MainWindowViewModel(IMailService mailService, MailsAndSendersDbModel mailsAndSendersDb)
         {
             _mailService = mailService;
-            _mailsAndSendersDb = mailsAndSendersDb; 
+            _mailsAndSendersDb = mailsAndSendersDb;
+            _mailsAndSendersDb.Database.EnsureCreated();
         }
 
         public string Title { get; set; } = "Рассыльщик почты";

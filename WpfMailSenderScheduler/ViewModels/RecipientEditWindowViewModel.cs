@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFMailsAndSendersDb.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,8 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfMailSenderScheduler.Commands;
-using WpfMailSenderScheduler.Data.ValidationRules;
-using WpfMailSenderLibrary.Models;
+using WpfMailSenderScheduler.Data.ValidationRules; 
 
 namespace WpfMailSenderScheduler.ViewModels
 {
@@ -41,7 +41,7 @@ namespace WpfMailSenderScheduler.ViewModels
                 Id = recipient.Id;
                 Name = recipient.Name;
                 Address = recipient.Address; 
-                Title = $"Редактирование получателя {recipient.FullName}";
+                Title = $"Редактирование получателя {recipient.Name}";
             }
         }
 
@@ -56,6 +56,11 @@ namespace WpfMailSenderScheduler.ViewModels
         private Predicate<Recipient> _saveFunc;
         private ICommand doOkCommand;
         public ICommand DoOkCommand => doOkCommand ?? (doOkCommand = new RelayCommand(() => {
+                         
+            RemoveError("Address");
+
+            if (!UtilValidation.ValidateAddress(Address, out var error))
+                AddError("Address", error);
 
             if (HasErrors)
             {
@@ -63,6 +68,21 @@ namespace WpfMailSenderScheduler.ViewModels
                 DialogResult = null;
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                App.ShowDialogError("Укажите фио или название");
+                DialogResult = null;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Address))
+            {
+                App.ShowDialogError("Укажите адрес");
+                DialogResult = null;
+                return;
+            }
+            
             var recipient = new Recipient { Id = this.Id, Name = this.Name, Address = this.Address};
             if (_saveFunc?.Invoke(recipient) ?? false) DialogResult = true;
         }));

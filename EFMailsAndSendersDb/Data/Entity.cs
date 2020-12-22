@@ -18,5 +18,10 @@ namespace EFMailsAndSendersDb.Data
     {
         [Column, Required, MinLength(6), MaxLength(255)]
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id}: {Name}";
+        }
     }  
 }

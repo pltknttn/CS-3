@@ -1,17 +1,34 @@
-﻿using System;
+﻿using EFMailsAndSendersDb.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using WpfMailSenderLibrary.Interfaces;
-using WpfMailSenderLibrary.Models;
+using WpfMailSenderLibrary.Interfaces; 
 
 namespace WpfMailSenderLibrary
 { 
     public class SchedulerClass
     {
+        public async Task SendTaskAsync(List<SenderTask> senderTasks, IMailService service)
+        {
+            await Task.Run(() =>
+            {
+                SendTask(senderTasks, service);
+            });
+        }
+
+        public async Task SendTaskAsync(List<SenderTask> senderTasks)
+        {
+            await Task.Run(() =>
+            {
+                SendTask(senderTasks);
+            });
+        } 
+
         public void SendTask(List<SenderTask> senderTasks, IMailService service)
         {
             if (service == null) return;
@@ -25,24 +42,24 @@ namespace WpfMailSenderLibrary
                         s.IsSendEnd = true;
                         if (s.Server == null)
                         {
-                            s.ErrorSend  = "Не задан сервер отправки!";
+                            s.Error  = "Не задан сервер отправки!";
                         }
                         else if (s.Message == null)
                         {
-                            s.ErrorSend = "Не задано сообщение!";
+                            s.Error  = "Не задано сообщение!";
                         }
                         else if (s.Message.Sender == null)
                         {
-                            s.ErrorSend  = "Не задан отправитель!";
+                            s.Error  = "Не задан отправитель!";
                         }
                         else if (s.Message.Recipient == null)
                         {
-                            s.ErrorSend = "Не задан получатель!";
+                            s.Error  = "Не задан получатель!";
                         }
                         else
                         {
                             var client = service.GetSender(s.Server.Address, s.Server.Port, true, s.Server.Login, s.Server.Password);
-                            s.ErrorSend  = client.Send(s.Message.Sender.Address, s.Message.Recipient.Address, s.Message.Subject, s.Message.Body, s.Message.IsBodyHtml);
+                            s.Error   = client.Send(s.Message.Sender.Address, s.Message.Recipient.Address, s.Message.Subject, s.Message.Body, s.Message.IsBodyHtml);
                         }
                        
                     });
@@ -61,23 +78,23 @@ namespace WpfMailSenderLibrary
                         s.IsSendEnd = true;
                         if (s.Server == null)
                         {
-                            s.ErrorSend = "Не задан сервер отправки!";
+                            s.Error = "Не задан сервер отправки!";
                         }
                         else if (s.Message == null)
                         {
-                            s.ErrorSend = "Не задано сообщение!";
+                            s.Error = "Не задано сообщение!";
                         }
                         else if (s.Message.Sender == null)
                         {
-                            s.ErrorSend = "Не задан отправитель!";
+                            s.Error  = "Не задан отправитель!";
                         }
                         else if (s.Message.Recipient == null)
                         {
-                            s.ErrorSend = "Не задан получатель!";
+                            s.Error  = "Не задан получатель!";
                         }
                         else
                         {
-                            s.ErrorSend = SendMessage(s.Server.Login, s.Server.Password, s.Server.Address, s.Server.Port,
+                            s.Error  = SendMessage(s.Server.Login, s.Server.Password, s.Server.Address, s.Server.Port,
                                 s.Message.Sender.Address, s.Message.Recipient.Address,
                                 s.Message.Subject, s.Message.Body, s.Message.IsBodyHtml);
                         }

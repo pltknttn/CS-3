@@ -13,6 +13,7 @@ using WpfMailSenderLibrary.Interfaces;
 using WpfMailSenderScheduler.Services;
 using WpfMailSenderLibrary.Services;
 using WpfMailSenderScheduler.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace WpfMailSenderScheduler
 {
@@ -49,13 +50,14 @@ namespace WpfMailSenderScheduler
             services.AddTransient<IMailService, DebugMailService>();
 #else
             services.AddTransient<IMailService, SmtpMailService>();
-#endif 
-             
-            var memoryStorage = new DataStorageInMemory();
-            services.AddSingleton<ISendersStorage>(memoryStorage);
-            services.AddSingleton<IServersStorage>(memoryStorage);
-            services.AddSingleton<IMessagesStorage>(memoryStorage);
-            services.AddSingleton<IRecipientsStorage>(memoryStorage);
+#endif
+
+            //var memoryStorage = new DataStorageInMemory();
+            //services.AddSingleton<ISendersStorage>(memoryStorage);
+            //services.AddSingleton<IServersStorage>(memoryStorage);
+            //services.AddSingleton<IMessagesStorage>(memoryStorage);
+            //services.AddSingleton<IRecipientsStorage>(memoryStorage);
+            //services.AddSingleton<ISenderTasksStorage>(memoryStorage);
 
             //const string xmlFileName = "MailSenderStorage.xml";
             //var xmlStorage = new DataStorageInXmlFile(xmlFileName);
@@ -63,12 +65,25 @@ namespace WpfMailSenderScheduler
             //services.AddSingleton<IServersStorage>(xmlStorage);
             //services.AddSingleton<IMessagesStorage>(xmlStorage);
             //services.AddSingleton<IRecipientsStorage>(xmlStorage);
+            //services.AddSingleton<ISenderTasksStorage>(xmlStorage);
+
+            //var dbStrogare = new DataStorageInMsSqlDb(connectionString);
+            //services.AddSingleton<ISendersStorage>(dbStrogare);
+            //services.AddSingleton<IServersStorage>(dbStrogare);
+            //services.AddSingleton<IMessagesStorage>(dbStrogare);
+            //services.AddSingleton<IRecipientsStorage>(dbStrogare);
+            //services.AddSingleton<ISenderTasksStorage>(dbStrogare);
+
+
+            const string connectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;initial catalog=MailsAndSenders;integrated security=True;MultipleActiveResultSets=True";
+            services.AddDbContext<EFMailsAndSendersDb.Data.MailsAndSendersDbModel>(c => c.UseSqlServer(connectionString));
 
             services.AddSingleton<MainWindowViewModel>();
             services.AddTransient<SenderEditWindowViewModel>();
             services.AddTransient<ServerEditWindowViewModel>();
             services.AddTransient<RecipientEditWindowViewModel>();
             services.AddTransient<TaskEditWindowViewModel>();
+                        
         }
 
         public static void ShowDialogInfo(string msg)

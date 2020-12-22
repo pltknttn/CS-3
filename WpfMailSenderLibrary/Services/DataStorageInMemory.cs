@@ -9,12 +9,13 @@ using WpfMailSenderLibrary.Models;
 
 namespace WpfMailSenderLibrary.Services
 {
-    public class DataStorageInMemory : IServersStorage, IRecipientsStorage, ISendersStorage, IMessagesStorage
+    public class DataStorageInMemory : IServersStorage, IRecipientsStorage, ISendersStorage, IMessagesStorage, ISenderTasksStorage
     {
         public ICollection<Server> Servers { get; set; } = new List<Server>();
         public ICollection<Recipient> Recipients { get; set; } = new List<Recipient>();
         public ICollection<Sender> Senders { get; set; } = new List<Sender>();
         public ICollection<Message> Messages { get; set; } = new List<Message>();
+        public ICollection<SenderTask> SenderTasks { get; set; } = new List<SenderTask>();
 
         ICollection<Recipient> IStorage<Recipient>.Items => Recipients;
 
@@ -23,6 +24,8 @@ namespace WpfMailSenderLibrary.Services
         ICollection<Message> IStorage<Message>.Items => Messages;
 
         ICollection<Server> IStorage<Server>.Items => Servers;
+
+        ICollection<SenderTask> IStorage<SenderTask>.Items => SenderTasks;
 
         public void Load()
         {
@@ -55,6 +58,7 @@ namespace WpfMailSenderLibrary.Services
                     IsBodyHtml = false
                 }).ToList();
         }
+
         public void SaveChanges()
         {
             Debug.WriteLine("Вызвана процедура сохранения данных в память");

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFMailsAndSendersDb.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,8 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfMailSenderScheduler.Commands;
-using WpfMailSenderScheduler.Data;
-using WpfMailSenderLibrary.Models;
+using WpfMailSenderScheduler.Data; 
 using WpfMailSenderScheduler.Data.ValidationRules;
 
 namespace WpfMailSenderScheduler.ViewModels
@@ -20,14 +20,7 @@ namespace WpfMailSenderScheduler.ViewModels
 
         private string _title = "Редактирование отправителя";
         public string Title { get => _title; set => Set(ref _title, value); }
-
-        private ObservableCollection<Server> _servers;
-        public ObservableCollection<Server> Servers
-        {
-            get { return _servers; }
-            set => Set(ref _servers, value);
-        }
-
+          
         public int Id { get; private set; }
         public string Name { get; set; }
         private string _address;
@@ -51,7 +44,7 @@ namespace WpfMailSenderScheduler.ViewModels
                 Id = sender.Id;
                 Name = sender.Name;
                 Address = sender.Address; 
-                Title = $"Редактирование отправителя {sender.FullName}";
+                Title = $"Редактирование отправителя {sender.Name}";
             }
         }
 
@@ -65,6 +58,32 @@ namespace WpfMailSenderScheduler.ViewModels
         private Predicate<Sender> _saveFunc;
         private ICommand doOkCommand;
         public ICommand DoOkCommand => doOkCommand ?? (doOkCommand = new RelayCommand(()=> {
+                        
+            RemoveError("Address");
+
+            if (!UtilValidation.ValidateAddress(Address, out var error)) 
+                AddError("Address", error);
+
+            if (HasErrors)
+            {
+                App.ShowDialogError("Исправьте ошибки ввода!");
+                DialogResult = null;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                App.ShowDialogError("Укажите фио или название");
+                DialogResult = null;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Address))
+            {
+                App.ShowDialogError("Укажите адрес");
+                DialogResult = null;
+                return;
+            }
 
             var sender = new Sender { Id = this.Id, Name = this.Name, Address = this.Address};
             if(_saveFunc?.Invoke(sender)??false) DialogResult = true;

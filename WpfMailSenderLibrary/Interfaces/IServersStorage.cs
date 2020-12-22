@@ -11,11 +11,12 @@ namespace WpfMailSenderLibrary.Interfaces
     {
         ICollection<T> Items { get; }
         void Load();
-        void SaveChanges();
+        void SaveChanges(); 
     }
 
     public interface IServersStorage : IStorage<Server> { }
     public interface ISendersStorage : IStorage<Sender> { }
     public interface IRecipientsStorage : IStorage<Recipient> { }
     public interface IMessagesStorage : IStorage<Message> { }
+    public interface ISenderTasksStorage : IStorage<SenderTask> { }
 }

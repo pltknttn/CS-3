@@ -54,9 +54,14 @@
     <Compile Include="SchedulerClassTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EFMailsAndSendersDb\EFMailsAndSendersDb.csproj">
+      <Project>{0e66b2a4-8ba8-4f1b-8fba-4d3909d06cdb}</Project>
+      <Name>EFMailsAndSendersDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfMailSenderLibrary\WpfMailSenderLibrary.csproj">
       <Project>{3c2140d9-88b3-4f9d-a07b-bb1ba4c514fc}</Project>
       <Name>WpfMailSenderLibrary</Name>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFMailsAndSendersDb.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using WpfMailSenderLibrary.Models;
+using System.Windows.Input; 
 using WpfMailSenderScheduler.Commands;
 using WpfMailSenderScheduler.Data.ValidationRules;
 
@@ -22,6 +22,7 @@ namespace WpfMailSenderScheduler.ViewModels
         public string Title { get => _title; set => Set(ref _title, value); }
 
         public int Id { get; private set; }
+        public Message Message { get; private set; }
 
         private DateTime _sendDate = DateTime.Now;
         public DateTime SendDate { get => _sendDate; set => Set(ref _sendDate, value); }
@@ -82,7 +83,8 @@ namespace WpfMailSenderScheduler.ViewModels
             {
                 Id = task.Id;
                 task.Message = task.Message ?? new Message();
-                Recipient = task.Message.Recipient;
+                Message = task.Message;
+                Recipient = task.Message.Recipient; 
                 Sender = task.Message.Sender;
                 SendDate = task.SendDate?? DateTime.MinValue;
                 Subject = task.Message.Subject;
@@ -128,7 +130,7 @@ namespace WpfMailSenderScheduler.ViewModels
 
         private Predicate<SenderTask> _saveFunc;
         private ICommand doOkCommand;
-        public ICommand DoOkCommand => doOkCommand ?? (doOkCommand = new RelayCommand(() => 
+        public ICommand DoOkCommand => doOkCommand ?? (doOkCommand = new RelayCommand(() =>
         {
             replySave = true;
             DialogResult = null;
@@ -141,7 +143,7 @@ namespace WpfMailSenderScheduler.ViewModels
             if (Recipient == null)
             {
                 AddError("Recipient", "Выберите получателя");
-                App.ShowDialogError("Выберите получателя");                
+                App.ShowDialogError("Выберите получателя");
                 return;
             }
             if (string.IsNullOrWhiteSpace(Subject))
@@ -158,18 +160,27 @@ namespace WpfMailSenderScheduler.ViewModels
             }
             if (HasErrors)
             {
-                App.ShowDialogError("Исправьте ошибки ввода!");                
+                App.ShowDialogError("Исправьте ошибки ввода!");
                 return;
             }
-            var senderTask = new SenderTask { Id = this.Id, 
-                Message = new Message
-                {
-                    Body = this.Body,
-                    Subject = this.Subject,
-                    Recipient = this.Recipient,
-                    Sender = this.Sender
-                }, 
-                SendDate = this.SendDate};
+
+            var senderTask = new SenderTask
+            {
+                Id = this.Id,
+                Message = Message ?? new Message() ,
+                SendDate = this.SendDate,
+                Server = this.Server,
+                ServerId = this.Server.Id
+            };
+
+            senderTask.MessageId = senderTask.Message.Id;
+            senderTask.Message.Body = this.Body;
+            senderTask.Message.Subject = this.Subject;
+            senderTask.Message.Recipient = this.Recipient;
+            senderTask.Message.RecipientId = this.Recipient.Id;
+            senderTask.Message.Sender = this.Sender;
+            senderTask.Message.SenderId = this.Sender.Id;
+
             if (_saveFunc?.Invoke(senderTask) ?? false) DialogResult = true;
         }));
 

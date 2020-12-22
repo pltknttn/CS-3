@@ -107,6 +107,7 @@
                   ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboBoxActionControl}}}"
                   Visibility="{Binding ElementName=PART_ComboBoxActionControl, Path=ShowComboBox, Converter={StaticResource BooleanToVisibility} }"
                        > 
+            
         </ComboBox>
     </DockPanel> 
 </UserControl>

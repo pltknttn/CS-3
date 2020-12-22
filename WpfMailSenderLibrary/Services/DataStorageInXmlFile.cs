@@ -11,7 +11,7 @@ using WpfMailSenderLibrary.Interfaces;
 
 namespace WpfMailSenderLibrary.Services
 {
-    public class DataStorageInXmlFile : IServersStorage, IRecipientsStorage, ISendersStorage, IMessagesStorage
+    public class DataStorageInXmlFile : IServersStorage, IRecipientsStorage, ISendersStorage, IMessagesStorage, ISenderTasksStorage
     {
         class XmlFileDataStructure
         {
@@ -19,6 +19,7 @@ namespace WpfMailSenderLibrary.Services
             public ICollection<Recipient> Recipients { get; set; } = new List<Recipient>();
             public ICollection<Sender> Senders { get; set; } = new List<Sender>();
             public ICollection<Message> Messages { get; set; } = new List<Message>();
+            public ICollection<SenderTask> SenderTasks { get; set; } = new List<SenderTask>();
         }
 
         private readonly string _fileName;
@@ -34,6 +35,8 @@ namespace WpfMailSenderLibrary.Services
         ICollection<Message> IStorage<Message>.Items => Data.Messages;
 
         ICollection<Server> IStorage<Server>.Items => Data.Servers;
+
+        ICollection<SenderTask> IStorage<SenderTask>.Items => Data.SenderTasks;
 
         public void Load()
         {

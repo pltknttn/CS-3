@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFMailsAndSendersDb.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,9 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WpfMailSenderScheduler.Commands;
-using WpfMailSenderScheduler.Data;
-using WpfMailSenderLibrary.Models;
+using WpfMailSenderScheduler.Commands;  
 
 namespace WpfMailSenderScheduler.ViewModels
 {
@@ -38,7 +37,7 @@ namespace WpfMailSenderScheduler.ViewModels
                 Port = server.Port;
                 Login = server.Login;
                 Password = server.Password;
-                Title = $"Редактирование smtp-сервера {server.FullAddress}";
+                Title = $"Редактирование smtp-сервера {server.Name}";
             }
         }
 
@@ -54,7 +53,22 @@ namespace WpfMailSenderScheduler.ViewModels
         private ICommand doOkCommand;
         public ICommand DoOkCommand => doOkCommand ?? (doOkCommand = new RelayCommand(() => {
 
-            var server = new Server { Id = this.Id,  Address = this.Address, Port = this.Port };
+            if (string.IsNullOrWhiteSpace(this.Address))
+            {
+                App.ShowDialogError("Укажите адрес");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(this.Login))
+            {
+                App.ShowDialogError("Укажите Login");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(this.Password))
+            {
+                App.ShowDialogError("Укажите пароль");
+                return;
+            }
+            var server = new Server { Id = this.Id,  Address = this.Address, Port = this.Port, Login = this.Login, Password = this.Password, Name = $"smtp.{this.Login}:{this.Port}", UseSSL = true };
             if (_saveFunc?.Invoke(server) ?? false) DialogResult = true;
         }));
 

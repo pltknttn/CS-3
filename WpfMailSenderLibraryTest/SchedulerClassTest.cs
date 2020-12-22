@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EFMailsAndSendersDb.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WpfMailSenderLibrary;
-using WpfMailSenderLibrary.Models;
+using WpfMailSenderLibrary; 
 using WpfMailSenderLibrary.Services;
 
 namespace WpfMailSenderLibraryTest

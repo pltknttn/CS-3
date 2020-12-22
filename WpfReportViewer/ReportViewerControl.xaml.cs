@@ -26,6 +26,14 @@ namespace WpfReportViewer
         {
             InitializeComponent();
             ReportViewer.Load += ReportViewerOnLoad;
+            ReportViewer.ReportRefresh += ReportViewer_ReportRefresh;
+        }
+
+        private bool canRefresh = false;
+
+        private void ReportViewer_ReportRefresh(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (canRefresh) Load();
         }
 
         public static readonly DependencyProperty ConnStringProperty =
@@ -40,11 +48,13 @@ namespace WpfReportViewer
                 SetValue(ConnStringProperty, value);
             }
         }
-         
-        private void ReportViewerOnLoad(object sender, EventArgs eventArgs)
+
+        private void Load()
         {
+            canRefresh = false;
+
             ReportViewer.ProcessingMode = ProcessingMode.Local;
-             
+
 
             var dsMember = new MailsAndSendersDataSet();
             var reportDataSource = new ReportDataSource();
@@ -56,7 +66,7 @@ namespace WpfReportViewer
             //ReportViewer.LocalReport.ReportPath = "ReportRecipient.rdlc";
             ReportViewer.LocalReport.ReportEmbeddedResource = "WpfReportViewer.ReportRecipient.rdlc";
             dsMember.EndInit();
-             
+
             using (var con = new System.Data.SqlClient.SqlConnection(ConnString))
             {
                 con.Open();
@@ -68,6 +78,12 @@ namespace WpfReportViewer
             ReportViewer.LocalReport.DataSources.Clear();
             ReportViewer.LocalReport.DataSources.Add(reportDataSource);
             ReportViewer.RefreshReport();
+            canRefresh = true;
+        }
+         
+        private void ReportViewerOnLoad(object sender, EventArgs eventArgs)
+        {
+            Load();
         }
     }
 }
